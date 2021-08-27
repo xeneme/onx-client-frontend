@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 470">
+  <circle cx="135.7" cy="77.1" r="5.5" fill="#fefefe"/>
+  <circle cx="248" cy="59.7" r="5.5" fill="#fefefe"/>
+  <circle cx="336.3" cy="150.3" r="5.5" fill="#fefefe"/>
+  <circle cx="159" cy="189.1" r="5.5" fill="#fefefe"/>
+  <circle cx="214.4" cy="298.3" r="5.5" fill="#fefefe"/>
+  <circle cx="144.8" cy="363.2" r="5.5" fill="#fefefe"/>
+  <circle cx="20.6" cy="305.4" r="5.5" fill="#fefefe"/>
+  <circle cx="261.9" cy="374.2" r="5.5" fill="#fefefe"/>
+  <circle cx="333.1" cy="246.1" r="5.5" fill="#fefefe"/>
+  <circle cx="433.6" cy="311.7" r="5.5" fill="#fefefe"/>
+  <circle cx="404.3" cy="383.7" r="5.5" fill="#fefefe"/>
+  <circle cx="473.9" cy="248.4" r="5.5" fill="#fefefe"/>
+  <circle cx="481.8" cy="126.6" r="5.5" fill="#fefefe"/>
+  <circle cx="506.4" cy="421.7" r="5.5" fill="#fefefe"/>
+  <circle cx="25.3" cy="446.2" r="5.5" fill="#fefefe"/>
+  <circle cx="26.9" cy="136.9" r="5.5" fill="#fefefe"/>
+  <circle cx="5.5" cy="21.4" r="5.5" fill="#fefefe"/>
+  <circle cx="179.6" cy="22.2" r="5.5" fill="#fefefe"/>
+  <circle cx="327.6" cy="5.5" r="5.5" fill="#fefefe"/>
+  <circle cx="501.6" cy="36.4" r="5.5" fill="#fefefe"/>
+  <circle cx="181.2" cy="464.4" r="5.5" fill="#fefefe"/>
+  <circle cx="334.7" cy="428.8" r="5.5" fill="#fefefe"/>
+  <circle cx="373.5" cy="462.9" r="5.5" fill="#fefefe"/>
+  <circle cx="233.4" cy="122.2" r="5.5" fill="#fefefe"/>
+  <circle cx="396" cy="68.4" r="5.5" fill="#fefefe"/>
+  <circle cx="436" cy="193.5" r="5.5" fill="#fefefe"/>
+  <circle cx="324.8" cy="307.8" r="5.5" fill="#fefefe"/>
+  <circle cx="233.4" cy="225.9" r="5.5" fill="#fefefe"/>
+  <circle cx="109.8" cy="257.9" r="5.5" fill="#fefefe"/>
+  <circle cx="87.7" cy="199.1" r="5.5" fill="#fefefe"/>
+  <circle cx="90.6" cy="148.7" r="5.5" fill="#fefefe"/>
+  <circle cx="39.2" cy="219.6" r="5.5" fill="#fefefe"/>
+  <path fill="none" stroke="#fefefe" stroke-miterlimit="10" d="M6 21l130 56 44-55 68 39-112 16-109 60L6 21l174 1L327 5l-79 54 88 92 60-83-69-63 175 31-20 91-86-59 40 126 46-67-9 122-39 63 2-118-103 52 4-94-104 74 92 82 8-62 101 66-30 72-80-76-62 66 73 55 69-45 103 38-134 41-38-34-154 36 80-91-46-76 18-72V122l-97-45 24 112-69-42-64-10 12 82-19 87 5 139 156 20-37-102-124-57 90-48-22-59-48 20 48-20 3-52 69 42 6 62"/>
+  <circle cx="165.9" cy="250.5" id='not_found_neuron' r="5.5" fill="#fefefe"/>
+</svg>

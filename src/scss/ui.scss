@@ -1,0 +1,92 @@
+@import '_variables.scss';
+@import '_smart-grid.scss';
+
+$mobile-break: 50rem;
+
+@mixin holo-panel() {
+  box-shadow: inset 0 0px 20px $cyan;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid $cyan;
+  background: #0075ff22;
+  overflow: hidden;
+  min-height: 50px;
+
+  &__header {
+    user-select: none;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    padding: 12px 17px;
+    letter-spacing: 0.02em;
+    font-size: 1.1rem;
+    align-items: center;
+  }
+
+  &__icon {
+    margin-right: 6px;
+    color: $light-blue;
+  }
+
+  &__title {
+    font-family: Montserrat;
+    color: white;
+  }
+}
+
+.holo-panel {
+  @include holo-panel;
+}
+
+.holo-panel--danger {
+  background: #0075ff11;
+  border: 1px solid $cyan-alpha;
+  box-shadow: inset 0 0px 20px $cyan-alpha;
+}
+
+.holo-panel--interactive {
+  cursor: pointer;
+  transition: all 100ms;
+
+  .holo-panel__header {
+    font-size: 1rem;
+
+    @include to(35rem) {
+      font-size: 0.85rem;
+    }
+
+    @include from(35rem) {
+      font-size: 1rem;
+    }
+  }
+
+  &:hover {
+    background: #0075ff44;
+    border: 1px solid $light-blue;
+    box-shadow: inset 0 0px 20px $light-blue;
+  }
+  &:active {
+    background: #0075ff;
+    border: 1px solid $light-blue;
+    box-shadow: inset 0 0px 20px $light-blue;
+  }
+
+  &.holo-panel--danger:hover {
+    background: #0075ff22;
+    border: 1px solid $cyan;
+    box-shadow: inset 0 0px 20px $cyan;
+  }
+  &.holo-panel--danger:active {
+    background: #0075ff;
+    border: 1px solid $cyan;
+    box-shadow: inset 0 0px 20px $cyan;
+  }
+}
+
+.cl-cyan {
+  color: $cyan;
+}
+
+.cl-light-blue {
+  color: $light-blue;
+}
