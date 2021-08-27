@@ -20,31 +20,35 @@
         <fa :icon="isOpen ? 'angle-up' : 'angle-down'" />
       </span>
     </button>
-    <ul :class="[isOpen ? 'active' : '']" @click="close">
-      <li v-if="itsAdmin">
-        <a :href="links.adminPanel">Admin Panel</a>
-      </li>
-      <li>
-        <router-link :to="links.profile">Profile</router-link>
-      </li>
-      <li>
-        <a @click="updateExchangeTab('wallet')" :href="links.wallet">Wallet</a>
-      </li>
-      <li>
-        <a @click="updateExchangeTab('history')" :href="links.history"
-          >History</a
-        >
-      </li>
-      <li>
-        <a @click="toggleSupport" v-if="!itsAdmin" :href="links.support"
-          >Support</a
-        >
-      </li>
-      <li class="divider"></li>
-      <li>
-        <a href="javascript: void(0)" @click="logout">Sign Out</a>
-      </li>
-    </ul>
+    <transition name="dropdown">
+      <ul v-if="isOpen" :class="{ active: isOpen }" @click="close">
+        <li v-if="itsAdmin">
+          <a :href="links.adminPanel">Admin Panel</a>
+        </li>
+        <li>
+          <router-link :to="links.profile">Profile</router-link>
+        </li>
+        <li>
+          <a @click="updateExchangeTab('wallet')" :href="links.wallet"
+            >Wallet</a
+          >
+        </li>
+        <li>
+          <a @click="updateExchangeTab('history')" :href="links.history"
+            >History</a
+          >
+        </li>
+        <li>
+          <a @click="toggleSupport" v-if="!itsAdmin" :href="links.support"
+            >Support</a
+          >
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="javascript: void(0)" @click="logout">Sign Out</a>
+        </li>
+      </ul>
+    </transition>
   </nav>
 </template>
 
@@ -205,8 +209,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: opacity 0.15s;
+}
+
+.dropdown-enter,
+.dropdown-leave-to {
+  opacity: 0;
+}
 
 nav {
   position: relative;
@@ -229,7 +243,7 @@ nav {
     padding: 8px;
     width: 100%;
     outline: none;
-    transition: background-color 0.1s, border-radius .3s;
+    transition: background-color 0.1s, border-radius 0.3s;
 
     &:hover {
       background: rgba(0, 106, 255, 0.7);
@@ -298,11 +312,9 @@ nav {
     padding: 0;
     overflow: hidden;
     transition: all 0.2s;
-    opacity: 0;
     border-radius: 0 0 8px 8px;
 
     &.active {
-      opacity: 1;
       // height: 10.5rem;
       padding: 8px 0;
     }
