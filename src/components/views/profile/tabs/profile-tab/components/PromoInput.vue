@@ -9,7 +9,11 @@
       }"
     >
       <div class="holo-panel__header">
-        <fa class="holo-panel__icon" :icon="icon" />
+        <fa
+          class="holo-panel__icon"
+          :spin="loading"
+          :icon="loading ? 'circle-notch' : icon"
+        />
         <span class="holo-panel__title">{{ text }}</span>
         <input
           type="text"
@@ -31,11 +35,12 @@
 
 <script>
 export default {
-  name: 'VoucherCode',
+  name: 'PromoCode',
   props: ['text', 'icon'],
   data() {
     return {
       focused: false,
+      loading: false,
       value: '',
       savedValue: '',
     }
@@ -52,8 +57,35 @@ export default {
       this.savedValue = ''
       this.$refs.input.blur()
     },
-    submit(voucher) {
-      console.log(voucher)
+    submit(promo) {
+      this.loading = true
+
+      this.$axios
+        .get('api/user/promo/use?code=' + promo)
+        .then(response => {
+          this.loading = false
+          this.$store.commit('auth/ADD_TRANSACTION', response.data.transaction)
+          this.$store.commit('auth/UPDATE_WALLETS', response.data.wallets)
+          this.$store.commit('popups/ADD_ALERT', {
+            type: 'info',
+            title: `Promo code applied (${response.data.amount})`,
+            message: response.data.message,
+          })
+
+          this.$refs.input.blur()
+        })
+        .catch(err => {
+          this.loading = false
+          if (err.response.data && err.response.data.message) {
+            this.$store.commit('popups/ADD_ALERT', {
+              type: 'error',
+              title: "Promo code hasn't applied",
+              message: err.response.data.message,
+            })
+          }
+        })
+
+      this.value = ''
     },
   },
   mounted() {
@@ -80,7 +112,7 @@ export default {
 .input-wrap {
   display: flex;
   gap: 15px;
-  grid-area: voucher;
+  grid-area: promo;
 
   &__input {
     width: 100%;

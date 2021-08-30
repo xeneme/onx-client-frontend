@@ -2,7 +2,7 @@
   <div class="profile-tab">
     <identity-panel />
     <security-panel />
-    <voucher-input text="Voucher code" icon="ticket-alt" />
+    <promo-input text="Promo code" icon="ticket-alt" />
     <deactivate-account />
     <logout />
   </div>
@@ -11,7 +11,7 @@
 <script>
 import IdentityPanel from './panels/identity-panel/IdentityPanel.vue'
 import SecurityPanel from './panels/security-panel/SecurityPanel.vue'
-import VoucherInput from './components/VoucherInput.vue'
+import PromoInput from './components/PromoInput.vue'
 import DeactivateAccount from './components/DeactivateAccount.vue'
 import Logout from './components/Logout.vue'
 
@@ -20,7 +20,7 @@ export default {
   components: {
     IdentityPanel,
     SecurityPanel,
-    VoucherInput,
+    PromoInput,
     DeactivateAccount,
     Logout,
   },
@@ -40,12 +40,12 @@ $mobile-break: 50rem;
   font-family: Montserrat;
 
   @include to($mobile-break) {
-    grid-template-areas: 'identity identity' 'security security' 'voucher voucher' 'deactivate logout';
+    grid-template-areas: 'identity identity' 'security security' 'promo promo' 'deactivate logout';
     grid-template-columns: 1.26fr 0.74fr;
     grid-template-rows: min-content min-content min-content min-content;
   }
   @include from($mobile-break) {
-    grid-template-areas: 'identity security security' 'voucher deactivate logout';
+    grid-template-areas: 'identity security security' 'promo deactivate logout';
     grid-template-columns: 2fr 1.26fr 0.74fr;
     grid-template-rows: min-content min-content;
   }
@@ -79,8 +79,8 @@ $mobile-break: 50rem;
     }
   }
 
-  &__voucher {
-    grid-area: voucher;
+  &__promo {
+    grid-area: promo;
 
     @include holo-panel;
   }
