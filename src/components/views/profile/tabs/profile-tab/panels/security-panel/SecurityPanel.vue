@@ -11,7 +11,10 @@
     <div class="divider"></div>
     <div class="security_li 2fa">
       <div class="security_li__title">Two-factor authentication</div>
-      <i-button icon="pencil-alt" @click="change2FA" />
+      <i-button
+        :icon="profile.twoFa ? 'toggle-on' : 'toggle-off'"
+        @click="change2FA"
+      />
     </div>
     <div class="divider"></div>
     <div class="security_li pin">

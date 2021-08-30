@@ -58,6 +58,11 @@ import {
   faIdCard,
   faEdit,
   faCircleNotch,
+  faWallet,
+  faEye,
+  faEyeSlash,
+  faToggleOff,
+  faToggleOn,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -126,6 +131,11 @@ library.add(
   faPencilAlt,
   faCopy,
   faCircleNotch,
+  faWallet,
+  faEye,
+  faEyeSlash,
+  faToggleOff,
+  faToggleOn
 )
 
 export default FontAwesomeIcon
