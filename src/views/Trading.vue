@@ -112,6 +112,7 @@ export default {
       }/USD) | ${this.host} - Trading`
       this.$store.commit('SET_TITLE', title)
     },
+    // for vanila WS
     subscribeTicker() {
       const ws = this.ws
       ws.onopen = () => {
@@ -142,7 +143,6 @@ export default {
             ],
           },
         }
-        // console.log(JSON.parse(msg.data).data[0])
       }
     },
   },
@@ -155,14 +155,14 @@ export default {
       this.orders = orders
     })
 
-    // this.socket.on('update-history', data => {
-    // if (this.lobby == data.lobby) {
-    // this.$store.dispatch('preloader/startAfterLoading')
-    // this.history = data.history
-    // }
-    // })
+    this.socket.on('update-history', data => {
+      if (this.lobby == data.lobby) {
+        this.$store.dispatch('preloader/startAfterLoading')
+        this.history = data.history
+      }
+    })
 
-    // this.$store.dispatch('preloader/startAfterLoading')
+    // this.$store.dispatch('preloader/startAfterLoading') // for vanila WS
     // this.subscribeTicker()
   },
   destroyed() {
