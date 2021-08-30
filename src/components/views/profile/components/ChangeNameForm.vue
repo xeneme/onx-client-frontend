@@ -81,7 +81,7 @@ export default {
           window.location.protocol +
             '//' +
             window.location.host +
-            '/api/user/update',
+            '/api/user/update/name',
           {
             firstName: this.firstName,
             lastName: this.lastName,

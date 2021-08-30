@@ -126,7 +126,7 @@ export default {
 
         this.axios
           .post(
-            base + '/api/user/update',
+            base + '/api/user/update/password',
             {
               token: this.token,
               password: this.password,
