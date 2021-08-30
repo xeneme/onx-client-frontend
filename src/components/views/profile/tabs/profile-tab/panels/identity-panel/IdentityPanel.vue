@@ -3,6 +3,7 @@
     <div class="holo-panel__header">
       <fa class="holo-panel__icon" icon="id-card" />
       <span class="holo-panel__title">Identity</span>
+      <profile-visibility />
     </div>
     <transition name="avatar-popup" mode="out-in">
       <div
@@ -70,16 +71,19 @@
 <script>
 import AboutInput from './components/AboutInput.vue'
 import IButton from '@/components/partial/IconButton.vue'
+import ProfileVisibility from './components/ProfileVisibility.vue'
 
 export default {
   components: {
     IButton,
     AboutInput,
+    ProfileVisibility,
   },
   data() {
     return {
       choosingAvatar: false,
       savingAbout: false,
+      savingProfileVisibility: false,
       avatars: [
         'https://i.ibb.co/yycbt3F/USDT.jpg',
         'https://i.ibb.co/jytq3hH/XRP.jpg',
