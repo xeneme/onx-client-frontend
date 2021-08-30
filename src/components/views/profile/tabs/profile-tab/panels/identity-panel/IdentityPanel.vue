@@ -31,14 +31,12 @@
         </div>
         <div class="profile-tab__identity__info">
           <div class="profile-tab__identity__name">
-            {{ name }}
+            <span>{{ name }}</span>
             <i-button size="xs" icon="pencil-alt" @click="changeName" />
           </div>
           <div class="profile-tab__identity__email">{{ profile.email }}</div>
           <about-input
             class="profile-tab__identity__about"
-            :value="profile.about"
-            default-value="About me"
             @input="changeAbout"
             :loading="savingAbout"
           />
@@ -81,7 +79,6 @@ export default {
   data() {
     return {
       choosingAvatar: false,
-      savingAvatar: false,
       savingAbout: false,
       avatars: [
         'https://i.ibb.co/yycbt3F/USDT.jpg',
@@ -106,28 +103,25 @@ export default {
     changeName() {
       this.$store.commit('popups/CHANGE_NAME', true)
     },
-    changeAbout(val) {
-      const t = this
-      t.savingAbout = true
-      setTimeout(() => {
-        t.savingAbout = false
-      }, 2000)
-      this.profile.about = val
-      console.log(val)
+    changeAbout(value) {
+      this.savingAbout = true
+      this.$axios
+        .post('api/user/update/about', { about: value })
+        .then(() => {
+          this.savingAbout = false
+        })
+        .catch(() => {
+          this.savingAbout = false
+        })
     },
     changeAvatar(i) {
       this.profile.pic = this.avatars[i]
       this.choosingAvatar = false
 
-      this.savingAvatar = true
-
       this.$axios
         .get('api/user/update/avatar?n=' + i)
-        .then(() => {
-          this.savingAvatar = false
-        })
+        .then(() => {})
         .catch(({ response }) => {
-          this.savingAvatar = false
           if (response) {
             this.$store.commit('popups/ADD_ALERT', {
               type: 'error',
@@ -285,6 +279,14 @@ export default {
     padding-left: 10px;
     display: flex;
     gap: 5px;
+    width: 100%;
+
+    span {
+      overflow: hidden;
+      max-width: 70%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
   &__email {
     padding-left: 10px;

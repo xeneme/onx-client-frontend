@@ -6,7 +6,7 @@ import axios from 'axios'
 const demo = {
   token: 'some token',
   profile: {
-    about: 'Im a guy who love crypto trading!!!',
+    about: undefined,
     supportPin: 78237,
 
     telegram: {
@@ -26,7 +26,7 @@ const demo = {
       },
     },
     firstName: 'The',
-    lastName: 'Owner',
+    lastName: 'Ownessssssssssssssssssssssr',
     wallets: {
       bitcoin: {
         balance: 2.0511199987,

@@ -1,7 +1,7 @@
 <template>
   <div class="about-input">
     <div spellcheck="false" placeholder="About me" class="about-input__input">
-      {{ value }}
+      {{ input }}
     </div>
     <transition name="actions" mode="out-in">
       <i-button
@@ -29,12 +29,11 @@ import IButton from '@/components/partial/IconButton.vue'
 
 export default {
   props: {
-    value: String,
     loading: Boolean,
   },
   data() {
     return {
-      input: this.value,
+      input: null,
       editing: false,
       maxLength: 150,
       maxVisibleLength: 50,
@@ -42,6 +41,11 @@ export default {
   },
   components: {
     IButton,
+  },
+  computed: {
+    profile() {
+      return this.$store.state.auth.profile
+    },
   },
   watch: {
     editing(val) {
@@ -53,10 +57,13 @@ export default {
       return this.$el.querySelector('.about-input__input')
     },
     save() {
-      this.input = this.getInput().innerText
-      this.$emit('input', this.input)
-      this.editing = false
-      window.getSelection().removeAllRanges()
+      setTimeout(() => {
+        this.input = this.getInput().innerText
+        this.profile.about = this.input
+        this.$emit('input', this.input)
+        this.editing = false
+        window.getSelection().removeAllRanges()
+      })
     },
     edit() {
       let t = this
@@ -109,7 +116,7 @@ export default {
       }
     },
     cancelEditing() {
-      this.input = this.value
+      this.input = this.profile.about
       this.getInput().innerText = this.input
       this.editing = false
     },
@@ -126,7 +133,7 @@ export default {
           t.save()
         } else if (target.contains('edit-btn')) {
           t.edit()
-        } else if (t.value) {
+        } else if (t.input) {
           t.cancelEditing()
         }
       })
@@ -145,8 +152,6 @@ export default {
         if (t.input?.length > t.maxLength && e.key.length == 1 && !e.ctrlKey) {
           e.preventDefault()
         }
-
-        t.input = inputEl.innerText
       })
 
       inputEl.addEventListener('paste', () => {
@@ -156,8 +161,9 @@ export default {
     },
   },
   mounted() {
-    if (!this.value) this.getInput().innerHTML = ''
-    else this.getInput().innerText = this.value
+    this.input = this.profile.about
+
+    if(!this.input) this.getInput().innerText = ''
 
     this.initListeners()
   },
