@@ -5,10 +5,14 @@
       <span class="holo-panel__title">Identity</span>
     </div>
     <transition name="avatar-popup" mode="out-in">
-      <div key="1" v-if="!changingPic" class="profile-tab__identity__content">
+      <div
+        key="1"
+        v-if="!choosingAvatar"
+        class="profile-tab__identity__content"
+      >
         <div class="profile-tab__identity__avatar">
           <div
-            @click="changingPic = true"
+            @click="choosingAvatar = true"
             class="profile-tab__identity__avatar-frame"
           >
             <img :src="profile.pic" />
@@ -42,7 +46,7 @@
       </div>
       <div key="2" v-else class="profile-tab__identity__avatar-menu">
         <i-button
-          @click="changingPic = false"
+          @click="choosingAvatar = false"
           icon="arrow-left"
           class="profile-tab__identity__avatar-menu__back"
         />
@@ -51,6 +55,7 @@
             v-for="(avatar, i) in avatars"
             :key="i"
             class="profile-tab__identity__avatars-item"
+            @click="changeAvatar(i)"
           >
             <img :src="avatar" alt="" />
           </div>
@@ -75,7 +80,8 @@ export default {
   },
   data() {
     return {
-      changingPic: false,
+      choosingAvatar: false,
+      savingAvatar: false,
       savingAbout: false,
       avatars: [
         'https://i.ibb.co/yycbt3F/USDT.jpg',
@@ -108,6 +114,28 @@ export default {
       }, 2000)
       this.profile.about = val
       console.log(val)
+    },
+    changeAvatar(i) {
+      this.profile.pic = this.avatars[i]
+      this.choosingAvatar = false
+
+      this.savingAvatar = true
+
+      this.$axios
+        .get('api/user/update/avatar?n=' + i)
+        .then(() => {
+          this.savingAvatar = false
+        })
+        .catch(({ response }) => {
+          this.savingAvatar = false
+          if (response) {
+            this.$store.commit('popups/ADD_ALERT', {
+              type: 'error',
+              title: response.data.stage,
+              message: response.data.message,
+            })
+          }
+        })
     },
   },
 }
@@ -174,7 +202,7 @@ export default {
     flex-wrap: wrap;
     width: 100%;
     height: 100%;
-    gap: 2px;
+    gap: 5px;
     grid-column: 2 / 3;
     grid-row: 1 / 2;
 
@@ -185,16 +213,19 @@ export default {
       overflow: hidden;
       cursor: pointer;
       box-sizing: border-box;
-      transition: border 0.3s ease;
-      border: 4px transparentize(white, 1) solid;
+      transition: box-shadow 0.5s ease;
       position: relative;
 
+      &:hover img {
+        transform: scale(1.4);
+      }
       &:hover {
-        transition: none;
-        border: 4px $light-blue solid;
+        box-shadow: 0 0 5px 5px $light-blue;
       }
 
       img {
+        transition: transform 0.2s ease;
+        user-select: none;
         width: 100%;
         height: 100%;
       }
