@@ -45,7 +45,7 @@ export default {
       this.$store.commit('popups/CHANGE_TWOFA', true)
     },
     copySupportPIN() {
-      this.$copy(this.pin)
+      this.$copy(this.profile.supportPin)
     },
   },
 }
