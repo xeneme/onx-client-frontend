@@ -99,7 +99,7 @@ $mobile-break: 62rem;
     margin-bottom: 200px;
     // transform: translateX(-50px);
     gap: 25px;
-    min-height: 20rem;
+    min-height: 30rem;
 
     @include to($mobile-break) {
       padding: 0 20px;

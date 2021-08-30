@@ -39,9 +39,9 @@ export default [
         component: () => import('../components/views/profile/tabs/profile-tab/ProfileTab.vue')
       },
       {
-        path: 'charts',
-        name: 'Charts',
-        component: () => import('../components/views/profile/tabs/charts-tab/ChartsTab.vue')
+        path: 'portfolio',
+        name: 'Portfolio',
+        component: () => import('../components/views/profile/tabs/portfolio-tab/PortfolioTab.vue')
       },
       {
         path: 'support',

@@ -9,11 +9,10 @@ const demo = {
     about: undefined,
     supportPin: 78237,
 
-    telegram: {
-      twoFa: false
-    },
+    twoFa: true,
     pic: 'https://i.ibb.co/wNZW3Jd/ETH.jpg',
     email: 'some@email.com',
+    private: true,
     role: {
       name: 'user',
       settings: {
