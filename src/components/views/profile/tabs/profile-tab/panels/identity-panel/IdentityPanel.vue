@@ -6,8 +6,11 @@
     </div>
     <transition name="avatar-popup" mode="out-in">
       <div key="1" v-if="!changingPic" class="profile-tab__identity__content">
-        <div @click="changingPic = true" class="profile-tab__identity__avatar">
-          <div class="profile-tab__identity__avatar-frame">
+        <div class="profile-tab__identity__avatar">
+          <div
+            @click="changingPic = true"
+            class="profile-tab__identity__avatar-frame"
+          >
             <img :src="profile.pic" />
           </div>
           <div class="profile-tab__identity__status">
