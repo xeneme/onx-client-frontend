@@ -3,17 +3,28 @@
     <div class="alert__title">
       <fa :icon="alertType" class="alert__title__icon" v-if="alertType" />
       <h3>{{ alert.title }}</h3>
-      <fa @click="remove" icon="times" class="alert__title__close" />
+
+      <i-button
+        icon="times"
+        size="sm"
+        @click="remove"
+        class="alert__title__close"
+      />
     </div>
     <div class="alert__message">{{ alert.message }}</div>
   </div>
 </template>
 
 <script>
+import IButton from './IconButton.vue'
+
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Alert',
+  components: {
+    IButton,
+  },
   data() {
     return {
       mounted: false,
@@ -121,6 +132,7 @@ export default {
   cursor: default;
   user-select: none;
   overflow: hidden;
+  position: relative;
 
   @include to(30rem) {
     width: calc(100% - 30px);
@@ -137,10 +149,10 @@ export default {
   }
 
   &__title {
-    display: grid;
-    justify-content: space-between;
-
-    grid-template-columns: 30px 1fr 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
     max-height: 30px;
 
     &__icon {
@@ -156,20 +168,29 @@ export default {
       height: calc(100% - 15px);
     }
     &__close {
-      height: calc(100% - 15px);
-      cursor: pointer;
-      opacity: 0.5;
+      position: absolute;
+      z-index: 10;
+      right: 7px;
+      top: 7px;
+      color: white;
+      opacity: 0.7;
 
       &:hover {
         opacity: 1;
       }
-      &:active {
-        transform: scale(1.3);
-      }
+      // height: calc(100% - 15px);
+      // cursor: pointer;
+      // opacity: 0.5;
+
+      // &:hover {
+      // opacity: 1;
+      // }
+      // &:active {
+      // transform: scale(1.3);
+      // }
     }
     h3 {
       letter-spacing: 0.03em;
-      margin-bottom: 15px;
     }
   }
   &__message {
