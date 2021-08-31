@@ -8,7 +8,6 @@ const demo = {
   profile: {
     about: undefined,
     supportPin: 78237,
-
     twoFa: true,
     pic: 'https://i.ibb.co/wNZW3Jd/ETH.jpg',
     email: 'some@email.com',
@@ -181,7 +180,8 @@ const demo = {
     settings: { commission: 1 },
     popup: null,
     id: 'some id',
-    generalChat: true
+    generalChat: true,
+    at: 1570076351325
   },
   messages: [
     {

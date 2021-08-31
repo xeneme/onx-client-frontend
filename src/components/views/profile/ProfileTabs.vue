@@ -22,22 +22,17 @@ export default {
         icon: 'user',
       },
       {
-        name: 'portfolio',
-        path: '/portfolio',
-        icon: 'wallet',
+        name: 'analytics',
+        path: '/analytics',
+        icon: 'chart-area',
       },
-      // {
-      // name: 'support',
-      // path: '/support',
-      // icon: 'info-circle',
-      // },
     ],
   }),
   computed: {
     activeTab() {
       return {
         Profile: 0,
-        Portfolio: 1,
+        Analytics: 1,
         Support: 2,
       }[this.$route.name]
     },

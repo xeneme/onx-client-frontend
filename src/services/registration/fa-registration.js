@@ -135,7 +135,7 @@ library.add(
   faEye,
   faEyeSlash,
   faToggleOff,
-  faToggleOn
+  faToggleOn,
 )
 
 export default FontAwesomeIcon
