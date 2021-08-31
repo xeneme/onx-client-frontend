@@ -1,13 +1,16 @@
 <template>
-  <div :class="['alert', alert.type]" @click="openSupport">
-    <div class="alert__title">
-      <fa :icon="alertType" class="alert__title__icon" v-if="alertType" />
+  <div
+    :class="['alert', 'alert--' + alert.type, alert.type]"
+    @click="openSupport"
+  >
+    <div ref="title" class="alert__title">
+      <fa :icon="icon" class="alert__title__icon" v-if="icon" />
       <h3>{{ alert.title }}</h3>
 
       <i-button
         icon="times"
         size="sm"
-        @click="remove"
+        @click="close"
         class="alert__title__close"
       />
     </div>
@@ -18,81 +21,59 @@
 <script>
 import IButton from './IconButton.vue'
 
-import { mapGetters } from 'vuex'
-
 export default {
-  name: 'Alert',
   components: {
     IButton,
   },
-  data() {
-    return {
-      mounted: false,
-    }
-  },
   props: ['alert'],
-  mounted() {
-    this.mounted = true
-
-    var timeToDestroy = setTimeout(() => {
-      this.remove()
-    }, this.lifetime + this.alert.message.length * 30)
-
-    var timeToDestroyAfterHover = null
-
-    this.$el.onmouseover = () => {
-      clearTimeout(timeToDestroy)
-    }
-
-    this.$el.onmouseleave = () => {
-      if (!timeToDestroyAfterHover) {
-        timeToDestroyAfterHover = setTimeout(() => {
-          this.remove()
-        }, this.lifetime / 5)
+  computed: {
+    lifetime() {
+      return this.$store.state.popups.lifetime
+    },
+    icon() {
+      const iconset = {
+        message: 'envelope',
+        error: 'exclamation-triangle',
+        warning: 'exclamation',
+        info: 'info-circle',
       }
-    }
+
+      return iconset[this.alert.type]
+    },
   },
   methods: {
-    remove() {
+    initDestroyer() {
+      var initialTimeout = setTimeout(() => {
+        this.close()
+      }, this.lifetime + this.alert.message.length * 30)
+
+      var timeoutOnHover = null
+
+      this.$el.onmouseover = () => {
+        clearTimeout(initialTimeout)
+      }
+
+      this.$el.onmouseleave = () => {
+        if (!timeoutOnHover) {
+          timeoutOnHover = setTimeout(() => {
+            this.close()
+          }, this.lifetime / 5)
+        }
+      }
+    },
+    close() {
       this.$store.commit('popups/RM_ALERT', this.alert)
+      if (this.alert.type != 'message') return
+      this.$store.commit('popups/SUPPORT', false)
     },
     openSupport() {
       if (this.alert.type != 'message') return
       this.$store.commit('popups/SUPPORT', true)
-      this.remove()
+      this.close()
     },
   },
-  computed: {
-    ...mapGetters({
-      lifetime: 'popups/lifetime',
-    }),
-    alertType() {
-      let res = ''
-
-      if (this.mounted) {
-        const alertTitle = this.$el.querySelector('.alert__title')
-
-        alertTitle.style.gridTemplateColumns = '30px 1fr 15px'
-
-        switch (this.alert.type) {
-          case 'message':
-            res = 'envelope'
-            break
-          case 'error':
-            res = 'exclamation-circle'
-            break
-          case 'warning':
-            res = 'exclamation'
-            break
-          case 'info':
-            res = 'info-circle'
-            break
-          default:
-            alertTitle.style.gridTemplateColumns = '1fr 15px'
-        }
-      }
-      return res
-    },
+  mounted() {
+    this.initDestroyer()
   },
 }
 </script>
@@ -105,10 +86,12 @@ export default {
   padding: 0;
   margin: 0;
 }
+
 .page {
   overflow-x: hidden;
 }
-@keyframes appeared {
+
+@keyframes appearance {
   from {
     filter: brightness(1000%);
   }
@@ -122,12 +105,11 @@ export default {
   min-height: 50px;
   border-radius: 8px;
   background-color: #000f5d;
-  // background: linear-gradient(125deg, #627AF6, #627AF6aa)
   color: white;
   padding: 15px;
   text-align: left;
   font-size: 0.9em;
-  animation: appeared 0.5s 0s ease-out;
+  animation: appearance 0.5s 0s ease-out;
   pointer-events: all;
   cursor: default;
   user-select: none;
@@ -141,6 +123,7 @@ export default {
     box-shadow: 0 -10px 30px darken($blue-alpha, 10);
     border: 0;
   }
+
   @include from(30rem) {
     width: 365px;
     border-radius: 8px;
@@ -178,16 +161,6 @@ export default {
       &:hover {
         opacity: 1;
       }
-      // height: calc(100% - 15px);
-      // cursor: pointer;
-      // opacity: 0.5;
-
-      // &:hover {
-      // opacity: 1;
-      // }
-      // &:active {
-      // transform: scale(1.3);
-      // }
     }
     h3 {
       letter-spacing: 0.03em;
@@ -201,28 +174,26 @@ export default {
     text-overflow: fade;
     max-height: 200px;
   }
-}
-.error {
-  // background-color: #7f1d0f;
-  // border-color: #cc341e;
-  background-color: #303030;
-  border-color: #5a5a5a;
-}
-.warning {
-  border-color: #ffd231;
-  background-color: #c19700;
-}
-.message {
-  border-color: #627af6;
-  background-color: #3352f688;
-  transition: opacity 0.1s;
-  cursor: pointer;
-  &:hover {
-    background-color: #3352f6aa;
+  &--error {
+    background-color: #303030;
+    border-color: #5a5a5a;
   }
-}
-.info {
-  border-color: #627af6;
-  background-color: #3352f6;
+  &--warning {
+    border-color: #ffd231;
+    background-color: #c19700;
+  }
+  &--message {
+    border-color: #627af6;
+    background-color: #3352f688;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #3352f6aa;
+    }
+  }
+  &--info {
+    border-color: #627af6;
+    background-color: #3352f6;
+  }
 }
 </style>

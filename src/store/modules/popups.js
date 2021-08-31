@@ -162,8 +162,6 @@ export default {
     },
   },
   getters: {
-    alerts: state => state.alerts,
-    lifetime: state => state.lifetime,
     signUpVisibility: state => state.signUp.visible,
     signInVisibility: state => state.signIn.visible,
     passwordResetVisibility: state => state.passwordReset,
