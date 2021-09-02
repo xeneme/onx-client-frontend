@@ -295,7 +295,7 @@ export default {
       this.loading = true
 
       this.$axios
-        .post('/api/wallet/staking/begin', {
+        .post('api/wallet/staking/begin', {
           net: this.network,
           amount: this.amount,
         })
