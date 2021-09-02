@@ -143,6 +143,9 @@ export default {
 
 <style lang="scss">
 @import '@/scss/_variables';
+@import '@/scss/_smart-grid';
+
+$mobile-break: 130rem;
 
 .avatar-popup-enter-active,
 .avatar-popup-leave-active {
@@ -157,16 +160,23 @@ export default {
 .profile-tab__identity {
   grid-area: identity;
 
+  @include to($mobile-break) {
+    font-size: 16px;
+  }
+  @include from($mobile-break) {
+    font-size: 18px;
+  }
+
   &__avatar-menu,
   &__content {
-    padding: 20px;
-    padding-top: 10px;
+    padding: 1.2em;
+    padding-top: 0.6em;
     text-align: left;
   }
 
   &__content {
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 6.1em 1fr;
   }
 
   &__avatar-menu {
@@ -258,8 +268,8 @@ export default {
           left: 0;
         }
       }
-      width: 80px;
-      height: 80px;
+      width: 4.9em;
+      height: 4.9em;
       border-radius: 100%;
       background-color: #5599ff33;
       overflow: hidden;
@@ -272,46 +282,46 @@ export default {
 
   &__info {
     display: flex;
-    letter-spacing: 0.05rem;
+    letter-spacing: 0.05em;
     flex-direction: column;
     min-width: 10rem;
     overflow: hidden;
-    margin-left: -10px;
+    margin-left: -0.6em;
   }
 
   &__name {
-    font-size: 1.2rem;
+    font-size: 1.2em;
     font-weight: 500;
-    gap: 5px;
+    gap: 0.25em;
   }
 
   &__name,
   &__email {
-    padding-left: 10px;
+    padding-left: 0.6em;
     display: flex;
     width: 100%;
     span {
       overflow: hidden;
-      max-width: 70%;
+      max-width: 90%;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
   }
 
   &__status {
-    margin-top: 15px;
-    width: 80px;
+    margin-top: 0.95em;
+    width: 4.9em;
     text-align: center;
 
     &-stages {
       display: flex;
-      gap: 10px;
+      gap: 0.4em;
     }
 
     &-stage {
-      width: 30px;
-      height: 5px;
-      border-radius: 3px;
+      width: 100%;
+      height: 0.3em;
+      border-radius: 0.1em;
       background-color: transparentize($cyan-alpha, 0.3);
 
       &.active {
@@ -320,7 +330,7 @@ export default {
     }
 
     &-name {
-      font-size: 0.6rem;
+      font-size: 0.6em;
       color: $cyan-alpha;
       font-weight: bold;
       text-transform: uppercase;

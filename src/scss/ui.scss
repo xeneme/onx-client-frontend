@@ -19,7 +19,7 @@ $mobile-break: 50rem;
     display: flex;
     padding: 12px 17px;
     letter-spacing: 0.02em;
-    font-size: 1.1rem;
+    font-size: 1.1em;
     align-items: center;
   }
 
@@ -49,14 +49,12 @@ $mobile-break: 50rem;
   transition: all 100ms;
 
   .holo-panel__header {
-    font-size: 1rem;
-
     @include to(35rem) {
-      font-size: 0.85rem;
+      font-size: 0.85em;
     }
 
     @include from(35rem) {
-      font-size: 1rem;
+      font-size: 1.1em;
     }
   }
 

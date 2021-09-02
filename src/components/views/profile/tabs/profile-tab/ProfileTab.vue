@@ -46,7 +46,7 @@ $mobile-break: 50rem;
   }
   @include from($mobile-break) {
     grid-template-areas: 'identity security security' 'promo deactivate logout';
-    grid-template-columns: 2fr 1.26fr 0.74fr;
+    grid-template-columns: 1.8fr 1.26fr 0.74fr;
     grid-template-rows: min-content min-content;
   }
 

@@ -67,7 +67,7 @@ export default {
 @import '@/scss/_smart-grid';
 @import '@/scss/_variables';
 
-$mobile-break: 62rem;
+$mobile-break: 83em;
 
 .tab-switch-enter-from,
 .tab-switch-enter-active,
@@ -112,12 +112,12 @@ $mobile-break: 62rem;
     }
 
     &__tab-content {
+      max-width: 76rem;
       @include to($mobile-break) {
-        width: 400px;
         width: 100%;
       }
       @include from($mobile-break) {
-        width: 800px;
+        width: calc(33em + 23vw);
       }
     }
   }

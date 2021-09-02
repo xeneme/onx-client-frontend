@@ -209,7 +209,7 @@ export default {
     padding: 7px;
     position: relative;
     border-radius: 7px;
-    font-size: 0.72rem;
+    font-size: 0.72em;
     color: $light-blue;
     letter-spacing: 0.07rem;
     width: calc(100% - 20px);

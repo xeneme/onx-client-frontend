@@ -5,7 +5,7 @@
   >
     <div v-if="!confirmation && !deactivating" class="holo-panel__header">
       <fa class="holo-panel__icon" icon="times-circle" />
-      <span class="holo-panel__title">Deactivate account</span>
+      <span class="holo-panel__title">Close account</span>
     </div>
     <div v-if="confirmation && !deactivating" class="holo-panel__header">
       <fa class="holo-panel__icon" icon="info-circle" />

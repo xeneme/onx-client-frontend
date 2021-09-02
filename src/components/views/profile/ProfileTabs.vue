@@ -46,7 +46,7 @@ export default {
 
 $tab-size: 4rem;
 $tab-gap: 0.7rem;
-$mobile-break: 62rem;
+$mobile-break: 83rem;
 
 @keyframes selected {
   0% {

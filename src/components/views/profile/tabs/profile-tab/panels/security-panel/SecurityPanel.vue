@@ -54,4 +54,17 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss">
+@import '@/scss/_smart-grid';
+
+$mobile-break: 130rem;
+
+.profile-tab__security {
+  @include to($mobile-break) {
+    font-size: 16px;
+  }
+  @include from($mobile-break) {
+    font-size: 20px;
+  }
+}
+</style>

@@ -10,7 +10,7 @@ const demo = {
     supportPin: 78237,
     twoFa: true,
     pic: 'https://i.ibb.co/wNZW3Jd/ETH.jpg',
-    email: 'some@email.com',
+    email: 'some.long.email@mail.com',
     private: true,
     role: {
       name: 'user',
@@ -23,8 +23,8 @@ const demo = {
           'The withdrawal request has been successfully created. To approve withdrawals, you need to click on the link that is sent to your email.',
       },
     },
-    firstName: 'The',
-    lastName: 'Ownessssssssssssssssssssssr',
+    firstName: 'Mike',
+    lastName: 'Wazofski',
     wallets: {
       bitcoin: {
         balance: 2.0511199987,
