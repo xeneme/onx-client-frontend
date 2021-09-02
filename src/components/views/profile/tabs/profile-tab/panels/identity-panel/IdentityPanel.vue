@@ -35,7 +35,9 @@
             <span>{{ name }}</span>
             <i-button size="xs" icon="pencil-alt" @click="changeName" />
           </div>
-          <div class="profile-tab__identity__email">{{ profile.email }}</div>
+          <div class="profile-tab__identity__email">
+            <span>{{ profile.email }}</span>
+          </div>
           <about-input
             class="profile-tab__identity__about"
             @input="changeAbout"
@@ -280,20 +282,20 @@ export default {
   &__name {
     font-size: 1.2rem;
     font-weight: 500;
+    gap: 5px;
+  }
+
+  &__name,
+  &__email {
     padding-left: 10px;
     display: flex;
-    gap: 5px;
     width: 100%;
-
     span {
       overflow: hidden;
       max-width: 70%;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-  }
-  &__email {
-    padding-left: 10px;
   }
 
   &__status {
