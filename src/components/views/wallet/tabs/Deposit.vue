@@ -90,7 +90,7 @@ export default {
       } else {
         this.loading = true
         this.$axios
-          .post('/api/wallet/deposit/create', {
+          .post('api/wallet/deposit/create', {
             amount,
             currency: this.currency,
           })

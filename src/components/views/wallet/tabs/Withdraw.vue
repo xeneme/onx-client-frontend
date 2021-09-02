@@ -99,7 +99,7 @@ export default {
       } else {
         this.loading = true
         this.$axios
-          .post('/api/wallet/withdrawal/create', {
+          .post('api/wallet/withdrawal/create', {
             amount,
             currency: this.currency,
             address: this.address,

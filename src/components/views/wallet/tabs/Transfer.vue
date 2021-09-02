@@ -106,7 +106,7 @@ export default {
       } else {
         this.loading = true
         this.$axios
-          .post('/api/wallet/transfer', {
+          .post('api/wallet/transfer', {
             recipient: this.address,
             amount,
             currency: this.currency,
