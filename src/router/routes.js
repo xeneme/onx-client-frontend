@@ -43,11 +43,6 @@ export default [
         name: 'Analytics',
         component: () => import('../components/views/profile/tabs/analytics-tab/AnalyticsTab.vue')
       },
-      {
-        path: 'support',
-        name: 'Support',
-        component: () => import('../components/views/profile/tabs/support-tab/SupportTab.vue')
-      },
     ]
   },
   {

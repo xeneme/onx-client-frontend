@@ -33,7 +33,6 @@ export default {
       return {
         Profile: 0,
         Analytics: 1,
-        Support: 2,
       }[this.$route.name]
     },
   },
