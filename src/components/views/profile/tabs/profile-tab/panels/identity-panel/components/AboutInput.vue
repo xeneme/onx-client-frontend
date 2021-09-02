@@ -1,5 +1,5 @@
 <template>
-  <div class="about-input">
+  <div class="about-input" :class="{ mobile: !$isDesktop }">
     <div spellcheck="false" placeholder="About me" class="about-input__input">
       {{ input }}
     </div>
@@ -163,7 +163,7 @@ export default {
   mounted() {
     this.input = this.profile.about
 
-    if(!this.input) this.getInput().innerText = ''
+    if (!this.input) this.getInput().innerText = ''
 
     this.initListeners()
   },
@@ -193,7 +193,7 @@ export default {
   border-radius: 10px;
   border: 1px transparent solid;
 
-  &:hover {
+  &.mobile, &:hover {
     border: 1px transparentize($cyan-alpha, 0.3) solid;
 
     .edit-btn {
