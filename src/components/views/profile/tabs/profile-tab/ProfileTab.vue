@@ -41,12 +41,12 @@ $mobile-break: 50rem;
 
   @include to($mobile-break) {
     grid-template-areas: 'identity identity' 'security security' 'promo promo' 'deactivate logout';
-    grid-template-columns: 1.26fr 0.74fr;
+    grid-template-columns: 1.26fr 0.90fr;
     grid-template-rows: min-content min-content min-content min-content;
   }
   @include from($mobile-break) {
     grid-template-areas: 'identity security security' 'promo deactivate logout';
-    grid-template-columns: 1.8fr 1.26fr 0.74fr;
+    grid-template-columns: 2.80fr 1.9fr 1.19fr;
     grid-template-rows: min-content min-content;
   }
 
