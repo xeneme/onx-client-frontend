@@ -41,42 +41,13 @@ $mobile-break: 50rem;
 
   @include to($mobile-break) {
     grid-template-areas: 'identity identity' 'security security' 'promo promo' 'deactivate logout';
-    grid-template-columns: 1.26fr 0.90fr;
+    grid-template-columns: 1.26fr 0.9fr;
     grid-template-rows: min-content min-content min-content min-content;
   }
   @include from($mobile-break) {
     grid-template-areas: 'identity security security' 'promo deactivate logout';
-    grid-template-columns: 2.80fr 1.9fr 1.19fr;
+    grid-template-columns: 2.8fr 1.9fr 1.19fr;
     grid-template-rows: min-content min-content;
-  }
-
-  &__security {
-    grid-area: security;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 10px;
-
-    .divider {
-      width: 100%;
-      width: calc(100% - 32px);
-      border-top: 1px $cyan-alpha solid;
-      margin: 0px 16px;
-    }
-
-    .security_li {
-      width: calc(100% - 40px);
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 20px;
-
-      &__title {
-        display: grid;
-        align-content: center;
-        .pin {
-          color: $light-blue;
-        }
-      }
-    }
   }
 
   &__promo {
