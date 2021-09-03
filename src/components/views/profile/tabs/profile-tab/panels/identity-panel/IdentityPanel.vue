@@ -284,15 +284,17 @@ $mobile-break: 130rem;
     display: flex;
     letter-spacing: 0.05em;
     flex-direction: column;
-    min-width: 10rem;
+    min-width: 5rem;
     overflow: hidden;
     margin-left: -0.6em;
   }
 
   &__name {
     font-size: 1.2em;
+    box-sizing: border-box;
     font-weight: 500;
     gap: 0.25em;
+    margin-right: 1.6em;
   }
 
   &__name,
