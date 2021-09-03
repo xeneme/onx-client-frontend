@@ -197,6 +197,11 @@ export default {
       }
     })
 
+    this.$refs.caller.addEventListener('mousedown', e => {
+      e.preventDefault()
+      self.$router.push({ path: 'account' })
+    })
+
     if (profile) {
       this.updateName(profile)
       this.updateBalance(profile)
