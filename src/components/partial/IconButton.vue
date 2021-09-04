@@ -119,7 +119,6 @@ export default {
   }
 
   &__temp-icon {
-    transform: translate(70%, 70%);
     position: absolute;
     color: white;
   }
