@@ -198,8 +198,10 @@ export default {
     })
 
     this.$refs.caller.addEventListener('mousedown', e => {
-      e.preventDefault()
-      self.$router.push({ path: 'account' })
+      if (e.which == 2) {
+        e.preventDefault()
+        self.$router.push({ path: 'account' })
+      }
     })
 
     if (profile) {
