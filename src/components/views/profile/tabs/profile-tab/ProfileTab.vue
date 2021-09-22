@@ -1,5 +1,6 @@
 <template>
   <div class="profile-tab">
+    <!-- <mouse-tooltip label="Your account will be immediately deactivated and never be back." /> -->
     <identity-panel />
     <security-panel />
     <promo-input text="Promo code" icon="ticket-alt" />
@@ -14,6 +15,7 @@ import SecurityPanel from './panels/security-panel/SecurityPanel.vue'
 import PromoInput from './components/PromoInput.vue'
 import DeactivateAccount from './components/DeactivateAccount.vue'
 import Logout from './components/Logout.vue'
+// import MouseTooltip from '@/components/partial/MouseTooltip'
 
 export default {
   name: 'ProfileTab',
@@ -23,6 +25,7 @@ export default {
     PromoInput,
     DeactivateAccount,
     Logout,
+    // MouseTooltip,
   },
 }
 </script>
