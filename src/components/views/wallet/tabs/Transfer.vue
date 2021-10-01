@@ -94,6 +94,7 @@ export default {
         Bitcoin: 'BTC',
         Ethereum: 'ETH',
         Litecoin: 'LTC',
+        'Usd coin': 'USDC',
       }[c]
     },
     transfer() {

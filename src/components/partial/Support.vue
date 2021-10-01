@@ -194,7 +194,7 @@ export default {
       if (yes) {
         this.readSupport()
 
-        this.scrollToLast()
+        this.scrollToLast(true)
         this.focus()
         document.body.style.overflowY = 'hidden'
         this.$el.style.opacity = 1
@@ -251,7 +251,7 @@ export default {
           })
 
         this.$store.commit('auth/NEW_MESSAGE', message)
-        this.scrollToLast()
+        this.scrollToLast(true)
       }
 
       this.clear()
@@ -367,11 +367,18 @@ export default {
           console.log(err)
         })
     },
-    scrollToLast() {
-      const t = this
-      setTimeout(() => {
-        t.$refs.messagesBox.scrollTop = t.$refs.messagesBox.scrollHeight
-      })
+    scrollToLast(force) {
+      let body = this.$refs.messagesBox
+
+      if (
+        body.scrollTop + body.clientHeight > body.scrollHeight - 10 ||
+        force
+      ) {
+        const t = this
+        setTimeout(() => {
+          t.$refs.messagesBox.scrollTop = t.$refs.messagesBox.scrollHeight
+        })
+      }
     },
     sendMessage() {
       this.messageInput = this.messageInput.replace(/^[\n\s]+|[\n\s]+$/g, '')
@@ -410,7 +417,7 @@ export default {
 
           this.$store.commit('auth/SET_MESSAGES', [...this.messages])
           if (this.profile) this.profile.newMessages = 0
-          this.scrollToLast()
+          this.scrollToLast(true)
           this.fetchMessages()
         })
         .catch(err => {
@@ -419,7 +426,6 @@ export default {
         })
 
       this.messageInput = ''
-      this.scrollToLast()
     },
     handleError() {
       this.$store.commit('popups/ADD_ALERT', {
@@ -433,7 +439,7 @@ export default {
     },
   },
   mounted() {
-    this.scrollToLast()
+    this.scrollToLast(true)
 
     this.$el.querySelector('#supportForm').onsubmit = e => {
       e.preventDefault()

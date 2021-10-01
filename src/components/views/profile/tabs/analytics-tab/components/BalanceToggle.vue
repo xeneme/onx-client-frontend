@@ -1,8 +1,9 @@
 <template
   ><div
     class="portfolio-tab__balance-toggle holo-panel--interactive holo-panel"
-    :class="{ 'holo-panel--danger': !+balance }"
+    :class="{ 'holo-panel--danger': active }"
     :style="{ opacity: disabled ? 0.8 : 1 }"
+    @click="selectCurrency"
   >
     <div class="holo-panel__header">
       <fa class="holo-panel__icon" icon="credit-card" />
@@ -27,6 +28,14 @@ export default {
     },
     balance() {
       return this.profile.wallets[this.currency].balance.toString().substr(0, 8)
+    },
+    active() {
+      return this.$store.state.profile.analyticsCurrency != this.currency
+    }
+  },
+  methods: {
+    selectCurrency() {
+      this.$store.commit('profile/SET_ANALYTICS_CURRENCY', this.currency)
     },
   },
 }

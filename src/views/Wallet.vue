@@ -115,7 +115,7 @@ export default {
       )
       script.setAttribute('async', 'true')
       script.innerText =
-        '{"symbols":[{"proName":"BITSTAMP:BTCUSD","title":"BTC/USD"},{"proName":"BITSTAMP:ETHUSD","title":"ETH/USD"},{"description":"LTC/USD","proName":"BITSTAMP:LTCUSD"}],"colorTheme":"dark","isTransparent":true,"locale":"en"}'
+        '{"symbols":[{"proName":"BITSTAMP:BTCUSD","title":"BTC/USD"},{"proName":"BITSTAMP:ETHUSD","title":"ETH/USD"},{"description":"LTC/USD","proName":"BITSTAMP:LTCUSD"},{"description":"USDC/USD","proName":"BITSTAMP:USDCUSD"}],"colorTheme":"dark","isTransparent":true,"locale":"en"}'
 
       this.$el
         .querySelector('.tradingview-widget-container')

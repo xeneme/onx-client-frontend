@@ -13,6 +13,7 @@
       <balance-toggle currency="bitcoin" />
       <balance-toggle currency="ethereum" />
       <balance-toggle currency="litecoin" />
+      <balance-toggle currency="usd coin" />
     </div>
   </div>
 </template>
@@ -37,6 +38,8 @@ export default {
   },
   methods: {
     computedProfitability() {
+      if (!this.profile.transactions.length) return 0
+
       const t = this.profile.transactions.filter(
         t => t.status == 'completed' && t.name == 'Transfer',
       )

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development --port 1010 --open",
-    "build": "vue-cli-service build; bash clone_dist.sh"
+    "build": "bash clone_dist.sh"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.29",

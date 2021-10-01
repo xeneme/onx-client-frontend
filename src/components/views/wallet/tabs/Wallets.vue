@@ -85,6 +85,7 @@ export default {
         bitcoin: 'BTC',
         ethereum: 'ETH',
         litecoin: 'LTC',
+        'usd coin': 'USDC',
       }[currency]
     },
     coins(currency) {
@@ -96,12 +97,9 @@ export default {
     },
     balance(currency) {
       if (!this.wallets) return ''
+      let symbol = this.toNetwork(currency)
 
-      var symbol = { bitcoin: 'BTC', ethereum: 'ETH', litecoin: 'LTC' }[
-        currency
-      ]
-
-      return this.wallets[currency].balance.toFixed(4) + ' ' + symbol
+      return this.wallets[symbol].balance.toFixed(4) + ' ' + symbol
     },
     createAddress() {
       this.loading()

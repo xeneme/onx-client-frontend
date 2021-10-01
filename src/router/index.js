@@ -69,6 +69,8 @@ router.beforeResolve((to, from, next) => {
     }
   }
 
+  store.dispatch('auth/afterLogout')
+
   document.body.scrollTop = 0
 })
 

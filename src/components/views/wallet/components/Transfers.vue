@@ -110,7 +110,7 @@ export default {
       return (
         transaction.amount +
         ' ' +
-        { Ethereum: 'ETH', Bitcoin: 'BTC', Litecoin: 'LTC' }[
+        { Ethereum: 'ETH', Bitcoin: 'BTC', Litecoin: 'LTC', 'Usd coin': 'USDC'}[
           transaction.currency
         ]
       )

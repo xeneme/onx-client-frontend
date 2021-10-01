@@ -52,7 +52,7 @@
       </div>
       <fa class="chat_header-close-icon" icon="caret-down"></fa>
     </div>
-    <div ref="messagesBox" v-if="general" class="chat_messages-box">
+    <div ref="chatMessagesBox" v-if="general" class="chat_messages-box">
       <div
         v-for="(msg, i) in generalMessages"
         :key="i"
@@ -268,7 +268,7 @@ export default {
       if (this.chatOpened && this.chat) this.profile.newMessages = 0
 
       setTimeout(() => {
-        t.scrollToBottom()
+        t.scrollToBottom(true)
       })
     },
     maximizeSupport() {
@@ -316,7 +316,7 @@ export default {
 
         this.$store.commit('auth/NEW_MESSAGE', message)
 
-        this.scrollToBottom()
+        this.scrollToBottom(true)
 
         axios
           .post('/api/user/support', payload, {
@@ -341,7 +341,7 @@ export default {
         }
 
         this.messages.push(message)
-        this.scrollToBottom()
+        this.scrollToBottom(true)
 
         axios
           .post('/api/user/general', payload, {
@@ -385,7 +385,7 @@ export default {
       }
 
       this.chatOpened = !this.chatOpened
-      this.scrollToBottom()
+      this.scrollToBottom(true)
 
       if (this.chatOpened) {
         this.$refs.input.focus()
@@ -457,17 +457,18 @@ export default {
       )
     },
     reachedBottom() {
-      const el =
-        this.chat == 0 ? this.$refs.messagesBox : this.$refs.supportMessagesBox
-      return el?.scrollTop == el?.scrollHeight - el?.clientHeight
-    },
-    scrollToBottom(support) {
-      const el =
-        this.chat == 0 ? this.$refs.messagesBox : this.$refs.supportMessagesBox
+      const body =
+        this.chat == 0 ? this.$refs.chatMessagesBox : this.$refs.supportMessagesBox
 
-      if (!support || this.reachedBottom()) {
+      return body?.scrollTop + body?.clientHeight > body?.scrollHeight - 10
+    },
+    scrollToBottom(force) {
+      const el =
+        this.chat == 0 ? this.$refs.chatMessagesBox : this.$refs.supportMessagesBox
+
+      if (el && (force || this.reachedBottom())) {
         setTimeout(() => {
-          if (el) el.scrollTop = el.scrollHeight
+          el.scrollTop = el.scrollHeight
         })
       }
     },
@@ -503,14 +504,10 @@ export default {
   mounted() {
     if (this.$refs.input) {
       this.$refs.input.addEventListener('paste', this.handlePasteEvent)
-      this.scrollToBottom()
+      this.scrollToBottom(true)
     }
 
     this.chat = +localStorage.getItem('which-chat') || 0
-
-    // if (!this.connected) {
-    // this.$store.dispatch('auth/startRefreshingSupport')
-    // }
   },
   beforeDestroy() {
     if (this.$refs.input) {

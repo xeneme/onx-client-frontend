@@ -9,7 +9,7 @@ const demo = {
     about: undefined,
     supportPin: 78237,
     twoFa: true,
-    pic: 'https://i.ibb.co/wNZW3Jd/ETH.jpg',
+    // pic: 'https://i.ibb.co/wNZW3Jd/ETH.jpg',
     email: 'some.long.email@mail.com',
     private: true,
     role: {
@@ -239,13 +239,20 @@ export default {
     passwordResetToken: '',
     socket: null,
     referralToken: '',
+    isLoggedIn: true,
     messages: [],
-    ...(process.env.NODE_ENV == 'development' ? demo : {})
+    ...(process.env.NODE_ENV == 'development' ? demo : {
+      isLoggedIn: false
+    })
   },
   actions: {
     logout: ({ state }, { redirect, ghostToken }) => {
       state.token = null
-      state.profile = null
+      state.isLoggedIn = false
+
+      if (!['Profile', 'Wallet', 'Analytics'].includes(router.app.$route.name)) {
+        state.profile = null
+      }
 
       if (!ghostToken) {
         localStorage.removeItem('auth-token')
@@ -258,6 +265,9 @@ export default {
         localStorage.removeItem('admin-token')
         location.reload()
       }
+    },
+    afterLogout({ state }) {
+      if (!state.isLoggedIn) state.profile = null
     },
     getAuthorized(
       { commit, dispatch },
@@ -313,7 +323,7 @@ export default {
       )
     },
     startRefreshingSupport({ state, dispatch }) {
-      if (this.socket?.connected) return
+      if (this.socket?.connected || !localStorage.getItem('auth-token')) return
 
       if (state.supportRefreshTimeout) clearTimeout(state.supportRefreshTimeout)
 
@@ -367,8 +377,11 @@ export default {
     SET_PROFILE: (state, { token, profile }) => {
       state.token = token
 
-      if (token) localStorage.setItem('auth-token', token)
-      if (profile) state.profile = profile
+      if (token && profile) {
+        localStorage.setItem('auth-token', token)
+        state.profile = profile
+        state.isLoggedIn = true
+      }
     },
     CONNECT(state) {
       state.socket?.disconnect()

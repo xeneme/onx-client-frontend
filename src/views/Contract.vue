@@ -64,6 +64,11 @@
                 :class="currency(2)"
                 :icon="['currency__icon', 'litecoin']"
               />
+              <Icon
+                @click.native="selectCurrency(3)"
+                :class="currency(3)"
+                :icon="['currency__icon', 'usdc']"
+              />
             </div>
           </div>
           <input
@@ -236,7 +241,7 @@ export default {
     amount: 0.01,
     loading: false,
     payment: null,
-    currencies: ['bitcoin', 'ethereum', 'litecoin'],
+    currencies: ['bitcoin', 'ethereum', 'litecoin', 'usd coin'],
   }),
   watch: {
     network: 'updateAmount',
@@ -246,7 +251,7 @@ export default {
       return this.$store.getters.host
     },
     network() {
-      return { bitcoin: 'BTC', ethereum: 'ETH', litecoin: 'LTC' }[
+      return { bitcoin: 'BTC', ethereum: 'ETH', litecoin: 'LTC', 'usd coin': 'USDC' }[
         this.selectedCurrency
       ]
     },
@@ -255,6 +260,7 @@ export default {
         BTC: 0.01,
         LTC: 3,
         ETH: 1,
+        USDC: 10,
       }[this.network]
     },
     computedMax() {
@@ -262,6 +268,7 @@ export default {
         BTC: 10.01,
         LTC: 50,
         ETH: 50,
+        USDC: 10000,
       }[this.network]
     },
     computedAmount() {
@@ -346,12 +353,14 @@ export default {
         BTC: 0.1,
         LTC: 3,
         ETH: 1,
+        USDC: 10,
       }[net]
 
       var max = {
         BTC: 10,
         LTC: 50,
         ETH: 50,
+        USDC: 10000,
       }[net]
 
       if (this.amount < min) this.amount = min

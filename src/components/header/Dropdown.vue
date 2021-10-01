@@ -167,7 +167,7 @@ export default {
     },
     logout() {
       this.$store.dispatch('auth/logout', {
-        redirect: ['Profile', 'Wallet'].includes(this.$route.name),
+        redirect: ['Profile', 'Wallet', 'Analytics'].includes(this.$route.name),
         ghostToken: this.adminToken,
       })
     },

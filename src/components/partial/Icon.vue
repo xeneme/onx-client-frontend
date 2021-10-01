@@ -34,6 +34,10 @@ export default {
     background: url(../../assets/svg/icons/ethereum.svg) no-repeat center center
     background-size: 40px
 
+  &.usdc
+    background: url(../../assets/svg/icons/usdc.svg) no-repeat center center
+    background-size: 40px
+
   &.bitcoin-cash
     background: url(../../assets/svg/icons/bitcoin-cash.svg) no-repeat center center
     background-size: cover

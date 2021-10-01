@@ -2,7 +2,9 @@
   <div class="portfolio-tab__balance holo-panel">
     <div class="holo-panel__header">
       <fa class="holo-panel__icon" icon="wallet" />
-      <span class="holo-panel__title">Balance</span>
+      <span class="holo-panel__title"
+        >{{ toNET(currency) }} Balance History</span
+      >
     </div>
     <div class="portfolio-tab__balance__content">
       <chart
@@ -26,6 +28,7 @@ Highcharts.setOptions({
 export default {
   data() {
     return {
+      historyData: null,
       detailChart: {
         chart: {
           style: {
@@ -106,7 +109,7 @@ export default {
         series: [
           {
             fillOpacity: 0.3,
-            name: 'Price',
+            name: 'USD',
             data: [],
             tooltip: {
               valuePrefix: '$ ',
@@ -115,36 +118,7 @@ export default {
             unit: 'USD',
             type: 'area',
             valueDecimals: 0,
-            color: '#0088ff',
-            // color: '#ffffff',
-          },
-          {
-            fillOpacity: 0.3,
-            name: 'Price',
-            data: [],
-            tooltip: {
-              valuePrefix: '$ ',
-            },
-
-            unit: 'USD',
-            type: 'area',
-            valueDecimals: 0,
-            color: '#ff88ff',
-            // color: '#ffffff',
-          },
-          {
-            fillOpacity: 0.3,
-            name: 'Price',
-            data: [],
-            tooltip: {
-              valuePrefix: '$ ',
-            },
-
-            unit: 'USD',
-            type: 'area',
-            valueDecimals: 0,
-            color: '#8800ff',
-            // color: '#ffffff',
+            color: '#58A5FF',
           },
         ],
         tooltip: {
@@ -180,10 +154,19 @@ export default {
     profile() {
       return this.$store.state.auth.profile
     },
+    currency() {
+      return this.$store.state.profile.analyticsCurrency
+    },
+  },
+  watch: {
+    currency(value) {
+      this.detailChart.series[0].data = this.historyData[value]
+    },
   },
   methods: {
     buildBalanceChangingGraph() {
       const p = this.profile
+      const self = this
 
       const completedTransactions = p.transactions.filter(
         t => t.status == 'completed' && t.name == 'Transfer',
@@ -193,66 +176,86 @@ export default {
         BTC: completedTransactions.filter(t => t.currency == 'Bitcoin'),
         ETH: completedTransactions.filter(t => t.currency == 'Ethereum'),
         LTC: completedTransactions.filter(t => t.currency == 'Litecoin'),
+        USDC: completedTransactions.filter(t => t.currency == 'USD Coin'),
       }
 
-      const data = { BTC: [], ETH: [], LTC: [] }
+      const data = { BTC: [], ETH: [], LTC: [], USDC: [] }
 
-      const coins = ['BTC', 'ETH', 'LTC']
+      const coins = ['BTC', 'ETH', 'LTC', 'USDC']
 
       coins.forEach(coin => {
+        let currency = self.toCurrency(coin)
+
         transactions[coin].forEach((t, i) => {
           if (t.type == 'received') {
             if (i) {
-              data[coin].push([
-                t.at,
-                transactions[coin][i - 1].amount + t.amount,
-              ])
+              let amount =
+                (transactions[coin][i - 1].amount + t.amount) *
+                p.wallets[currency].price
+              data[coin].push([t.at, amount])
             } else {
-              data[coin].push([t.at, t.amount])
+              let amount = t.amount * p.wallets[currency].price
+              data[coin].push([t.at, amount])
             }
           } else {
             if (i) {
-              data[coin].push([
-                t.at,
-                transactions[coin][i - 1].amount - t.amount,
-              ])
+              let amount =
+                (transactions[coin][i - 1].amount - t.amount) *
+                p.wallets[currency].price
+              data[coin].push([t.at, amount])
             } else {
-              data[coin].push([t.at, -t.amount])
+              let amount = t.amount * p.wallets[currency].price
+              data[coin].push([t.at, -amount])
             }
           }
         })
       })
 
-      data.BTC = [
+      data.bitcoin = [
         [p.at, 0],
         ...data.BTC,
-        [+new Date(), p.wallets.bitcoin.balance],
+        [+new Date(), p.wallets.bitcoin.balance * p.wallets.bitcoin.price],
       ]
-      data.ETH = [
+      data.ethereum = [
         [p.at, 0],
         ...data.ETH,
-        [+new Date(), p.wallets.ethereum.balance],
+        [+new Date(), p.wallets.ethereum.balance * p.wallets.ethereum.price],
       ]
-      data.LTC = [
+      data.litecoin = [
         [p.at, 0],
         ...data.LTC,
-        [+new Date(), p.wallets.litecoin.balance],
+        [+new Date(), p.wallets.litecoin.balance * p.wallets.litecoin.price],
+      ]
+      data['usd coin'] = [
+        [p.at, 0],
+        ...data.USDC,
+        [
+          +new Date(),
+          p.wallets['usd coin'].balance * p.wallets['usd coin'].price,
+        ],
       ]
 
       if (p.wallets.bitcoin.balance) {
-        this.detailChart.series[0].name = 'BTC'
-        this.detailChart.series[0].data = data.BTC
+        this.detailChart.series[0].data = data.bitcoin
       }
 
-      if (p.wallets.ethereum.balance) {
-        this.detailChart.series[1].name = 'ETH'
-        this.detailChart.series[1].data = data.ETH
-      }
-
-      if (p.wallets.litecoin.balance) {
-        this.detailChart.series[2].name = 'LTC'
-        this.detailChart.series[2].data = data.LTC
-      }
+      this.historyData = data
+    },
+    toCurrency(net) {
+      return {
+        BTC: 'bitcoin',
+        LTC: 'litecoin',
+        ETH: 'ethereum',
+        USDC: 'usd coin',
+      }[net]
+    },
+    toNET(currency) {
+      return {
+        bitcoin: 'BTC',
+        litecoin: 'LTC',
+        ethereum: 'ETH',
+        'usd coin': 'USDC',
+      }[currency]
     },
   },
   created() {
@@ -270,5 +273,6 @@ export default {
   position: relative;
   width: calc(100% - 20px);
   height: calc(100% - 20px);
+  min-height: 375px;
 }
 </style>

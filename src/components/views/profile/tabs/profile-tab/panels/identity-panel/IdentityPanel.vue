@@ -14,9 +14,10 @@
         <div class="profile-tab__identity__avatar">
           <div
             @click="choosingAvatar = true"
+            :class="{ default: !profile.pic }"
             class="profile-tab__identity__avatar-frame"
           >
-            <img :src="profile.pic" />
+            <img :src="profile.pic || defaultPic" />
           </div>
           <div class="profile-tab__identity__status">
             <div class="profile-tab__identity__status-stages">
@@ -86,6 +87,8 @@ export default {
       choosingAvatar: false,
       savingAbout: false,
       savingProfileVisibility: false,
+      defaultPic:
+        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Falayham.com%2Fsites%2Fdefault%2Ffiles%2Fdefault_images%2Fdefault_user_avatar.png&f=1&nofb=1',
       avatars: [
         'https://i.ibb.co/yycbt3F/USDT.jpg',
         'https://i.ibb.co/jytq3hH/XRP.jpg',
@@ -276,6 +279,13 @@ $mobile-break: 130rem;
 
       img {
         height: 100%;
+      }
+
+      &.default {
+        img {
+          opacity: 0.5;
+          mix-blend-mode: multiply;
+        }
       }
     }
   }

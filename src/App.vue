@@ -89,7 +89,8 @@ export default {
     isLoading() {
       return (
         (this.loading || this.stackingLoading || this.connectingToContract) &&
-        !this.$dev
+        !this.$dev &&
+        this.isLoggedIn
       )
     },
     itsAdmin() {

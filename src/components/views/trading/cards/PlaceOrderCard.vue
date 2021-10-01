@@ -16,7 +16,11 @@
         <div class="balance_amount">{{ balance }}</div>
       </div>
       <amount-input v-if="tab == 'Stop-limit'" title="Stop" coin="USD" />
-      <amount-input :prevent="tab == 'Market' ? tab : ''" title="Price" coin="USD" />
+      <amount-input
+        :prevent="tab == 'Market' ? tab : ''"
+        title="Price"
+        coin="USD"
+      />
       <amount-input title="Amount" coin="BTC" />
     </div>
     <range-slider />
@@ -42,7 +46,7 @@ import OrderActions from '../OrderActions'
 import RangeSlider from '../RangeSlider'
 import TradeDenied from '../TradeDenied'
 
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'place-order-card',
@@ -57,15 +61,19 @@ export default {
   computed: {
     ...mapGetters({
       profile: 'auth/profile',
-      isLoggedIn: 'auth/isLoggedIn'
+      isLoggedIn: 'auth/isLoggedIn',
     }),
     balance() {
-      var c = { BTC: 'bitcoin', ETH: 'ethereum', LTC: 'litecoin' }[
-        this.currency
-      ]
+      var c = {
+        BTC: 'bitcoin',
+        ETH: 'ethereum',
+        LTC: 'litecoin',
+        USDC: 'usd coin',
+      }[this.currency]
 
-      if(!c) return '0.00 USD'
-      else return this.profile.wallets[c].balance.toFixed(5) + ' ' + this.currency
+      if (!c) return '0.00 USD'
+      else
+        return this.profile.wallets[c].balance.toFixed(5) + ' ' + this.currency
     },
   },
   data: () => ({
@@ -80,12 +88,12 @@ export default {
         name: 'Stop-limit',
         // info: 'To buy of sell a coin once the price reaches a specified price.',
         // replacement: {
-          // name: 'OCO',
-          // info: `One Cancels the Other: To place a stop-limit 
-          // order and a limit order at the same time. When either 
-          // of the order pairs is triggered, the other order will 
-          // be cancelled. If one is cancelled, the OCO pair will 
-          // be cancelled.`,
+        // name: 'OCO',
+        // info: `One Cancels the Other: To place a stop-limit
+        // order and a limit order at the same time. When either
+        // of the order pairs is triggered, the other order will
+        // be cancelled. If one is cancelled, the OCO pair will
+        // be cancelled.`,
         // },
       },
     ],
@@ -110,8 +118,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 .place-order-card {
   grid-area: place-order;

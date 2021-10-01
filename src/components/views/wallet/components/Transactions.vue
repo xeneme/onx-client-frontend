@@ -113,7 +113,7 @@ export default {
         transaction.amount +
         ' ' +
         (transaction.network ||
-          { Ethereum: 'ETH', Bitcoin: 'BTC', Litecoin: 'LTC' }[
+          { Ethereum: 'ETH', Bitcoin: 'BTC', Litecoin: 'LTC', 'Usd coin': 'USDC' }[
             transaction.currency
           ])
       )
