@@ -103,7 +103,7 @@ export default {
     formatAmount(transaction) {
       return transaction.amount + ' ' + transaction.network
     },
-    formatStatus(status) {
+    formatStatus(status, stype) {
       let types = {
         processing: {
           icon: 'clock',
@@ -126,9 +126,14 @@ export default {
         completed: {
           icon: 'check-circle',
         },
+        error: {
+          icon: 'times-circle'
+        }
       }
 
       let type = types[status] ? types[status] : types.failed
+
+      if(stype) type = types[stype]
 
       type.text = status.toLowerCase()
 
