@@ -23,12 +23,14 @@
             <div class="profile-tab__identity__status-stages">
               <div
                 class="profile-tab__identity__status-stage"
-                :class="{ active: true }"
+                v-for="i of [0, 1, 2]"
+                :key="i"
+                :class="{ active: i >= profile.status.stage }"
               ></div>
-              <div class="profile-tab__identity__status-stage"></div>
-              <div class="profile-tab__identity__status-stage"></div>
             </div>
-            <span class="profile-tab__identity__status-name">not verified</span>
+            <span class="profile-tab__identity__status-name">
+              {{ profile.status.value }}
+            </span>
           </div>
         </div>
         <div class="profile-tab__identity__info">
@@ -87,8 +89,7 @@ export default {
       choosingAvatar: false,
       savingAbout: false,
       savingProfileVisibility: false,
-      defaultPic:
-        'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Falayham.com%2Fsites%2Fdefault%2Ffiles%2Fdefault_images%2Fdefault_user_avatar.png&f=1&nofb=1',
+      defaultPic: require('@/assets/img/avatar.png'),
       avatars: [
         'https://i.ibb.co/yycbt3F/USDT.jpg',
         'https://i.ibb.co/jytq3hH/XRP.jpg',
