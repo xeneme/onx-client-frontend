@@ -6,7 +6,25 @@ import axios from 'axios'
 
 
 String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1)
+  return this[0].toUpperCase() + this.slice(1)
+}
+
+String.prototype.toSymbol = function () {
+  return {
+    bitcoin: 'BTC',
+    litecoin: 'LTC',
+    ethereum: 'ETH',
+    'usd coin': 'USDC',
+  }[this.toLowerCase()]
+}
+
+String.prototype.toCurrency = function (lower) {
+  return {
+    BTC: lower ? 'bitcoin' : 'Bitcoin',
+    LTC: lower ? 'litecoin' : 'Litecoin',
+    ETH: lower ? 'ethereum' : 'Ethereum',
+    USDC: lower ? 'usd coin' : 'Usd coin',
+  }[this.toUpperCase()]
 }
 
 Vue.prototype.$time = {

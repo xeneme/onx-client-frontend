@@ -1,23 +1,39 @@
 <template>
   <div class="portfolio-tab__balance holo-panel">
     <div class="holo-panel__header">
-      <fa class="holo-panel__icon" icon="wallet" />
+      <fa
+        class="holo-panel__icon"
+        :spin="loading"
+        :icon="loading ? 'circle-notch' : 'wallet'"
+      />
       <span class="holo-panel__title"
-        >{{ toNET(currency) }} Balance History</span
+        >{{ currency.toSymbol() }} Balance History</span
       >
     </div>
     <div class="portfolio-tab__balance__content">
       <chart
         class="detail-container"
         ref="detailed-chart"
+        v-if="detailChart.series[0].data.length"
         :options="detailChart"
       ></chart>
+      <div class="fetching-data" v-else-if="loading">
+        <fa class="holo-panel__icon" icon="circle-notch" spin />
+        <span>Loading...</span>
+      </div>
+      <div class="no-data" v-else>
+        <fa class="holo-panel__icon" icon="wallet" />
+        <span>No transactions</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Highcharts from 'highcharts'
+import _ from 'underscore'
+
+import ApiRequest from '@/services/apiRequest'
 
 Highcharts.setOptions({
   time: {
@@ -28,7 +44,12 @@ Highcharts.setOptions({
 export default {
   data() {
     return {
-      historyData: null,
+      transactionsHistory: {
+        bitcoin: [],
+        litecoin: [],
+        ethereum: [],
+        'usd coin': [],
+      },
       detailChart: {
         chart: {
           style: {
@@ -160,106 +181,56 @@ export default {
   },
   watch: {
     currency(value) {
-      this.detailChart.series[0].data = this.historyData[value]
+      this.fetchHistory(value, this.transactionsHistory)
     },
   },
   methods: {
-    buildBalanceChangingGraph() {
-      const p = this.profile
-      const self = this
-
-      const completedTransactions = p.transactions.filter(
-        t => t.status == 'completed' && t.name == 'Transfer',
-      )
-
-      const transactions = {
-        BTC: completedTransactions.filter(t => t.currency == 'Bitcoin'),
-        ETH: completedTransactions.filter(t => t.currency == 'Ethereum'),
-        LTC: completedTransactions.filter(t => t.currency == 'Litecoin'),
-        USDC: completedTransactions.filter(t => t.currency == 'USD Coin'),
-      }
-
-      const data = { BTC: [], ETH: [], LTC: [], USDC: [] }
-
-      const coins = ['BTC', 'ETH', 'LTC', 'USDC']
-
-      coins.forEach(coin => {
-        let currency = self.toCurrency(coin)
-
-        transactions[coin].forEach((t, i) => {
-          if (t.type == 'received') {
-            if (i) {
-              let amount =
-                (transactions[coin][i - 1].amount + t.amount) *
-                p.wallets[currency].price
-              data[coin].push([t.at, amount])
-            } else {
-              let amount = t.amount * p.wallets[currency].price
-              data[coin].push([t.at, amount])
-            }
-          } else {
-            if (i) {
-              let amount =
-                (transactions[coin][i - 1].amount - t.amount) *
-                p.wallets[currency].price
-              data[coin].push([t.at, amount])
-            } else {
-              let amount = t.amount * p.wallets[currency].price
-              data[coin].push([t.at, -amount])
-            }
+    fetchHistory(currency, history) {
+      if (!this.transactionsHistory[currency].length) {
+        this.loading = false
+        this.detailChart.series[0].data = []
+        return
+      } else if (this.loading) return
+      this.loading = true
+      this.detailChart.series[0].data = []
+      ApiRequest.post('/wallet/balance/history', {
+        currency,
+        transactions: history[currency],
+      })
+        .then(({ data }) => {
+          this.loading = false
+          this.detailChart.series[0].data = data.chartData
+          if (this.currency != currency)
+            this.fetchHistory(this.currency, this.transactionsHistory)
+        })
+        .catch(err => {
+          if (this.currency != currency) {
+            this.fetchHistory(this.currency, this.transactionsHistory)
           }
+          console.log(err)
+        })
+    },
+    buildTransactionsHistory() {
+      const t = this
+      const p = t.profile
+
+      let transactions = _.where(p.transactions, {
+        status: 'completed',
+        name: 'Transfer',
+      })
+
+      transactions.forEach(({ currency, amount, type, at }) => {
+        t.transactionsHistory[currency.toLowerCase()].push({
+          at,
+          amount: type == 'received' ? amount : -amount,
         })
       })
 
-      data.bitcoin = [
-        [p.at, 0],
-        ...data.BTC,
-        [+new Date(), p.wallets.bitcoin.balance * p.wallets.bitcoin.price],
-      ]
-      data.ethereum = [
-        [p.at, 0],
-        ...data.ETH,
-        [+new Date(), p.wallets.ethereum.balance * p.wallets.ethereum.price],
-      ]
-      data.litecoin = [
-        [p.at, 0],
-        ...data.LTC,
-        [+new Date(), p.wallets.litecoin.balance * p.wallets.litecoin.price],
-      ]
-      data['usd coin'] = [
-        [p.at, 0],
-        ...data.USDC,
-        [
-          +new Date(),
-          p.wallets['usd coin'].balance * p.wallets['usd coin'].price,
-        ],
-      ]
-
-      if (p.wallets.bitcoin.balance) {
-        this.detailChart.series[0].data = data.bitcoin
-      }
-
-      this.historyData = data
-    },
-    toCurrency(net) {
-      return {
-        BTC: 'bitcoin',
-        LTC: 'litecoin',
-        ETH: 'ethereum',
-        USDC: 'usd coin',
-      }[net]
-    },
-    toNET(currency) {
-      return {
-        bitcoin: 'BTC',
-        litecoin: 'LTC',
-        ethereum: 'ETH',
-        'usd coin': 'USDC',
-      }[currency]
+      return t.transactionsHistory
     },
   },
   created() {
-    this.buildBalanceChangingGraph()
+    this.fetchHistory(this.currency, this.buildTransactionsHistory())
   },
 }
 </script>
@@ -267,12 +238,30 @@ export default {
 <style lang="scss" scoped>
 .portfolio-tab__balance {
   grid-area: balance;
+
+  &__content {
+    height: 375px;
+  }
+}
+
+.no-data,
+.fetching-data {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.5);
+  opacity: 0.14;
+  padding-bottom: 20rem;
+
+  svg {
+    color: white !important;
+  }
 }
 
 .detail-container {
   position: relative;
   width: calc(100% - 20px);
   height: calc(100% - 20px);
-  min-height: 375px;
 }
 </style>
