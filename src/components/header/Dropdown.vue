@@ -344,6 +344,7 @@ nav {
       cursor: pointer;
 
       &:hover {
+        transition: none;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         background: rgba(0, 81, 194, 0.8);
       }
