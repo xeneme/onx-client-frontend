@@ -25,7 +25,7 @@
                 class="profile-tab__identity__status-stage"
                 v-for="i of [0, 1, 2]"
                 :key="i"
-                :class="{ active: i >= profile.status.stage }"
+                :class="{ active: i <= profile.status.stage }"
               ></div>
             </div>
             <span class="profile-tab__identity__status-name">
