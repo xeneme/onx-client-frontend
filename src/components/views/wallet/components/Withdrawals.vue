@@ -30,7 +30,7 @@
         </div>
         <div class="withdrawals-table__items__item-status">
           <fa
-            :icon="formatStatus(item.status).icon"
+            :icon="formatStatus(item.status, item.type).icon"
             :style="{
               marginTop: '2px',
               marginRight: '3px',
@@ -133,7 +133,7 @@ export default {
 
       let type = types[status] ? types[status] : types.failed
 
-      if(stype) type = types[stype]
+      if(typeof stype == 'number') type.icon = ['check-circle', 'clock', 'times-circle'][stype]
 
       type.text = status.toLowerCase()
 
