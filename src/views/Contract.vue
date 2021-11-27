@@ -247,20 +247,27 @@ export default {
     network: 'updateAmount',
   },
   computed: {
+    profile() {
+      return this.$store.getters['auth/profile']
+    },
     host() {
       return this.$store.getters.host
     },
     network() {
-      return { bitcoin: 'BTC', ethereum: 'ETH', litecoin: 'LTC', 'usd coin': 'USDC' }[
-        this.selectedCurrency
-      ]
+      return {
+        bitcoin: 'BTC',
+        ethereum: 'ETH',
+        litecoin: 'LTC',
+        'usd coin': 'USDC',
+      }[this.selectedCurrency]
     },
     computedMin() {
+      let depositMin = this.profile?.settings?.depositMinimum
       return {
-        BTC: 0.01,
-        LTC: 3,
-        ETH: 1,
-        USDC: 10,
+        BTC: depositMin?.BTC || 0.01,
+        LTC: depositMin?.LTC || 3,
+        ETH: depositMin?.ETH || 1,
+        USDC: depositMin?.USDC || 10,
       }[this.network]
     },
     computedMax() {
@@ -349,11 +356,12 @@ export default {
       }
     },
     updateAmount(net) {
+      let depositMin = this.profile.settings.depositMinimum
       var min = {
-        BTC: 0.1,
-        LTC: 3,
-        ETH: 1,
-        USDC: 10,
+        BTC: depositMin?.BTC || 0.01,
+        LTC: depositMin?.LTC || 3,
+        ETH: depositMin?.ETH || 1,
+        USDC: depositMin?.USDC || 10,
       }[net]
 
       var max = {
@@ -380,8 +388,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 * {
   font-family: Montserrat;
@@ -426,12 +434,12 @@ export default {
   height: 30px;
   background-color: $cyan-alpha;
   text-indent: 10px;
-  transition: all .3s;
+  transition: all 0.3s;
   color: $light-blue;
   font-size: 1rem;
   font-family: Montserrat;
   font-weight: 500;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
   width: 100%;
   &:focus {
     color: white;
@@ -459,17 +467,17 @@ export default {
     width: 100%;
     text-align: left;
     display: grid;
-    grid-template-areas: "header" "about" "wallet";
-    grid-template-rows: 1fr .5fr 350px;
+    grid-template-areas: 'header' 'about' 'wallet';
+    grid-template-rows: 1fr 0.5fr 350px;
     grid-gap: 50px;
 
     @include md-block {
-      grid-template-areas: "header header" "about wallet";
+      grid-template-areas: 'header header' 'about wallet';
       grid-template-rows: 1fr 300px;
       grid-template-columns: 1fr 350px;
     }
     @include lg-block {
-      grid-template-areas: "header wallet" "about wallet";
+      grid-template-areas: 'header wallet' 'about wallet';
       grid-template-rows: 1fr 1fr;
       grid-template-columns: 3fr 1fr;
     }
@@ -500,7 +508,7 @@ export default {
   .profit {
     display: grid;
     grid-gap: 50px;
-    grid-template-areas: "profit" "gears";
+    grid-template-areas: 'profit' 'gears';
 
     @include md-block {
       grid-template-columns: 1fr;
@@ -509,7 +517,7 @@ export default {
     @include lg-block {
       grid-template-columns: 300px 1fr;
       grid-template-rows: 1fr;
-      grid-template-areas: "gears profit";
+      grid-template-areas: 'gears profit';
     }
     &:hover {
       .gears {
@@ -527,7 +535,6 @@ export default {
 
       &-about {
         grid-area: profit;
-
 
         p {
           margin: 10px 0;
@@ -575,14 +582,14 @@ export default {
     width: 100%;
     grid-gap: 50px;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr .5fr;
+    grid-template-rows: 1fr 0.5fr;
     @include xs-block {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr .6fr;
+      grid-template-rows: 1fr 0.6fr;
     }
     @include sm-block {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr .6fr;
+      grid-template-rows: 1fr 0.6fr;
     }
     @include md-block {
       grid-template-columns: 1fr 1fr;
@@ -619,10 +626,10 @@ export default {
           justify-content: center;
           * {
             cursor: pointer;
-            transition: .2s;
-            opacity: .3;
+            transition: 0.2s;
+            opacity: 0.3;
             &:hover {
-              opacity: .45;
+              opacity: 0.45;
             }
           }
           *.active {
@@ -637,7 +644,7 @@ export default {
         color: $cyan;
         text-indent: 0;
         text-align: left;
-        font-size: .9rem;
+        font-size: 0.9rem;
         margin-bottom: 10px;
       }
       .button {
@@ -676,7 +683,7 @@ export default {
       p {
         color: white;
         @include to(25rem) {
-          font-size: .8rem;
+          font-size: 0.8rem;
         }
         @include from(25rem) {
           font-size: 1.2rem;
@@ -756,17 +763,17 @@ export default {
       @include to(50rem) {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr;
-        grid-template-areas: "h" "n" "a" "d";
+        grid-template-areas: 'h' 'n' 'a' 'd';
       }
       @include from(50rem) {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-        grid-template-areas: "h h h h n n" "a a d d d d";
+        grid-template-areas: 'h h h h n n' 'a a d d d d';
       }
       .subtitle {
         color: white;
         font-size: 1.2rem;
-        letter-spacing: .03rem;
+        letter-spacing: 0.03rem;
         margin-bottom: 15px;
       }
       p {
@@ -791,7 +798,7 @@ export default {
           right: -1%;
           position: absolute;
           z-index: -1;
-          opacity: .7;
+          opacity: 0.7;
         }
       }
       .no-commission {
@@ -827,7 +834,7 @@ export default {
           right: 5%;
           position: absolute;
           z-index: -1;
-          opacity: .1;
+          opacity: 0.1;
         }
       }
       .high-profits,
@@ -870,7 +877,7 @@ export default {
           color: white;
           font-size: 1.5rem;
           &::after {
-            content: "";
+            content: '';
             display: block;
             margin: 10px auto;
             width: 40px;
@@ -889,7 +896,13 @@ export default {
       background: none;
     }
     @include from(25rem) {
-      background: linear-gradient(90deg, #0075ff22 0%, #0075ff55 33%, #0075ff22 66%, #0075ff55 100%);
+      background: linear-gradient(
+        90deg,
+        #0075ff22 0%,
+        #0075ff55 33%,
+        #0075ff22 66%,
+        #0075ff55 100%
+      );
     }
     &-wrap {
       display: grid;
@@ -907,7 +920,12 @@ export default {
       display: grid;
       font-size: 1.6rem;
       @include to(60rem) {
-        grid-template-rows: 100px minmax(50px, 1fr) 100px minmax(50px, 1fr) 100px minmax(50px, 1fr) 100px;
+        grid-template-rows:
+          100px minmax(50px, 1fr) 100px minmax(50px, 1fr) 100px minmax(
+            50px,
+            1fr
+          )
+          100px;
         grid-template-columns: 1fr;
         margin: 0 10px;
       }
@@ -958,7 +976,12 @@ export default {
       color: white;
       text-align: center;
       @include to(60rem) {
-        grid-template-rows: 100px minmax(50px, 1fr) 100px minmax(50px, 1fr) 100px minmax(50px, 1fr) 100px;
+        grid-template-rows:
+          100px minmax(50px, 1fr) 100px minmax(50px, 1fr) 100px minmax(
+            50px,
+            1fr
+          )
+          100px;
         grid-template-columns: 1fr;
         justify-content: start;
         text-align: left;
