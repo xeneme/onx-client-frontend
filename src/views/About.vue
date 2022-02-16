@@ -241,6 +241,12 @@ export default {
       },
       {
         year: 'Dec 2021',
+        desc: `Integration of the pre-sale system.`,
+        selected: false,
+        opacity: 0,
+      },
+      {
+        year: 'Dec 2022',
         desc: `IEO launch of a new exchange-traded coin on Polkadot`,
         selected: false,
         opacity: 0,
@@ -390,8 +396,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 * {
   font-family: Montserrat;
