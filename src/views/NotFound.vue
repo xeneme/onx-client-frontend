@@ -1,5 +1,5 @@
 <template>
-  <div class="not_found_page">
+  <div class="not_found">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1042 519"
@@ -131,11 +131,26 @@
       </g>
     </svg>
 
-    <div class="not_found_wrap">
+    <div class="not_found__wrap">
       <fa icon="exclamation-triangle"></fa>
       <h1>404</h1>
       <h2>Page not found</h2>
       <h3>make sure whether your query is right or not.</h3>
+      <router-link to="/" class="not_found__wrap__back">
+        <svg
+          aria-hidden="true"
+          width="32"
+          height="32"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M20 11H7.83l5.59-5.59L12 4l-8 8l8 8l1.41-1.41L7.83 13H20v-2z"
+          ></path>
+        </svg>
+        <div>Go Home</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -174,89 +189,135 @@ export default {
 }
 </script>
 
-<style lang="sass">
-@import "@/scss/_smart-grid"
-@import "@/scss/_variables"
+<style lang="scss">
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
-.not_found_page
-    margin: 0
-    padding: 0
-    width: 100vw
-    height: 100vh
-    display: grid
-    background: linear-gradient(-125deg, $blue, black)
-    display: grid
-    align-items: center
-    position: relative
-    overflow: hidden
-    justify-items: center
+.not_found {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  background: linear-gradient(-125deg, $blue, black);
+  display: grid;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  justify-items: center;
 
-    .back-network
-      position: absolute
-      height: 200vh
-      width: 200vh 
-      filter: blur(5px)
+  .back-network {
+    position: absolute;
+    height: 200vh;
+    width: 200vh;
+    filter: blur(5px);
+  }
 
-    .not_found_wrap
-      place-self: center
-      padding-bottom: 100px
-      pointer-events: none
-      z-index: 10
+  &__wrap {
+    place-self: center;
+    padding-bottom: 100px;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-      @include to(60rem)
-        width: 100vw
-      @include from(60rem)
-        width: 30vw
+    @include to(60rem) {
+      width: 100vw;
+    }
+    @include from(60rem) {
+      width: 30vw;
+    }
+    svg {
+      color: #eff;
+      color: $blue;
+      opacity: 0.6;
 
-      svg
-        color: #eff
-        color: $blue
-        opacity: .6
+      @include to(60rem) {
+        font-size: 20vw;
+      }
+      @include from(60rem) {
+        font-size: 10vw;
+      }
+    }
+    h1,
+    h2,
+    h3 {
+      font-family: Montserrat;
+      color: white;
+    }
+    h1 {
+      font-size: 10vw;
+      font-weight: 800;
+      color: $blue;
+      opacity: 0.6;
 
-        @include to(60rem)
-          font-size: 20vw
-        @include from(60rem)
-          font-size: 10vw
+      @include to(60rem) {
+        font-size: 20vw;
+        line-height: 19vw;
+      }
+      @include from(60rem) {
+        font-size: 10vw;
+        line-height: 9.5vw;
+      }
+    }
+    h2 {
+      font-size: 3vw;
+      font-weight: 800;
+      line-height: 5vw;
 
+      @include to(60rem) {
+        font-size: 6vw;
+        line-height: 10vw;
+      }
+      @include from(60rem) {
+        font-size: 3vw;
+        line-height: 5vw;
+      }
+    }
+    h3 {
+      font-weight: 400;
+      opacity: 0.5;
+      font-size: 1vw;
 
-      h1, h2, h3
-        font-family: Montserrat
-        color: white
+      @include to(60rem) {
+        font-size: 2vw;
+        letter-spacing: 0.08rem;
+      }
+      @include from(60rem) {
+        font-size: 1vw;
+        letter-spacing: 0.08rem;
+      }
+    }
+    &__back {
+      padding: 0.2em 0.5em;
+      border-radius: 0.4em;
+      color: white;
+      font-size: 1.4em;
+      display: flex;
+      align-items: center;
+      z-index: 99;
+      pointer-events: all;
+      cursor: pointer;
+      user-select: none;
+      border: 2px transparent solid;
+      gap: 0.3em;
+      margin-top: 1em;
+      text-decoration: none;
 
-      h1
-        font-size: 10vw
-        font-weight: 800
-        color: $blue
-        opacity: .6
+      svg {
+        color: white;
+        opacity: 0.3;
+      }
 
-        @include to(60rem)
-          font-size: 20vw
-          line-height: 19vw
-        @include from(60rem)
-          font-size: 10vw
-          line-height: 9.5vw
+      &:hover {
+        background-color: #ffffff22;
+      }
 
-      h2
-        font-size: 3vw
-        font-weight: 800
-        line-height: 5vw
-
-        @include to(60rem)
-          font-size: 6vw
-          line-height: 10vw
-        @include from(60rem)
-          font-size: 3vw
-          line-height: 5vw
-
-      h3
-        font-weight: 400
-        opacity: .5
-        font-size: 1vw
-
-        @include to(60rem)
-          font-size: 2vw
-          letter-spacing: 0.08rem
-        @include from(60rem)
-          font-size: 1vw
-          letter-spacing: 0.08rem
+      &:active {
+        border: 2px #ffffff44 solid;
+      }
+    }
+  }
+}
 </style>
