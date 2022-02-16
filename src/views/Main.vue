@@ -281,9 +281,9 @@ export default {
 
     &__title
       font-weight: bold
-      -webkit-text-stroke: 1px $cyan
+      // -webkit-text-stroke: 1px $cyan
       font-family: Montserrat
-      text-shadow: $cyan 2px 2px
+      text-shadow: $cyan 4px 4px, $cyan 2px 2px, $light-blue 1px 1px 10px, $cyan 3px 3px 5px
       margin-bottom: 2vh
       font-size: 2.8rem
 
