@@ -57,6 +57,7 @@ import { mapGetters } from 'vuex'
 import Button from './Button.vue'
 import InputWorm from './InputWorm.vue'
 import AuthInput from './AuthInput'
+import Axios from '@/services/apiRequest'
 
 export default {
   name: 'SignInForm',
@@ -104,8 +105,8 @@ export default {
     login() {
       this.loading()
 
-      this.axios
-        .post('/api/auth/signin', {
+      Axios
+        .post('/auth/signin', {
           email: this.topInputValue,
           password: this.bottomInputValue,
         })
@@ -146,8 +147,8 @@ export default {
     },
     twoFaLogin() {
       this.loading()
-      this.axios
-        .post('/api/auth/signin', {
+      Axios
+        .post('/auth/signin', {
           email: this.localstore.email,
           password: this.localstore.password,
           twofa: this.topInputValue,
@@ -380,7 +381,8 @@ export default {
 
     &__close
       position: absolute
-      height: 100%
+      height: 60%
+      transform: translateY(30%)
       margin-right: 20px
       justify-self: end
       color: #0075ff

@@ -6,7 +6,6 @@ import store from './store'
 
 import './services/polyfills'
 import './services/registration/globalComponents'
-// import './services/ws'
 
 Vue.config.productionTip = false
 

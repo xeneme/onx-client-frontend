@@ -4,7 +4,7 @@
     <div :class="['container', viewLoaded ? 'loaded' : '']">
       <rates-card />
       <place-order-card />
-      <live-orders-card :orders="orders" />
+      <live-orders-card  />
       <orders-card />
       <trading-chart-card :history="history" />
     </div>
@@ -40,27 +40,29 @@ export default {
     }
   },
   data: () => ({
-    orders: {},
-    history: {},
-    currency: 'BTC',
-    currencies: ['BTC', 'ETH', 'LTC', 'LINK', 'DOT', 'XRP'],
+    // history: {},
+    currencies: ['BTC', 'ETH', 'LTC', 'XRP'],
     rates: {},
     viewLoaded: true,
-    ws: new WebSocket('wss://wsapi.cryptobuyer.io/openapi/quote/ws/v1'),
+    // ws: new WebSocket('wss://wsapi.cryptobuyer.io/openapi/quote/ws/v1'),
   }),
   computed: {
     ...mapGetters({
       host: 'host',
       profile: 'auth/profile',
       socket: 'auth/socket',
+      history: 'trading/history',
     }),
+    symbol() {
+      return this.$store.state.trading.symbol
+    },
     lobby() {
       return this.profile ? this.profile.lobby : 'total'
     },
   },
   methods: {
     getCoinRate(NET) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const pending = []
 
         pending.push(
@@ -89,7 +91,7 @@ export default {
     async updateCurrencies() {
       if (this.$route.name != 'Trading') return
 
-      var pending = this.currencies.map(c => this.getCoinRate(c))
+      var pending = this.currencies.map((c) => this.getCoinRate(c))
 
       for await (let p of pending) {
         if (!p || !p.price) continue
@@ -97,76 +99,66 @@ export default {
         this.rates[p.NET] = p
       }
 
-      let title = `${this.rates[this.currency].price} (${
-        this.currency
-      }/USD) | ${this.host} - Trading`
+      let title = `${this.rates[this.symbol].price} (${this.symbol}/USD) | ${
+        this.host
+      } - Trading`
 
       this.$store.commit('SET_TITLE', title)
 
       setTimeout(this.updateCurrencies, 20000)
     },
     changeCurrency(net) {
-      this.currency = net
-      let title = `${this.rates[this.currency].price} (${
-        this.currency
-      }/USD) | ${this.host} - Trading`
+      this.symbol = net
+      let title = `${this.rates[this.symbol].price} (${this.symbol}/USD) | ${
+        this.host
+      } - Trading`
       this.$store.commit('SET_TITLE', title)
     },
     // for vanila WS
     subscribeTicker() {
-      const ws = this.ws
-      ws.onopen = () => {
-        ws.send(
-          JSON.stringify({
-            symbol: 'BTCUSDT',
-            topic: 'realtimes',
-            event: 'sub',
-            interval: '1m',
-            params: {
-              binary: false,
-            },
-          }),
-        )
-      }
-
-      const t = this
-
-      ws.onmessage = function(msg) {
-        t.history = {
-          BTC: {
-            '1h': [
-              [+new Date() - 30000 * 1000, +JSON.parse(msg.data).data[0]],
-              [+new Date() - 60000 * 1000, 20000],
-              [+new Date() - 60000 * 2 * 1000, 13000],
-              [+new Date() - 60000 * 3 * 1000, 20000],
-              [+new Date() - 60000 * 4 * 1000, 10000],
-            ],
-          },
-        }
-      }
+      // const ws = this.ws
+      // ws.onopen = () => {
+      // ws.send(
+      // JSON.stringify({
+      // symbol: 'BTCUSDT',
+      // topic: 'realtimes',
+      // event: 'sub',
+      // interval: '1m',
+      // params: {
+      // binary: false,
+      // },
+      // }),
+      // )
+      // }
+      // const t = this
+      // ws.onmessage = function(msg) {
+      // t.history = {
+      // BTC: {
+      // '1h': [
+      // [+new Date() - 30000 * 1000, +JSON.parse(msg.data).data[0]],
+      // [+new Date() - 60000 * 1000, 20000],
+      // [+new Date() - 60000 * 2 * 1000, 13000],
+      // [+new Date() - 60000 * 3 * 1000, 20000],
+      // [+new Date() - 60000 * 4 * 1000, 10000],
+      // ],
+      // },
+      // }
+      // }
     },
   },
   mounted() {
     this.updateCurrencies()
 
-    this.$root.$on('change-currency', this.changeCurrency)
+    // this.socket.on('update-history', data => {
+    // if (this.lobby == data.lobby) {
+    // this.$store.dispatch('preloader/startAfterLoading')
+    // this.history = data.history
+    // }
+    // })
 
-    this.socket.on('update-orders', orders => {
-      this.orders = orders
-    })
-
-    this.socket.on('update-history', data => {
-      if (this.lobby == data.lobby) {
-        this.$store.dispatch('preloader/startAfterLoading')
-        this.history = data.history
-      }
-    })
-
+    this.$store.dispatch('preloader/startAfterLoading')
     // this.$store.dispatch('preloader/startAfterLoading') // for vanila WS
     // this.subscribeTicker()
-  },
-  destroyed() {
-    this.$root.$off('change-currency', this.changeCurrency)
   },
 }
 </script>

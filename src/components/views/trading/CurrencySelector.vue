@@ -1,9 +1,15 @@
 <template>
   <div class="currency-selector">
-    <div @click="toggleDropdown" :class="['currency-selector__current', ['', 'active'][+dropdown]]">
+    <div
+      @click="toggleDropdown"
+      :class="['currency-selector__current', ['', 'active'][+dropdown]]"
+    >
       <Icon :icon="['currency__icon', current]" />
     </div>
-    <div ref="dd" :class="['currency-selector__dropdown', dropdown ? 'active' : '']">
+    <div
+      ref="dd"
+      :class="['currency-selector__dropdown', dropdown ? 'active' : '']"
+    >
       <div
         v-for="(currency, i) in currencies"
         :key="i"
@@ -25,18 +31,11 @@ export default {
   data: () => ({
     current: 'bitcoin',
     dropdown: false,
-    currencies: [
-      'bitcoin',
-      'ethereum',
-      'litecoin',
-      'ripple',
-      'chainlink',
-      'polkadot',
-    ],
+    currencies: ['bitcoin', 'ethereum', 'litecoin', 'ripple'],
   }),
   watch: {
     dropdown(v) {
-      if(v) {
+      if (v) {
         this.dropdownVisibility(true)
       } else {
         setTimeout(() => {
@@ -45,15 +44,13 @@ export default {
       }
     },
     current(v) {
-      this.$root.$emit(
-        'change-currency',
+      this.$store.dispatch(
+        'trading/setSymbol',
         {
           bitcoin: 'BTC',
           ethereum: 'ETH',
           litecoin: 'LTC',
           ripple: 'XRP',
-          chainlink: 'LINK',
-          polkadot: 'DOT',
         }[v],
       )
     },
@@ -68,10 +65,10 @@ export default {
     },
     dropdownVisibility(b) {
       this.$refs.dd.style.display = b ? 'block' : 'none'
-    }
+    },
   },
   mounted() {
-    document.addEventListener('mouseup', e => {
+    document.addEventListener('mouseup', (e) => {
       if (!e.target.classList.contains('currency-selector__dropdown__coin')) {
         this.dropdown = false
       }
@@ -81,8 +78,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 @keyframes flip {
   from {
@@ -112,7 +109,8 @@ export default {
     box-shadow: inset 0 0px 10px $cyan-alpha;
     border: 1px solid transparent;
 
-    &:hover, &.active {
+    &:hover,
+    &.active {
       border: 1px solid $cyan;
       box-shadow: inset 0 0px 10px $cyan;
     }
@@ -129,7 +127,7 @@ export default {
 
       .currency__icon {
         animation: flip 1.5s ease-in-out infinite;
-        animation-delay: .5s;
+        animation-delay: 0.5s;
       }
     }
 

@@ -490,14 +490,17 @@ $mobile: 55rem
       margin-right: 10px
     &-close
       position: absolute
-      height: 100%
-      right: 20px
+      right: .2rem
+      height: 40%
       justify-self: end
       color: #0075ff
       cursor: pointer
       font-size: 1.1rem
+      padding: .8rem .9rem
+      border-radius: .3rem
 
       &:hover
+        background-color: #ffffff11
         color: white
     &-text
       color: white

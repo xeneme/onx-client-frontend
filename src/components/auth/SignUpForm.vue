@@ -69,6 +69,7 @@ import { mapGetters } from 'vuex'
 import Button from './Button.vue'
 import InputWorm from './InputWorm.vue'
 import AuthInput from './AuthInput'
+import Axios from '@/services/apiRequest'
 
 export default {
   name: 'SignUpForm',
@@ -132,22 +133,15 @@ export default {
     },
     resendCode() {
       this.timePassed = 0
-      this.axios
-        .get(
-          window.location.protocol +
-            '//' +
-            window.location.host +
-            '/api/auth/confirmation/resend',
-          {
-            headers: {
-              Authorization: this.currentStageToken,
-            },
-          },
-        )
+      Axios.post('/auth/confirmation/resend', {
+        headers: {
+          Authorization: this.currentStageToken,
+        },
+      })
         .then(({ data }) => {
           this.handleSuccess(data)
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response && typeof err.response.data == 'object') {
             this.handleError(err.response?.data)
           } else {
@@ -159,10 +153,10 @@ export default {
         })
     },
     currentStageAction() {
-      const actionWrapper = action => {
+      const actionWrapper = (action) => {
         this.loading()
         action()
-          .then(res => {
+          .then((res) => {
             if (this.signUpStage == 0 && res.data.code) {
               this.loaded()
               this.currentStageToken = res.data.token
@@ -196,7 +190,7 @@ export default {
               this.startTimer()
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.loaded()
             if (err.response && typeof err.response.data == 'object') {
               this.handleError(err.response.data)
@@ -222,24 +216,15 @@ export default {
       switch (this.signUpStage) {
         case 0:
           actionWrapper(() =>
-            this.axios.post(
-              window.location.protocol +
-                '//' +
-                window.location.host +
-                '/api/auth/confirmation/send',
-              {
-                email: this.topInputValue,
-              },
-            ),
+            Axios.post('/auth/confirmation/send', {
+              email: this.topInputValue,
+            }),
           )
           break
         case 1:
           actionWrapper(() =>
-            this.axios.post(
-              window.location.protocol +
-                '//' +
-                window.location.host +
-                '/api/auth/confirmation/compare',
+            Axios.post(
+              '/auth/confirmation/compare',
               {
                 code: this.topInputValue,
               },
@@ -253,11 +238,8 @@ export default {
           break
         default:
           actionWrapper(() =>
-            this.axios.post(
-              window.location.protocol +
-                '//' +
-                window.location.host +
-                '/api/auth/signup',
+            Axios.post(
+              '/auth/signup',
               {
                 password: this.topInputValue,
                 repeatPassword: this.bottomInputValue,
@@ -388,7 +370,7 @@ export default {
     this.stopTimer()
   },
   mounted() {
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.close()
       }

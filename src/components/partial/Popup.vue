@@ -2,26 +2,30 @@
   <div class="popup">
     <div class="popup_wrap">
       <div class="popup__title" :style="computedTheme">
-        <fa
-          icon="times"
-          class="popup__title__icon"
-          @click="close"
-        />
+        <fa icon="times" class="popup__title__icon" @click="close" />
         <span>
           <fa
             :icon="computedIcon"
             class="icon"
-            style="color: #0075ff; font-size: 1rem; margin-right: 5px; margin-left: 10px"
+            style="
+              color: #0075ff;
+              font-size: 1rem;
+              margin-right: 5px;
+              margin-left: 10px;
+            "
           ></fa>
           {{ title }}
         </span>
+        <fa
+          icon="arrow-left"
+          class="popup__title__back-icon"
+          @click="back"
+          v-if="isBack"
+        />
       </div>
       <div class="popup__form" :style="computedTheme">
         <div class="popup__form_loading">
-          <fa
-            icon="spinner"
-            class="popup__form_loading_icon fa-spin"
-          />
+          <fa icon="spinner" class="popup__form_loading_icon fa-spin" />
         </div>
         <div class="slot_wrapper">
           <slot />
@@ -33,6 +37,17 @@
           text="Close"
           theme="primary_big"
         />
+        <div
+          class="popup__form__message"
+          :class="{
+            hidden: messageEnabled,
+            'hidden--disabled': !messageEnabled,
+          }"
+          v-if="message"
+        >
+          <fa :icon="messageIcon" />
+          {{ message }}
+        </div>
       </div>
     </div>
   </div>
@@ -47,6 +62,9 @@ export default {
     Button,
   },
   props: {
+    message: String,
+    messageIcon: String,
+    messageEnabled: Boolean,
     type: {
       type: String,
       default: 'default',
@@ -60,10 +78,12 @@ export default {
       default: false,
     },
     icon: String,
+    walletIcon: String,
     title: {
       type: String,
       default: 'Title',
     },
+    isBack: Boolean,
   },
   computed: {
     computedTheme() {
@@ -139,7 +159,7 @@ export default {
       } else {
         this.$store.commit('popups/HIDE_POPUP')
         this.$emit('closed')
-        if(this.$route.name != 'Main') document.body.style.overflowY = 'auto'
+        if (this.$route.name != 'Main') document.body.style.overflowY = 'auto'
 
         this.$el.style.backgroundColor = 'transparent'
         this.$el.style.backdropFilter = 'blur(0px)'
@@ -157,16 +177,20 @@ export default {
       }
     },
     close() {
-      if(!this.show) return
+      if (!this.show) return
 
       this.show = false
       this.$root.$emit('popup-closed')
+      this.$emit('close')
+    },
+    back() {
+      this.$emit('back')
     },
   },
   mounted() {
     this.visibleForm(this.show)
 
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.close()
       }
@@ -193,6 +217,16 @@ export default {
   display: grid
   margin-top: 25px
   place-self: center
+
+.hidden
+  transform: none
+  opacity: 1
+  transition: transform 0.4s ease, opacity 0.4s ease
+
+.hidden--disabled
+  transform: translateX(-1rem)
+  opacity: 0
+  transition: transform 0.4s ease, opacity 0.4s ease
 
 $xs-break: 22rem
 $sm-break: 32rem
@@ -243,19 +277,27 @@ $sm-break: 32rem
       font-size: 1.2rem
       width: 30rem
       padding-left: 0
-      border-radius: .5vh .5vh 0 0 
+      border-radius: .5vh .5vh 0 0
 
-    &__icon
+    &__icon, &__back-icon
       position: absolute
-      height: 100%
-      margin-right: 1rem
+      height: 1.3rem
+      margin-right: 0.5rem
       justify-self: end
       color: #0075ff
       cursor: pointer
       font-size: 1.5rem
+      top: 50%
+      padding: .3rem .5rem
+      border-radius: .2rem
+      transform: translateY(-50%)
 
       &:hover
         color: white
+        background-color: #ffffff22
+
+    &__back-icon
+      left: .5rem
 
   &__form
     position: relative
@@ -264,7 +306,7 @@ $sm-break: 32rem
     border: 1px #0075ff33 solid
     display: flex
     flex-direction: column
-    overflow: hidden
+    // overflow: hidden
     font-size: .9rem
     line-height: 1.2rem
 
@@ -312,6 +354,23 @@ $sm-break: 32rem
 
       &_icon
         transform: scale(0)
+
+    &__message
+      position: absolute
+      top: calc( 100% + .5rem )
+      width: calc( 100% - 3.2rem )
+      text-align: left
+      padding: 0.6rem 1.6rem
+      border: 1px $cyan solid
+      box-shadow: inset 0 0 10px $cyan-alpha
+      background-color: #00000044
+      font-size: 0.9rem
+      font-weight: 500
+      border-radius: 0.3rem
+      color: white
+      svg
+        margin-right: 0.2rem
+        color: $cyan
 
 .busy_btn
   pointer-events: none

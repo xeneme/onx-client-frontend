@@ -21,6 +21,8 @@ router.beforeEach((to, from, next) => {
 
   if (to.name == 'Terms') {
     setTerms()
+  } else if (to.name == 'Trading') {
+    store.dispatch('trading/disconnect')
   } else if (to.name != 'Main') {
     document.body.style.overflowY = 'auto'
   } else {
@@ -67,6 +69,10 @@ router.beforeResolve((to, from, next) => {
     } else {
       authorize(to, next, router)
     }
+  }
+
+  if (to.name == 'Trading') {
+    store.dispatch('trading/connect')
   }
 
   store.dispatch('auth/afterLogout')

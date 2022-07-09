@@ -6,8 +6,18 @@
     <price-block :main="change24" secondary="24h Change" flip />
     <price-block class="on-half-width" :main="high" secondary="24h High" flip />
     <price-block class="on-half-width" :main="low" secondary="24h Low" flip />
-    <price-block class="on-half-width" :main="coinVolume" secondary=" 24h Volume (BTC)" flip />
-    <price-block class="on-half-width" :main="usdVolume" secondary=" 24h Volume (USD)" flip />
+    <price-block
+      class="on-half-width"
+      :main="coinVolume"
+      secondary=" 24h Volume (BTC)"
+      flip
+    />
+    <price-block
+      class="on-half-width"
+      :main="usdVolume"
+      secondary=" 24h Volume (USD)"
+      flip
+    />
   </card>
 </template>
 
@@ -21,44 +31,43 @@ export default {
   inject: ['rates'],
   components: { Card, CurrencySelector, PriceBlock },
   data: () => ({
-    currency: '',
     reactiveRates: {},
   }),
   computed: {
     ratesLoaded() {
-      return !!this.reactiveRates[this.currency]
+      return !!this.reactiveRates[this.symbol]
     },
     price() {
-      return this.ratesLoaded ? this.reactiveRates[this.currency].price : '0.00'
+      return this.ratesLoaded ? this.reactiveRates[this.symbol].price : '0.00'
     },
     change24() {
-      return this.ratesLoaded ? this.reactiveRates[this.currency].change : '0.00'
+      return this.ratesLoaded ? this.reactiveRates[this.symbol].change : '0.00'
     },
     high() {
       return this.ratesLoaded
-        ? this.reactiveRates[this.currency].display.HIGH24HOUR
+        ? this.reactiveRates[this.symbol].display.HIGH24HOUR
         : '0.00'
     },
     low() {
       return this.ratesLoaded
-        ? this.reactiveRates[this.currency].display.LOW24HOUR
+        ? this.reactiveRates[this.symbol].display.LOW24HOUR
         : '0.00'
     },
     coinVolume() {
       return this.ratesLoaded
-        ? this.reactiveRates[this.currency].raw.VOLUME24HOUR.toFixed(2)
+        ? this.reactiveRates[this.symbol].raw.VOLUME24HOUR.toFixed(2)
         : '0.00'
     },
     usdVolume() {
       return this.ratesLoaded
-        ? this.reactiveRates[this.currency].raw.VOLUME24HOURTO.toFixed(2)
+        ? this.reactiveRates[this.symbol].raw.VOLUME24HOURTO.toFixed(2)
         : '0.00'
+    },
+    symbol() {
+      return this.$store.state.trading.symbol
     },
   },
   methods: {
-    changeCurrency(net) {
-      this.currency = net
-    },
     updateRates() {
       this.reactiveRates = { ...this.rates }
       setTimeout(this.updateRates, 1000)
@@ -66,17 +75,13 @@ export default {
   },
   mounted() {
     this.updateRates()
-    this.$root.$on('change-currency', this.changeCurrency)
-  },
-  destroyed() {
-    this.$root.$off('change-currency', this.changeCurrency)
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 .rates-order {
   grid-area: rates;

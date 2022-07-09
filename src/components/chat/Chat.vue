@@ -166,7 +166,7 @@ export default {
     ...mapGetters({
       profile: 'auth/profile',
       token: 'auth/token',
-      // socket: 'auth/socket',
+      socket: 'auth/socket',
       supportMessages: 'auth/messages',
       itsAdmin: 'auth/itsAdmin',
       support: 'popups/supportVisibility',

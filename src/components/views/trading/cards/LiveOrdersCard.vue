@@ -8,14 +8,14 @@
     <div class="live-orders-card_all">
       <div
         class="live-orders-card_all_order"
-        v-for="order in orders[symbol]"
+        v-for="order in orders"
         :key="hash(order)"
       >
         <div :class="['live-orders-card_all_order-price', order.action]">
           {{ order.price }}
         </div>
         <div class="live-orders-card_all_order-amount">{{ order.amount }}</div>
-        <div class="live-orders-card_all_order-time">{{ order.time }}</div>
+        <div class="live-orders-card_all_order-time">{{ formatDate(order.ts) }}</div>
       </div>
     </div>
     <div class="divider"></div>
@@ -23,34 +23,33 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Card from '../Card'
 
 export default {
   name: 'live-orders-card',
   components: { Card },
   inject: ['rates'],
-  props: ['orders'],
-  data: () => ({
-    symbol: 'BTC',
-  }),
-  methods: {
-    hash: require('object-hash'),
-    changeCurrency(net) {
-      this.symbol = net
+  computed: {
+    symbol() {
+      return this.$store.state.trading.symbol
+    },
+    orders() {
+      return this.$store.state.trading.orderBook || []
     },
   },
-  mounted() {
-    this.$root.$on('change-currency', this.changeCurrency)
-  },
-  destroyed() {
-    this.$root.$off('change-currency', this.changeCurrency)
+  methods: {
+    formatDate(ts) {
+      return moment(ts).format('HH:mm:SS')
+    },
+    hash: require('object-hash'),
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 .live-orders-card {
   grid-area: live-orders;

@@ -25,7 +25,7 @@ import Card from '../Card'
 
 import Highcharts from 'highcharts'
 
-var currentNetwork = 'BTC'
+var currentSymbol = 'BTC'
 
 Highcharts.setOptions({
   time: {
@@ -141,13 +141,13 @@ export default {
           },
         ],
         tooltip: {
-          positioner: function() {
+          positioner: function () {
             return {
               x: this.chart.chartWidth - this.label.width - 20,
               y: 30,
             }
           },
-          formatter: function() {
+          formatter: function () {
             var point = this.points[0]
             return (
               '<b>' +
@@ -155,7 +155,7 @@ export default {
               '</b><br/>' +
               Highcharts.dateFormat('%A %B %e %Y', this.x) +
               ':<br/>' +
-              `1 ${currentNetwork} = ` +
+              `1 ${currentSymbol} = ` +
               Highcharts.numberFormat(point.y, 2) +
               ' USD'
             )
@@ -171,32 +171,37 @@ export default {
           color: '#ffffff',
         },
       },
-      currency: 'BTC',
-      range: '1h',
-      ranges: ['1h', '1d', '1w', '1m', '3m', '1y', 'all'],
+      ranges: ['15m', '1H', '1D', '5D', '1M', '3M', '6M', '1Y', '5Y', 'All'],
     }
+  },
+  computed: {
+    symbol() {
+      return this.$store.state.trading.symbol
+    },
+    range() {
+      return this.$store.state.trading.range
+    },
   },
   watch: {
     history: {
       handler(v) {
-        this.detailChart.series[0].data = this.getRange(v)
+        this.detailChart.series[0].data = v
       },
       immediate: true,
     },
-    currency(v) {
-      currentNetwork = v
+    symbol(v) {
+      currentSymbol = v
       this.$refs.pulse.classList.remove('animated')
       setTimeout(() => {
         this.$refs.pulse.classList.add('animated')
       }, 1000)
-      this.detailChart.series[0].data = this.getRange(this.history)
+      this.detailChart.series[0].data = this.history
       this.detailChart.title.text = `${this.toCurrency(v)} (${v}/USD)`
     },
   },
   methods: {
     setRange(v) {
-      this.range = v
-      this.detailChart.series[0].data = this.getRange(this.history)
+      this.$store.dispatch('trading/setRange', v)
     },
     toCurrency(net) {
       return {
@@ -208,27 +213,14 @@ export default {
         XRP: 'Ripple',
       }[net]
     },
-    getRange(history) {
-      return history[this.currency] ? history[this.currency][this.range] : []
-    },
-    changeCurrency(c) {
-      this.currency = c
-    },
   },
   created() {},
-  mounted() {
-    this.$root.$emit('change-currency', 'BTC')
-    this.$root.$on('change-currency', this.changeCurrency)
-  },
-  destroyed() {
-    this.$root.$off('change-currency', this.changeCurrency)
-  },
 }
 </script>
 
 <style lang="scss">
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 .detail-container {
   position: relative;

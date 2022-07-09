@@ -142,7 +142,7 @@ export default {
       opacity: 0.5;
       margin-left: 5px;
       transform: scale(1.3);
-      height: calc(100% - 15px);
+      // height: calc(100% - 15px);
     }
     &__default {
       opacity: 0.5;

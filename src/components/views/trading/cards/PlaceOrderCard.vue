@@ -1,9 +1,7 @@
 <template>
   <card class="place-order-card">
     <div class="header">
-      <h4 class="title">
-        Place Order
-      </h4>
+      <h4 class="title">Place Order</h4>
       <div class="options">
         <fa icon="ellipsis-v" />
       </div>
@@ -27,9 +25,7 @@
     <trade-denied :loggedIn="isLoggedIn" attention />
     <div class="divider"></div>
     <div class="header" v-if="isLoggedIn">
-      <h4 class="title">
-        Assets
-      </h4>
+      <h4 class="title">Assets</h4>
     </div>
     <div class="assets" v-if="isLoggedIn">
       <a href="/wallet#deposit">Deposit</a>
@@ -69,11 +65,13 @@ export default {
         ETH: 'ethereum',
         LTC: 'litecoin',
         USDC: 'usd coin',
-      }[this.currency]
+      }[this.symbol]
 
       if (!c) return '0.00 USD'
-      else
-        return this.profile.wallets[c].balance.toFixed(5) + ' ' + this.currency
+      else return this.profile.wallets[c].balance.toFixed(5) + ' ' + this.symbol
+    },
+    symbol() {
+      return this.$store.state.trading.symbol
     },
   },
   data: () => ({
@@ -97,22 +95,12 @@ export default {
         // },
       },
     ],
-    currency: 'BTC',
     tab: 'Limit',
   }),
   methods: {
-    changeCurrency(net) {
-      this.currency = net
-    },
     tabChanged(e) {
       this.tab = e
     },
-  },
-  mounted() {
-    this.$root.$on('change-currency', this.changeCurrency)
-  },
-  destroyed() {
-    this.$root.$off('change-currency', this.changeCurrency)
   },
 }
 </script>
