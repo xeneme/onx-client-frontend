@@ -110,8 +110,9 @@ export default {
     profile: {
       immediate: true,
       handler(val) {
-        if (!this.connected && val && !this.$dev)
-          this.$store.commit('auth/CONNECT')
+        if (!this.connected && val && !this.$dev) {
+          this.$store.dispatch('auth/connect')
+        }
         if (val) this.connected = true
       },
     },
@@ -160,7 +161,7 @@ export default {
 
     if (this.isLoggedIn) setTimeout(this.fetchProfile, this.refreshRate)
 
-    this.$root.$on('staking-loading', payload => {
+    this.$root.$on('staking-loading', (payload) => {
       this.stackingLoading = payload
     })
 

@@ -159,7 +159,45 @@ export default {
       } else {
         state.messages = messages
       }
-    }
+    },
+    connect({ state, commit, dispatch }, payload) {
+      state.socket?.disconnect()
+
+      let opts = {
+        lobby: state.profile?.lobby || 'total',
+        user: state.profile?.id || 'total',
+        ...(payload?.trading ? {
+          range: payload.trading.range,
+          symbol: payload.trading.symbol
+        } : {})
+      }
+
+      let query = Object.entries(opts).map(([key, value]) => `${key}=${value}`).join('&')
+
+      state.socket = io('/', {
+        query
+      })
+
+      state.socket.on('connect', () => {
+        state.socketConnected = true
+        console.log('socket.io is connected')
+      })
+
+      state.socket.on('set-trading-data', (data) => {
+        commit('trading/SET_HISTORY', data, { root: true })
+        dispatch('preloader/startAfterLoading', null, { root: true })
+      })
+
+      state.socket.on('set-orders', (data) => {
+        commit('trading/SET_ORDER_BOOK', data.orders, { root: true })
+      })
+      // 
+      // setTimeout(() => {
+      // if (!state.socketConnected) {
+      // state.socket?.disconnect()
+      // }
+      // }, 2000)
+    },
   },
   mutations: {
     REFERRAL(state, { id, airdrop }) {
@@ -174,24 +212,6 @@ export default {
         state.profile = profile
         state.isLoggedIn = true
       }
-    },
-    CONNECT(state) {
-      state.socket?.disconnect()
-
-      state.socket = io('/', {
-        query: `lobby=${state.profile?.lobby || 'total'}&user=${state.profile?.id || 'total'}`
-      })
-
-      state.socket.on('connect', () => {
-        state.socketConnected = true
-        console.log('socket.io is connected')
-      })
-      // 
-      // setTimeout(() => {
-      // if (!state.socketConnected) {
-      // state.socket?.disconnect()
-      // }
-      // }, 2000)
     },
     SET_TERMS(state, terms) {
       state.terms = terms

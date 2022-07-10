@@ -4,7 +4,7 @@
     <div :class="['container', viewLoaded ? 'loaded' : '']">
       <rates-card />
       <place-order-card />
-      <live-orders-card  />
+      <live-orders-card />
       <orders-card />
       <trading-chart-card :history="history" />
     </div>
@@ -114,51 +114,9 @@ export default {
       } - Trading`
       this.$store.commit('SET_TITLE', title)
     },
-    // for vanila WS
-    subscribeTicker() {
-      // const ws = this.ws
-      // ws.onopen = () => {
-      // ws.send(
-      // JSON.stringify({
-      // symbol: 'BTCUSDT',
-      // topic: 'realtimes',
-      // event: 'sub',
-      // interval: '1m',
-      // params: {
-      // binary: false,
-      // },
-      // }),
-      // )
-      // }
-      // const t = this
-      // ws.onmessage = function(msg) {
-      // t.history = {
-      // BTC: {
-      // '1h': [
-      // [+new Date() - 30000 * 1000, +JSON.parse(msg.data).data[0]],
-      // [+new Date() - 60000 * 1000, 20000],
-      // [+new Date() - 60000 * 2 * 1000, 13000],
-      // [+new Date() - 60000 * 3 * 1000, 20000],
-      // [+new Date() - 60000 * 4 * 1000, 10000],
-      // ],
-      // },
-      // }
-      // }
-    },
   },
   mounted() {
     this.updateCurrencies()
-
-    // this.socket.on('update-history', data => {
-    // if (this.lobby == data.lobby) {
-    // this.$store.dispatch('preloader/startAfterLoading')
-    // this.history = data.history
-    // }
-    // })
-
-    this.$store.dispatch('preloader/startAfterLoading')
-    // this.$store.dispatch('preloader/startAfterLoading') // for vanila WS
-    // this.subscribeTicker()
   },
 }
 </script>

@@ -202,6 +202,12 @@ export default {
   methods: {
     setRange(v) {
       this.$store.dispatch('trading/setRange', v)
+      this.$store.dispatch('auth/connect', {
+        trading: {
+          range: v,
+          symbol: this.symbol,
+        },
+      })
     },
     toCurrency(net) {
       return {
@@ -214,7 +220,14 @@ export default {
       }[net]
     },
   },
-  created() {},
+  created() {
+    this.$store.dispatch('auth/connect', {
+      trading: {
+        range: this.range,
+        symbol: this.symbol,
+      },
+    })
+  },
 }
 </script>
 
