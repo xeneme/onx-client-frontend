@@ -93,7 +93,8 @@ export default {
 
       var pending = this.currencies.map((c) => this.getCoinRate(c))
 
-      for await (let p of pending) {
+      for (let p of pending) {
+        p = await p
         if (!p || !p.price) continue
         p.price = p.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         this.rates[p.NET] = p

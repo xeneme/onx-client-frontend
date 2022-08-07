@@ -2,6 +2,10 @@ import router from '../../router'
 
 import { io } from "socket.io-client";
 import axios from 'axios'
+import showdown from 'showdown'
+import cfg from '../../services/config'
+
+const converter = new showdown.Converter()
 
 const findTransactions = (ts, name) => {
   if (!ts) return []
@@ -214,6 +218,12 @@ export default {
       }
     },
     SET_TERMS(state, terms) {
+      if (terms && !terms.match('class=')) {
+        terms = converter.makeHtml(terms)
+      }
+
+      terms = terms.replaceAll('Coinbtz', cfg.getHostCase(window.location.host))
+
       state.terms = terms
     },
     SET_MESSAGES(state, messages) {

@@ -204,15 +204,15 @@ export default {
 
         const t = this
 
-        this.socket.on('set-general-messages', messages => {
-          if (messages?.length) t.messages = messages
-          t.scrollToBottom()
-        })
+        // this.socket.on('set-general-messages', messages => {
+        // if (messages?.length) t.messages = messages
+        // t.scrollToBottom()
+        // })
 
-        this.socket.on('general-message', message => {
-          t.messages.push(message)
-          t.scrollToBottom()
-        })
+        // this.socket.on('general-message', message => {
+        // t.messages.push(message)
+        // t.scrollToBottom()
+        // })
 
         this.socket.on('support-message', message => {
           t.$store.commit('auth/NEW_MESSAGE', message)
@@ -305,29 +305,29 @@ export default {
       this.focus()
     },
     sendSupport(payload) {
-      if (this.connected) {
-        this.socket.emit('support-message', payload)
-      } else {
-        const message = {
-          text: payload.message,
-          date: null,
-          yours: false,
-        }
-
-        this.$store.commit('auth/NEW_MESSAGE', message)
-
-        this.scrollToBottom(true)
-
-        axios
-          .post('/api/user/support', payload, {
-            headers: {
-              Authorization: localStorage.getItem('auth-token'),
-            },
-          })
-          .then(({ data }) => {
-            message.date = data.date
-          })
+      // if (this.connected) {
+      // this.socket.emit('support-message', payload)
+      // } else {
+      const message = {
+        text: payload.message,
+        date: null,
+        yours: false,
       }
+
+      this.$store.commit('auth/NEW_MESSAGE', message)
+
+      this.scrollToBottom(true)
+
+      axios
+        .post('/api/user/support', payload, {
+          headers: {
+            Authorization: localStorage.getItem('auth-token'),
+          },
+        })
+        .then(({ data }) => {
+          message.date = data.date
+        })
+      // }
     },
     sendGeneral(payload) {
       if (this.connected) {
@@ -458,13 +458,17 @@ export default {
     },
     reachedBottom() {
       const body =
-        this.chat == 0 ? this.$refs.chatMessagesBox : this.$refs.supportMessagesBox
+        this.chat == 0
+          ? this.$refs.chatMessagesBox
+          : this.$refs.supportMessagesBox
 
       return body?.scrollTop + body?.clientHeight > body?.scrollHeight - 10
     },
     scrollToBottom(force) {
       const el =
-        this.chat == 0 ? this.$refs.chatMessagesBox : this.$refs.supportMessagesBox
+        this.chat == 0
+          ? this.$refs.chatMessagesBox
+          : this.$refs.supportMessagesBox
 
       if (el && (force || this.reachedBottom())) {
         setTimeout(() => {

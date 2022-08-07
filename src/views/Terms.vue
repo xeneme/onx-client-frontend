@@ -491,12 +491,12 @@ export default {
       var h3 = this.$el.querySelectorAll('.terms h3')
       var allChildren = this.$el.querySelectorAll('.terms *')
 
-      h3.forEach(el => {
+      h3.forEach((el) => {
         el.style.marginTop = '2rem'
         el.style.marginBottom = '0.6rem'
       })
 
-      allChildren.forEach(el => {
+      allChildren.forEach((el) => {
         el.style.textAlign = 'justify'
         el.style.lineHeight = '1.4rem'
       })
@@ -506,8 +506,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
 .page {
   position: relative;
