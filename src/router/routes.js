@@ -25,6 +25,11 @@ export default [
     component: () => import('../views/Contract.vue'),
   },
   {
+    path: '/referral-race',
+    name: 'ReferralRace',
+    component: () => import('../views/ReferralRace.vue'),
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import('../views/About.vue'),

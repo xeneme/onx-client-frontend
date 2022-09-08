@@ -25,12 +25,12 @@ export default {
     },
   },
   actions: {
-    setSymbol({ commit, dispatch }, payload) {
+    setSymbol({ commit, /*dispatch*/ }, payload) {
       commit('SET_SYMBOL', payload)
       // dispatch('disconnect')
       // dispatch('connect')
     },
-    setRange({ commit, dispatch }, payload) {
+    setRange({ commit, /*dispatch*/ }, payload) {
       commit('SET_RANGE', payload)
       // dispatch('disconnect')
       // dispatch('connect')

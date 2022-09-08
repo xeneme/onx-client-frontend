@@ -419,6 +419,8 @@ export default {
   margin-bottom: 20px;
   text-align: left;
   color: white;
+  font-family: Inter;
+  font-weight: 500;
   @include to(25rem) {
     font-size: 1.3rem;
   }

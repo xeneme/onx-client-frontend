@@ -177,9 +177,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/scss/_variables';
-@import '@/scss/_smart-grid';
 @import '@/scss/ui';
+@import '@/scss/_animations';
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css');
 
 *::-webkit-scrollbar {

@@ -81,7 +81,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import "@/scss/_smart-grid"
 
 .partners

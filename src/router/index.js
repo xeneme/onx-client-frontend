@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.name == 'TradeGuard' && !store.getters['guard/CONTRACT']) {
     connectToTrade(from, to, next, router)
-  } else if (!betweenNested && !Vue.prototype.$dev) {
+  } else if (!betweenNested) {
     store.dispatch('preloader/startBeforeLoading').then(next)
   } else {
     next()
@@ -85,7 +85,7 @@ router.afterEach((to) => {
   let title = to.name != 'Main' ? host + ' - ' + to.name : host
   store.commit('SET_TITLE', title)
 
-  if (!['Trading', 'TradeGuard'].includes(to.name) && !Vue.prototype.$dev) {
+  if (!['Trading', 'TradeGuard'].includes(to.name)) {
     store.dispatch('preloader/startAfterLoading')
   }
 })

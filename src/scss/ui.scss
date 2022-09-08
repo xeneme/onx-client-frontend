@@ -94,3 +94,30 @@ $mobile-break: 50rem;
 .cl-light-blue {
   color: $light-blue;
 }
+
+.tooltip:hover {
+  position: relative;
+  &::before {
+    content: attr(tooltip);
+    display: block;
+    text-transform: capitalize;
+    position: absolute;
+    top: -2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: $cyan;
+    color: white;
+    border-radius: 4px;
+  }
+  &::after {
+    position: absolute;
+    content: "";
+    width: 8px;
+    height: 8px;
+    top: -9px;
+    left: 50%;
+    transform: rotate(45deg) translateX(-50%);
+    background-color: $cyan-alpha;
+  }
+}
