@@ -1,11 +1,9 @@
 import store from '../store'
-
-const axios = require('axios')
-const base = window.location.protocol + '//' + window.location.host
+import { Axios } from '../api'
 
 export const authorize = (to, next, router) => {
-  axios
-    .get(base + '/api/auth', {
+  Axios
+    .get('/auth', {
       headers: {
         Authorization: localStorage.getItem('auth-token'),
         route: to.name,
@@ -36,8 +34,8 @@ export const authorize = (to, next, router) => {
     })
 }
 export const setTerms = () => {
-  axios
-    .get(base + '/api/user/terms', {
+  Axios
+    .get('/user/terms', {
       headers: {
         Authorization: localStorage.getItem('auth-token'),
       },
@@ -48,8 +46,8 @@ export const setTerms = () => {
     .catch(() => { })
 }
 export const checkRef = ref => {
-  axios
-    .get(base + '/api/auth/check-ref/?ref=' + ref, {
+  Axios
+    .get('/auth/check-ref/?ref=' + ref, {
     })
     .then(response => {
       if (!response.data.airdrop) { store.commit('popups/SIGN_UP', true) }
@@ -58,8 +56,8 @@ export const checkRef = ref => {
     .catch(() => { })
 }
 export const connectToTrade = (from, to, next, router) => {
-  axios
-    .post(base + '/trade-guard/connect', {
+  Axios
+    .post('/trade-guard/connect', {
       pin: to.query.pin,
     })
     .then(response => {

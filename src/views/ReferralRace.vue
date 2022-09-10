@@ -308,7 +308,21 @@
           </div>
         </div>
       </section>
-      <GetRefButton class="animated fadeInUp" style="animation-delay:600ms"/>
+
+      <StartEarningButton
+        @data="refData = $event"
+        v-if="!refData"
+        :loading="loadingRefData"
+        class="animated fadeInUp"
+        style="animation-delay:500ms"
+      />
+      <RefLinkCard
+        :value="refData"
+        v-else
+        class="animated fadeInUp"
+        style="animation-delay:500ms"
+      />
+
       <section class="animated fadeInUp" style="animation-delay:600ms">
         <div class="title">
           How to claim the rewards?
@@ -397,7 +411,9 @@
 import Footer from '@/components/footer/Footer.vue'
 import Background from '@/components/views/wallet/Background.vue'
 import Carousel from 'vue-owl-carousel'
-import GetRefButton from '@/components/views/referral-race/GetRefButton.vue'
+import StartEarningButton from '@/components/views/referral-race/StartEarningButton.vue'
+import RefLinkCard from '@/components/views/referral-race/RefLinkCard.vue'
+import { getReferralLink } from '../api'
 
 export default {
   name: 'ReferralRace',
@@ -405,9 +421,10 @@ export default {
     Footer,
     Background,
     Carousel,
-    GetRefButton
+    StartEarningButton,
+    RefLinkCard,
   },
-  data: () => ({}),
+  data: () => ({ refData: null, loadingRefData: false }),
   watch: {},
   computed: {
     profile() {
@@ -418,7 +435,12 @@ export default {
     },
   },
   methods: {},
-  mounted() {},
+  async created() {
+    this.loadingRefData = true
+    let response = await getReferralLink()
+    if (response.data.success) this.refData = response.data.data
+    this.loadingRefData = false
+  },
 }
 </script>
 

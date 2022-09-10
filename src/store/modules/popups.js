@@ -66,6 +66,10 @@ export default {
       if (alert.message && alert.title) {
         state.alerts.push({ ...alert, key: nanoid() })
       }
+
+      if (state.alerts.length > 5) {
+        state.alerts = state.alerts.slice(-5)
+      }
     },
     RM_ALERT: (state, alert) => {
       state.alerts.forEach((el, i) => {

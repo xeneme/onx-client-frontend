@@ -57,7 +57,7 @@ router.beforeResolve((to, from, next) => {
 
     if (!token) {
       if (!store.state.auth.isDemo) {
-        if (['Profile', 'Wallet'].includes(to.name)) {
+        if (['Profile', 'Wallet', 'ReferralRace'].includes(to.name)) {
           router.push({ path: '/' })
           store.commit('popups/SIGN_IN', true)
         }
