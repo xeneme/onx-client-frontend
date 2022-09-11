@@ -1,5 +1,5 @@
 <template>
-  <router-link v-bind="$attrs" :class="['link', theme || 'default']">
+  <router-link v-bind="$attrs" :class="['link', theme || 'default']" v-if="$attrs.to">
     <div class="comet"></div>
     <div class="edges">
       <span></span>
@@ -9,6 +9,16 @@
     </div>
     <p>{{ text || 'Text' }}</p>
   </router-link>
+  <div v-bind="$attrs" :class="['link', theme || 'default']" v-else>
+    <div class="comet"></div>
+    <div class="edges">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <p>{{ text || 'Text' }}</p>
+  </div>
 </template>
 
 <script>
@@ -51,6 +61,7 @@ $edge-width: 1
     text-transform: uppercase
     text-decoration: none
     pointer-events: all
+    cursor: pointer
     transition: box-shadow #{$speed * .2}s, background #{$speed * .2}s, color #{$speed * .2}s
 
     display: block

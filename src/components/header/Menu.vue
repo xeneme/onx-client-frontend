@@ -9,14 +9,12 @@
 
       <NeonLink
         text="Log in"
-        to=""
         theme="light"
         @click.native="login"
         v-if="!authenticated"
       />
       <NeonLink
         text="Sign up"
-        to=""
         theme="light"
         @click.native="signup"
         v-if="!authenticated"
