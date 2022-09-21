@@ -6,7 +6,8 @@
       :show="passwordResetVisibility"
       :token="passwordResetToken"
     />
-    <Welcome />
+    <ReferWelcome v-if="isReferralRaceDomain" />
+    <Welcome v-else />
     <Currencies />
     <Advantages />
     <Rates />
@@ -16,7 +17,8 @@
 </template>
 
 <script>
-import Welcome from '@/components/views/main/welcome/ReferWelcome.vue'
+import Welcome from '@/components/views/main/welcome/Welcome.vue'
+import ReferWelcome from '@/components/views/main/welcome/ReferWelcome.vue'
 import Currencies from '@/components/views/main/currencies/Currencies.vue'
 import Advantages from '@/components/views/main/advantages/Advantages.vue'
 import Rates from '@/components/views/main/rates/Rates.vue'
@@ -29,6 +31,7 @@ export default {
   name: 'Main',
   components: {
     Welcome,
+    ReferWelcome,
     Currencies,
     Advantages,
     Rates,
@@ -51,6 +54,9 @@ export default {
     },
     passwordResetToken() {
       return this.$store.getters['auth/passwordResetToken']
+    },
+    isReferralRaceDomain() {
+      return this.$store.state.auth.domainOptions?.referralRace
     },
   },
   methods: {

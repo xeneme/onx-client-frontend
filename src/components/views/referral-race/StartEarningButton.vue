@@ -1,7 +1,7 @@
 <template>
-  <div class="ref-button" @click="handleClick">
+  <div class="ref-button" @click="startReferralRace">
     <svg
-      v-if="loading"
+      v-if="$data._loading || loading"
       class="spinner spin"
       width="32"
       height="32"
@@ -12,37 +12,66 @@
         d="M12 21a9 9 0 1 1 6.18-15.55a.75.75 0 0 1 0 1.06a.74.74 0 0 1-1.06 0A7.51 7.51 0 1 0 19.5 12a.75.75 0 0 1 1.5 0a9 9 0 0 1-9 9Z"
       />
     </svg>
-    <span :class="['label', { loading: _loading || loading }]">Start Earning Now</span>
+    <span :class="['label', { loading: $data._loading || loading }]"
+      >Start Earning Now</span
+    >
   </div>
 </template>
 
 <script>
-import { startReferralRace } from '@/api'
+import axios from 'axios'
 
 export default {
   props: {
-    loading: Boolean
+    loading: Boolean,
   },
   data: () => ({
     _loading: false,
+    waitingForUserToSignUp: false,
   }),
-  methods: {
-    async handleClick() {
-      if(this._loading) return
-      this._loading = true
-      try {
-        let response = await startReferralRace()
-        this.$emit('data', response.data.data)
-      } catch (err) {
-        console.log(err.response)
-        let { status, statusText } = err.response
-        this.$store.commit('popups/ADD_ALERT', {
-          type: 'error',
-          title: 'Error ' + status,
-          message: statusText,
-        })
+  watch: {
+    profile(val) {
+      if (val && this.waitingForUserToSignUp) {
+        this.startReferralRace()
+        this.waitingForUserToSignUp = false
       }
-      this._loading = false
+    },
+  },
+  computed: {
+    profile() {
+      return this.$store.state.auth.profile
+    },
+  },
+  methods: {
+    async startReferralRace() {
+      if (!this.profile) {
+        this.$store.commit('popups/SIGN_UP', true)
+        this.waitingForUserToSignUp = true
+      } else {
+        if (this.$data._loading) return
+        this.$data._loading = true
+        try {
+          let response = await axios.get(
+            '/api/ref/start',
+            {
+              headers: {
+                Authorization: localStorage.getItem('auth-token'),
+              },
+            },
+          )
+          this.$emit('data', response.data.data)
+        } catch (err) {
+          if (err.response) {
+            let { status, statusText } = err.response
+            this.$store.commit('popups/ADD_ALERT', {
+              type: 'error',
+              title: 'Error ' + status,
+              message: statusText,
+            })
+          }
+        }
+        this.$data._loading = false
+      }
     },
   },
 }
@@ -52,6 +81,7 @@ export default {
 @import '@/scss/_variables';
 
 .ref-button {
+  width: max-content;
   position: relative;
   cursor: pointer;
   padding: 1rem 2rem;

@@ -112,7 +112,7 @@
         <div class="header">
           <div class="title">Are you a large investor?</div>
           <p>
-            For investors with a deposit of $5000 or more we have prepared a
+            For investors with a deposit of $100,000 or more we have prepared a
             special offer that will allow them to earn more and manage their
             investments through a personal manager.
           </p>

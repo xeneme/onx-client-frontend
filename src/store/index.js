@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { createLogger } from 'vuex'
+// import { createLogger } from 'vuex'
 
 import modules from './modules'
 
@@ -26,5 +26,5 @@ export default new Vuex.Store({
     title: state => state.title
   },
   modules,
-  plugins: [...(process.env.NODE_ENV == 'development' ? [createLogger()] : [])]
+  // plugins: [...(process.env.NODE_ENV == 'development' ? [createLogger()] : [])]
 })

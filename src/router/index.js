@@ -45,6 +45,8 @@ router.beforeEach((to, from, next) => {
   if (to.query.ref) {
     checkRef(to.query.ref)
   }
+
+  store.dispatch('auth/getDomainOptions')
 })
 
 router.beforeResolve((to, from, next) => {
@@ -57,7 +59,7 @@ router.beforeResolve((to, from, next) => {
 
     if (!token) {
       if (!store.state.auth.isDemo) {
-        if (['Profile', 'Wallet', 'ReferralRace'].includes(to.name)) {
+        if (['Profile', 'Wallet'].includes(to.name)) {
           router.push({ path: '/' })
           store.commit('popups/SIGN_IN', true)
         }

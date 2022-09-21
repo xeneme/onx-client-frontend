@@ -244,6 +244,7 @@ export default {
                 password: this.topInputValue,
                 repeatPassword: this.bottomInputValue,
                 ref: this.ref,
+                uref: this.$route.query.uref
               },
               {
                 headers: {

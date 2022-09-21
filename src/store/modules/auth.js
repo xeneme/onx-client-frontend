@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import axios from 'axios'
 import showdown from 'showdown'
 import cfg from '../../services/config'
+import { getDomainOptions } from '../../api'
 
 const converter = new showdown.Converter()
 
@@ -41,8 +42,13 @@ export default {
     referralToken: '',
     isLoggedIn: false,
     messages: [],
+    domainOptions: null
   },
   actions: {
+    async getDomainOptions({ state }) {
+      let res = await getDomainOptions()
+      state.domainOptions = res.data
+    },
     logout: ({ state }, { redirect, ghostToken }) => {
       state.token = null
       state.isLoggedIn = false

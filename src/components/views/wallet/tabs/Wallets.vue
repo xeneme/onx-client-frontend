@@ -24,6 +24,7 @@
           :full="true"
           :secret="true"
           :index="currency"
+          :hidden="domainOptions.offTransferAddress"
         />
         <label
           class="wallet_dollars"
@@ -72,6 +73,9 @@ export default {
     ...mapGetters({
       wallets: 'auth/wallets',
     }),
+    domainOptions() {
+      return this.$store.state.auth.domainOptions
+    }
   },
   methods: {
     newContract() {
@@ -200,7 +204,7 @@ $break: 55rem
       display: block
 
     &_chart
-      position: absolute
+      // position: absolute
       z-index: 0
       justify-self: start
       margin: 15px 20px

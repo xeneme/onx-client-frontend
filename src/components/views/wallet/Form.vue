@@ -1,14 +1,22 @@
 <template>
-  <div :class="['form', full ? 'full' : '']">
+  <div :class="['form', { full, hidden }]">
     <div class="coins_title" v-if="title">
-      <label>{{ title }}</label>
-      <label v-if="typeof secondTitle != 'undefined'" class="right-title">{{
-        secondTitle
-      }}</label>
+      <label class="coins_title--text"
+        ><Icon
+          :name="this.currency.replaceAll(' ', '-')"
+          :size="1.2"
+          color="#58A5FF"
+        />
+        <div>{{ title }}</div></label
+      >
+      <label v-if="typeof secondTitle == 'string'" class="right-title">
+        <div>{{ secondTitle }}</div>
+        <div class="right-title--after" v-if="hidden">{{ usd }}</div>
+      </label>
       <label class="balance">{{ balance }}</label>
     </div>
     <Field
-      v-if="type"
+      v-if="type && !hidden"
       :type="type"
       :id="id"
       :value="value"
@@ -35,6 +43,7 @@
 
 <script>
 import Field from './Field'
+import Icon from '@/components/icons/Icon.vue'
 
 export default {
   name: 'Form',
@@ -53,11 +62,16 @@ export default {
     'selectWidth',
     'isAddress',
     'balance',
+    'hidden',
   ],
   components: {
     Field,
+    Icon,
   },
   computed: {
+    profile() {
+      return this.$store.state.auth.profile
+    },
     validSubtitle() {
       try {
         let amount = this.total.split(' ')[0]
@@ -71,69 +85,117 @@ export default {
         return true
       }
     },
+    amount() {
+      if(!this.secondTitle) return ''
+      return +this.secondTitle.split(' ')[0]
+    },
+    currency() {
+      if(!this.secondTitle) return ''
+      return this.secondTitle?.split(' ')[1]?.toCurrency()
+    },
+    usd() {
+      try {
+        return (
+          (
+            this.amount *
+            this.profile.wallets[this.currency.toLowerCase()].price
+          ).toFixed(2) + ' USD'
+        )
+      } catch (err) {
+        return ''
+      }
+    },
   },
 }
 </script>
 
-<style lang="sass" scoped>
-@import "@/scss/_smart-grid"
-@import "@/scss/_variables"
+<style lang="scss" scoped>
+@import '@/scss/_smart-grid';
+@import '@/scss/_variables';
 
-span
-  margin-right: 10px
+span {
+  margin-right: 10px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  // margin-bottom: 20px;
 
-.form
-    display: flex
-    flex-direction: column
-    margin-bottom: 20px
+  &.hidden .coins_title {
+    height: 100%;
+    align-items: center;
+    .right-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      height: max-content !important;
+      font-size: 0.9rem !important;
+      margin: 0 !important;
+      gap: 0;
+      &--after {
+        opacity: 0.4;
+      }
+    }
+  }
 
-    .coins_title
-      display: flex
-      width: 100%
-      justify-content: space-between
-      position: relative
+  .coins_title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    position: relative;
 
-      .right-title
-        position: absolute
-        right: 0
-        font-size: .77rem
+    .right-title {
+      position: absolute;
+      right: 0;
+      font-size: 0.77rem;
+    }
+    label {
+      text-align: left;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 10px;
+      // display: grid;
+      height: 100%;
+      align-items: center;
+      display: flex;
+      gap: 5px;
 
-      label
-        text-align: left
-        color: #FFF
-        font-size: 16px
-        margin-bottom: 10px
-        display: grid
-        height: 100%
-        align-content: center
+      @include to(20rem) {
+        font-size: 14px;
+      }
+      @include from(20rem) {
+        font-size: 16px;
+      }
+    }
+    .balance {
+      font-size: 12px;
 
-        @include to(20rem)
-          font-size: 14px
-        @include from(20rem)
-          font-size: 16px
+      @include to(33rem) {
+        display: grid;
+      }
+      @include from(33rem) {
+        display: none;
+      }
+    }
+  }
+  .subtitle_wrap {
+    display: flex;
 
-      .balance
-        font-size: 12px
-
-        @include to(33rem)
-          display: grid
-        @include from(33rem)
-          display: none
-
-    .subtitle_wrap
-      display: flex
-
-      .subtitle, .total
-        color: white
-        font-size: .9rem
-        text-align: left
-        margin-bottom: 10px
-
-      .subtitle
-        color: $light-blue
-        cursor: default
-        user-select: none
-
-.full
-  width: 100%
+    .subtitle,
+    .total {
+      color: white;
+      font-size: 0.9rem;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: $light-blue;
+      cursor: default;
+      user-select: none;
+    }
+  }
+}
+.full {
+  width: 100%;
+}
 </style>

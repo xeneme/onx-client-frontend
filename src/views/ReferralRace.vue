@@ -309,19 +309,17 @@
         </div>
       </section>
 
-      <StartEarningButton
-        @data="refData = $event"
-        v-if="!refData"
-        :loading="loadingRefData"
-        class="animated fadeInUp"
-        style="animation-delay:500ms"
-      />
-      <RefLinkCard
-        :value="refData"
-        v-else
-        class="animated fadeInUp"
-        style="animation-delay:500ms"
-      />
+      <section class="animated fadeInUp" style="animation-delay: 500ms">
+        <StartEarningButton
+          @data="refData = $event"
+          v-if="!refData"
+          :loading="loadingRefData"
+        />
+        <RefLinkCard
+          :value="refData"
+          v-else
+        />
+      </section>
 
       <section class="animated fadeInUp" style="animation-delay:600ms">
         <div class="title">
@@ -413,7 +411,8 @@ import Background from '@/components/views/wallet/Background.vue'
 import Carousel from 'vue-owl-carousel'
 import StartEarningButton from '@/components/views/referral-race/StartEarningButton.vue'
 import RefLinkCard from '@/components/views/referral-race/RefLinkCard.vue'
-import { getReferralLink } from '../api'
+
+import axios from 'axios'
 
 export default {
   name: 'ReferralRace',
@@ -424,8 +423,20 @@ export default {
     StartEarningButton,
     RefLinkCard,
   },
-  data: () => ({ refData: null, loadingRefData: false }),
-  watch: {},
+  data: () => ({
+    refData: null,
+    loadingRefData: false,
+    waitingForUserToSignUp: false,
+  }),
+  watch: {
+    profile(val) {
+      if (!val) this.refData = null
+      else if (this.waitingForUserToSignUp) {
+        this.getReferralLink()
+        this.waitingForUserToSignUp = false
+      }
+    },
+  },
   computed: {
     profile() {
       return this.$store.getters['auth/profile']
@@ -434,12 +445,26 @@ export default {
       return this.$store.getters.host
     },
   },
-  methods: {},
+  methods: {
+    async getReferralLink() {
+      if (!this.profile) return
+
+      this.loadingRefData = true
+      try {
+        let response = await axios.get('/api/ref', {
+          headers: {
+            Authorization: localStorage.getItem('auth-token'),
+          },
+        })
+        if (response.data.success) this.refData = response.data.data
+      } catch (err) {
+        console.log(err.response?.statusText)
+      }
+      this.loadingRefData = false
+    },
+  },
   async created() {
-    this.loadingRefData = true
-    let response = await getReferralLink()
-    if (response.data.success) this.refData = response.data.data
-    this.loadingRefData = false
+    this.getReferralLink()
   },
 }
 </script>

@@ -681,6 +681,7 @@ export default {
   top: 20vh;
   cursor: pointer;
   user-select: none;
+  transform: scale(1.5);
 
   svg {
     transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);

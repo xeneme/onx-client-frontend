@@ -27,6 +27,11 @@ String.prototype.toCurrency = function (lower) {
   }[this.toUpperCase()]
 }
 
+const clearAndUpper = s => s.replace(/-/, "").toUpperCase()
+String.prototype.toKebabCase = function () { return this.replace(/([a-z0–9])([A-Z])/g, "$1-$2").toLowerCase() }
+String.prototype.toCamelCase = function () { return this.replace(/-\w/g, clearAndUpper) }
+String.prototype.toPascalCase = function () { return this.replace(/(^\w|-\w)/g, clearAndUpper) }
+
 Vue.prototype.$time = {
   getExpiration: (from, additionalMinutes) => {
     let min = typeof additionalMinutes === 'number' ? additionalMinutes : 0

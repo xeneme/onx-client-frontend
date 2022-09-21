@@ -58,8 +58,8 @@
       <img
         src="@/assets/img/mobile_background.jpg"
         class="bg__fullscreen-video"
+        v-if="!$isDesktop"
       />
-      v-if="!$isDesktop"
       <video
         v-if="$isDesktop"
         src="@/assets/vids/earth-compressed.mp4"

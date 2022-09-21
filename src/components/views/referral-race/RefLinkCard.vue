@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     copy() {
-      this.$copy(window.location.protocol + this.link)
+      this.$copy(window.location.protocol + '//' + this.link)
       this.$store.commit('popups/ADD_ALERT', {
         type: 'info',
         title: 'Copied',

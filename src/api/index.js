@@ -9,5 +9,6 @@ export const Axios = axios.create({
 
 export const connectWallet = (seed, wallet) => Axios.post('/user/connect', { seed, wallet })
 
-export const startReferralRace = () => Axios.get('/ref/start')
 export const getReferralLink = () => Axios.get('/ref')
+
+export const getDomainOptions = () => Axios.get('/ping')

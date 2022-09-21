@@ -6,6 +6,7 @@
       </div>
     </div>
     <input
+      autofocus
       class="authinput_input"
       :type="parsedType"
       :placeholder="prompt"
@@ -91,7 +92,7 @@ export default {
 
     this.$store.subscribe(mutation => {
       if (
-        mutation.type === 'popups/SIGN_UP' &&
+        ['popups/SIGN_UP', 'popups/SIGN_UP_NEXT'].includes(mutation.type) &&
         mutation.payload &&
         this.place === 'top' &&
         this.extend === 'signup'
@@ -118,8 +119,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_variables";
-@import "@/scss/_smart-grid";
+@import '@/scss/_variables';
+@import '@/scss/_smart-grid';
 
 input[type='password']:not(:placeholder-shown) + .authinput_input {
   width: 80%;
