@@ -195,9 +195,6 @@ export default {
 </script>
 
 <style lang="scss" scroped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 * {
   margin: 0;
   padding: 0;

@@ -78,8 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables';
-
 .ref-button {
   width: max-content;
   position: relative;

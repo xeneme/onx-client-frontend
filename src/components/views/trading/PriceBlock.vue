@@ -47,8 +47,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-
 .price-block {
   height: 100%;
   display: flex;

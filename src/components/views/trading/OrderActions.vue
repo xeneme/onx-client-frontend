@@ -32,9 +32,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 .actions {
   display: flex;
   margin: 20px;

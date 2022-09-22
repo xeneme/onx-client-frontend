@@ -208,9 +208,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 @keyframes attention {
   0% {
     box-shadow: 0 0 0px 0px $cyan;

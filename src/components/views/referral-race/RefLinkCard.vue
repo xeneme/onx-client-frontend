@@ -82,8 +82,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables';
-
 .ref-link-card {
   width: 100%;
   background-color: transparentize($dark-blue, 0.4);

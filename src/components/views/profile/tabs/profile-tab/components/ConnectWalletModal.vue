@@ -166,9 +166,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables.scss';
-@import '@/scss/_smart-grid.scss';
-
 @keyframes fade-in {
   from {
     opacity: 0;

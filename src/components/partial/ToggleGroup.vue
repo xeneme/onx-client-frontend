@@ -53,8 +53,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables.scss';
-
 .toggle-group {
   display: flex;
   gap: 0.6rem;

@@ -44,9 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 .tabs {
   border-bottom: 1px solid $cyan-alpha;
   height: 30px;

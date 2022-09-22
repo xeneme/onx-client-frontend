@@ -157,26 +157,28 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-@import "@/scss/_smart-grid"
-@import "@/scss/_variables"
+<style lang="scss" scoped>
+.input_worm {
+  transform: rotate(180deg);
+  height: 38.65px;
+  width: 500px;
 
-.input_worm
-  transform: rotate(180deg)
-  height: 38.65px
-  width: 500px
-
-  @include xs-block
-    height: 38.65px
-  @include sm-block
-    height: 38.65px
-
-  svg
-    @include xs-block
-      display: none
-    @include sm-block
-      display: block
-
-    path
-      stroke: $cyan
+  @include xs-block {
+    height: 38.65px;
+  }
+  @include sm-block {
+    height: 38.65px;
+  }
+  svg {
+    @include xs-block {
+      display: none;
+    }
+    @include sm-block {
+      display: block;
+    }
+    path {
+      stroke: $cyan;
+    }
+  }
+}
 </style>

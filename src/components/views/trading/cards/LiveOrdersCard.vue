@@ -48,9 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_smart-grid';
-@import '@/scss/_variables';
-
 .live-orders-card {
   grid-area: live-orders;
   flex-direction: column;

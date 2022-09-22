@@ -524,9 +524,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables';
-@import '@/scss/_smart-grid';
-
 @keyframes attractor {
   0% {
     box-shadow: 0 0 0px 0px $light-blue;

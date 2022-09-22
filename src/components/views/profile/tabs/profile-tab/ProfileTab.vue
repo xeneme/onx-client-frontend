@@ -55,7 +55,6 @@ export default {
 
 <style lang="scss">
 @import '@/scss/ui';
-@import '@/scss/_smart-grid';
 
 $mobile-break: 50rem;
 

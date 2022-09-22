@@ -146,9 +146,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/scss/_variables';
-@import '@/scss/_smart-grid';
-
 $mobile-break: 130rem;
 
 .avatar-popup-enter-active,

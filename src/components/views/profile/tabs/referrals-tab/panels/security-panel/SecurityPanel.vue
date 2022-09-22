@@ -57,9 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/scss/_smart-grid';
 @import '@/scss/ui';
-@import '@/scss/_variables';
 
 $mobile-break: 130rem;
 

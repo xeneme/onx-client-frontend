@@ -20,9 +20,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/scss/_smart-grid';
-@import '@/scss/_variables';
-
 .alerts-list-move {
   transition: transform 0.2s;
 }

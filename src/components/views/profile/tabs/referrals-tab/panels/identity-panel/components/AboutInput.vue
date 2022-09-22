@@ -171,8 +171,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables';
-
 .actions-enter-active,
 .actions-leave-active {
   transition: opacity 0.1s, transform 0.2s;

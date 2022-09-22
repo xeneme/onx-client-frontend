@@ -38,9 +38,6 @@ export default {
 </script>
 
 <style lang="scss" stroke>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 .exchange-spinner {
   opacity: 0;
   position: fixed;

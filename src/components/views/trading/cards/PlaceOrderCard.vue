@@ -106,9 +106,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_smart-grid';
-@import '@/scss/_variables';
-
 .place-order-card {
   grid-area: place-order;
 

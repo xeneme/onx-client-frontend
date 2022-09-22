@@ -45,9 +45,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 .amount-input {
   width: calc(100% - 10px);
   display: grid;

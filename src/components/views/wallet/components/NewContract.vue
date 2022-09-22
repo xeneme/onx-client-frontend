@@ -139,9 +139,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 @keyframes attention {
   0% {
     color: $cyan-alpha;

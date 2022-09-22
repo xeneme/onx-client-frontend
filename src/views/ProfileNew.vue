@@ -64,9 +64,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_smart-grid';
-@import '@/scss/_variables';
-
 $mobile-break: 83em;
 
 .tab-switch-enter-from,

@@ -78,8 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables';
-
 .icon-button {
   &--md {
     height: 40px;

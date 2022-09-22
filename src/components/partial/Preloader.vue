@@ -175,8 +175,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_variables";
-
 .preload-done {
   opacity: 0;
 }

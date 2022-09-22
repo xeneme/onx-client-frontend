@@ -32,9 +32,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 @keyframes attention {
   0% {
     border: transparent 1px solid;

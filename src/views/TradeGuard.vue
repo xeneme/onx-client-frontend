@@ -105,9 +105,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 .page {
   position: relative;
   background: $v-grad;

@@ -228,129 +228,135 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-@import "@/scss/_smart-grid"
-@import "@/scss/_variables"
+<style lang="scss" scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+.profileinput {
+  margin-bottom: 0;
+}
+.newpassword {
+  position: fixed;
+  z-index: 888;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  transition: backdrop-filter 0.3s;
+  transition: background-color 0.3s;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  backdrop-filter: blur(0px);
 
-*
-  margin: 0
-  padding: 0
+  &_wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  &__title {
+    width: 500px;
+    position: relative;
+    display: grid;
+    background: linear-gradient(-45deg, $blue, lighten($blue, 7));
+    border: 1px $cyan solid;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    padding: 10px 0;
+    height: 22px;
 
-.profileinput
-  margin-bottom: 0
+    @include to(33rem) {
+      width: 100%;
+      border-radius: 0;
+    }
+    @include from(33rem) {
+      width: 500px;
+      border-radius: 10px 10px 0 0;
+    }
+    &__icon {
+      position: absolute;
+      height: 100%;
+      margin-right: 20px;
+      justify-self: end;
+      color: #0075ff;
+      cursor: pointer;
+      font-size: 1.3rem;
 
-.newpassword
-  position: fixed
-  z-index: 888
-  left: 0
-  top: 0
-  width: 100vw
-  height: 100vh
-  transition: backdrop-filter .3s
-  transition: background-color .3s
-  display: none
-  flex-direction: column
-  justify-content: center
-  align-items: center
-  background-color: transparent
-  backdrop-filter: blur(0px)
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  &__form {
+    position: relative;
+    width: 500px;
+    padding-top: 40px;
+    background: $blue;
+    border: 1px #0075ff33 solid;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 240px;
 
-  &_wrap
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
-    width: 100%
-    height: 100%
+    @include to(33rem) {
+      width: 100%;
+      border-radius: 0;
+    }
+    @include from(33rem) {
+      width: 500px;
+      border-radius: 0 0 10px 10px;
+    }
+    .newpassword__form_loading {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      background-color: $blue-alpha;
+      display: none;
 
-  &__title
-    width: 500px
-    position: relative
-    display: grid
-    background: linear-gradient(-45deg, $blue, lighten($blue, 7))
-    border: 1px $cyan solid
-    color: white
-    font-family: 'Montserrat'
-    font-weight: 500
-    padding: 10px 0
-    height: 22px
+      &_icon {
+        place-self: center;
+        width: 100px;
+        margin-bottom: 10px;
+        height: 80px;
+        color: $cyan;
+      }
+    }
+    &__button_submit {
+      opacity: 1;
+      margin: 33px auto;
+      margin-top: 40px;
+      width: 100px;
+    }
+    &__status {
+      position: absolute;
+      height: 80px;
+      left: calc(50% - 10rem);
+      top: calc(50% - 75px);
+      font-size: 2rem;
+      font-weight: 500;
+      font-family: 'Montserrat';
+      color: white;
+      opacity: 0;
+      pointer-events: none;
 
-    @include to(33rem)
-      width: 100%
-      border-radius: 0
-    @include from(33rem)
-      width: 500px
-      border-radius: 10px 10px 0 0
-
-    &__icon
-      position: absolute
-      height: 100%
-      margin-right: 20px
-      justify-self: end
-      color: #0075ff
-      cursor: pointer
-      font-size: 1.3rem
-
-      &:hover
-        color: white
-
-  &__form
-    position: relative
-    width: 500px
-    padding-top: 40px
-    background: $blue
-    border: 1px #0075ff33 solid
-    display: flex
-    flex-direction: column
-    overflow: hidden
-    min-height: 240px
-
-    @include to(33rem)
-      width: 100%
-      border-radius: 0
-    @include from(33rem)
-      width: 500px
-      border-radius: 0 0 10px 10px
-
-    .newpassword__form_loading
-      position: absolute
-      width: 100%
-      height: 100%
-      top: 0
-      left: 0
-      z-index: 3
-      background-color: $blue-alpha
-      display: none
-
-      &_icon
-        place-self: center
-        width: 100px
-        margin-bottom: 10px
-        height: 80px
-        color: $cyan
-
-    &__button_submit
-      opacity: 1
-      margin: 33px auto
-      margin-top: 40px
-      width: 100px
-
-    &__status
-      position: absolute
-      height: 80px
-      left: calc(50% - 10rem)
-      top: calc(50% - 75px)
-      font-size: 2rem
-      font-weight: 500
-      font-family: 'Montserrat'
-      color: white
-      opacity: 0
-      pointer-events: none
-
-      &_icon
-        transform: scale(0)
-
-.busy_btn
-  pointer-events: none
-  opacity: .2
+      &_icon {
+        transform: scale(0);
+      }
+    }
+  }
+}
+.busy_btn {
+  pointer-events: none;
+  opacity: 0.2;
+}
 </style>

@@ -195,149 +195,158 @@ export default {
 }
 </script>
 
-<style lang="sass" scroped>
-@import "@/scss/_smart-grid"
-@import "@/scss/_variables"
-
-*
-  margin: 0
-  padding: 0
-
-.password-reset
-  position: fixed
-  z-index: 888
-  left: 0
-  top: 0
-  width: 100vw
-  height: 100vh
-  min-height: 26rem
-  overflow: hidden
-  transition: backdrop-filter .3s
-  transition: background-color .3s
-  display: none
-  flex-direction: column
-  justify-content: center
-  align-items: center
+<style lang="scss" scroped>
+* {
+  margin: 0;
+  padding: 0;
+}
+.password-reset {
+  position: fixed;
+  z-index: 888;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 26rem;
+  overflow: hidden;
+  transition: backdrop-filter 0.3s;
+  transition: background-color 0.3s;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: transparent;
+
   backdrop-filter: blur(0px);
 
-  &__title
-    top: -10px
-    width: 500px
-    position: relative
-    background: linear-gradient(-45deg, $blue, lighten($blue, 7))
-    border: 1px $cyan solid
-    color: white
-    font-family: 'Montserrat'
-    font-weight: 500
-    padding: 10px 0
-    opacity: 0
-    transform: translateX(500px)
-    display: grid
+  &__title {
+    top: -10px;
+    width: 500px;
+    position: relative;
+    background: linear-gradient(-45deg, $blue, lighten($blue, 7));
+    border: 1px $cyan solid;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    padding: 10px 0;
+    opacity: 0;
+    transform: translateX(500px);
+    display: grid;
 
-    @include to(33rem)
-      width: 100%
-      border-radius: 0
-    @include from(33rem)
-      width: 500px
-      border-radius: 10px 10px 0 0
+    @include to(33rem) {
+      width: 100%;
+      border-radius: 0;
+    }
+    @include from(33rem) {
+      width: 500px;
+      border-radius: 10px 10px 0 0;
+    }
+    &__icon {
+      margin-right: 3px;
+    }
+    &__close {
+      position: absolute;
+      height: 100%;
+      margin-right: 20px;
+      justify-self: end;
+      color: #0075ff;
+      cursor: pointer;
+      font-size: 1.3rem;
 
-    &__icon
-      margin-right: 3px
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  &__form {
+    position: relative;
+    width: 500px;
+    padding-top: 40px;
+    background: $blue;
+    border: 1px #0075ff33 solid;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(-500px);
+    min-height: 140px;
 
-    &__close
-      position: absolute
-      height: 100%
-      margin-right: 20px
-      justify-self: end
-      color: #0075ff
-      cursor: pointer
-      font-size: 1.3rem
+    @include to(33rem) {
+      width: 100%;
+      border-radius: 0;
+    }
+    @include from(33rem) {
+      width: 500px;
+      border-radius: 0 0 10px 10px;
+    }
+    .link {
+      color: $cyan;
+      margin: 10px auto;
+      font-size: 0.8rem;
+      text-decoration: none;
+      text-align: left;
+      width: 80%;
+      cursor: pointer;
+      letter-spacing: 0.03rem;
+      &:hover {
+        color: $light-blue;
+      }
+    }
+    &_loading {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      overflow: hidden;
+      background-color: $blue-alpha;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      opacity: 0;
+      display: grid;
 
-      &:hover
-        color: white
+      &_icon {
+        place-self: center;
+        width: 100px;
+        font-size: 4rem;
+        margin-bottom: 30px;
+        height: 80px;
+        color: $cyan;
+      }
+    }
+    &__button_submit {
+      opacity: 1;
+      margin: 25px auto;
+      width: 100px;
+    }
+    &__button_wallet,
+    &__button_settings {
+      z-index: 100;
+      opacity: 0;
+      width: 100%;
+      pointer-events: none;
+    }
+    &__status {
+      position: absolute;
+      height: 80px;
+      left: calc(50% - 10rem);
+      top: calc(50% - 75px);
+      font-size: 2rem;
+      font-weight: 500;
+      font-family: 'Montserrat';
+      color: white;
+      opacity: 0;
+      pointer-events: none;
 
-  &__form
-    position: relative
-    width: 500px
-    padding-top: 40px
-    background: $blue
-    border: 1px #0075ff33 solid
-    display: flex
-    flex-direction: column
-    overflow: hidden
-    opacity: 0
-    transform: translateX(-500px)
-    min-height: 140px
-
-    @include to(33rem)
-      width: 100%
-      border-radius: 0
-    @include from(33rem)
-      width: 500px
-      border-radius: 0 0 10px 10px
-
-    .link
-      color: $cyan
-      margin: 10px auto
-      font-size: .8rem
-      text-decoration: none
-      text-align: left
-      width: 80%
-      cursor: pointer
-      letter-spacing: .03rem
-      &:hover
-        color: $light-blue
-
-    &_loading
-      position: absolute
-      width: 100%
-      height: 100%
-      top: 0
-      left: 0
-      z-index: 3
-      overflow: hidden
-      background-color: $blue-alpha
-      pointer-events: none
-      transition: opacity .3s
-      opacity: 0
-      display: grid
-
-      &_icon
-        place-self: center
-        width: 100px
-        font-size: 4rem
-        margin-bottom: 30px
-        height: 80px
-        color: $cyan
-
-    &__button_submit
-      opacity: 1
-      margin: 25px auto
-      width: 100px
-
-    &__button_wallet, &__button_settings
-      z-index: 100
-      opacity: 0
-      width: 100%
-      pointer-events: none
-
-    &__status
-      position: absolute
-      height: 80px
-      left: calc(50% - 10rem)
-      top: calc(50% - 75px)
-      font-size: 2rem
-      font-weight: 500
-      font-family: 'Montserrat'
-      color: white
-      opacity: 0
-      pointer-events: none
-
-      &_icon
-        transform: scale(0)
-
-.busy_btn
-  pointer-events: none
-  opacity: .2
+      &_icon {
+        transform: scale(0);
+      }
+    }
+  }
+}
+.busy_btn {
+  pointer-events: none;
+  opacity: 0.2;
+}
 </style>

@@ -40,9 +40,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/scss/_smart-grid';
-@import '@/scss/_variables';
-
 $tab-size: 4rem;
 $tab-gap: 0.7rem;
 $mobile-break: 83rem;

@@ -39,9 +39,6 @@ export default {
 </script>
 
 <style lang="scss" stroke>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 .inline-spinner {
   opacity: 0;
   z-index: 10;

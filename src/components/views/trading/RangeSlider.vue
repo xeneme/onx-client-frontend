@@ -109,9 +109,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 $point-size: 15px;
 
 .range-slider {

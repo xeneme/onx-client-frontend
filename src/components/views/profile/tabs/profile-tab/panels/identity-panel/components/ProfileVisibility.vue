@@ -55,8 +55,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_variables';
-
 .profile-visibility {
   display: flex;
   position: absolute;

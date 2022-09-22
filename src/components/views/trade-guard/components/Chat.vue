@@ -124,9 +124,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/scss/_smart-grid";
-@import "@/scss/_variables";
-
 $chat-message-br: 0.85rem;
 $body-padding: 5px;
 $mobile: 55rem;

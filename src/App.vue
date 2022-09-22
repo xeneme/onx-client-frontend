@@ -178,7 +178,6 @@ export default {
 
 <style lang="scss">
 @import '@/scss/ui';
-@import '@/scss/_animations';
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css');
 
 *::-webkit-scrollbar {

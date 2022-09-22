@@ -29,8 +29,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/scss/_variables.scss';
-
 $radius: 17px;
 
 .mouse-tooltip {

@@ -216,9 +216,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/scss/_smart-grid';
-@import '@/scss/_variables';
-
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: opacity 0.15s;
