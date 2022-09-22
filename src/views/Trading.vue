@@ -19,7 +19,7 @@ import RatesCard from '../components/views/trading/cards/RatesCard'
 import PlaceOrderCard from '../components/views/trading/cards/PlaceOrderCard'
 import OrdersCard from '../components/views/trading/cards/OrdersCard'
 import LiveOrdersCard from '../components/views/trading/cards/LiveOrdersCard'
-import TradingChartCard from '../components/views/trading/cards/TradingChartCard'
+import TradingChartCard from '../components/views/trading/chart/TradingChartCard'
 
 import axios from 'axios'
 
