@@ -83,7 +83,14 @@ export default {
   position: relative;
   grid-area: trading-view;
   overflow: hidden;
-  min-height: 500px;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  #cryptoview-container {
+    height: calc(100% - 48px);
+  }
 
   .range {
     position: absolute;

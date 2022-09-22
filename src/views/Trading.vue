@@ -126,6 +126,8 @@ export default {
 @import "@/scss/_smart-grid"
 @import "@/scss/_variables"
 
+$header-slot: 8.5rem
+
 .page
   position: relative
   background: $v-grad
@@ -146,8 +148,8 @@ export default {
       grid-template-rows: 80px 1fr 1fr 300px 200px
       grid-template-areas: "rates" "trading-view" "place-order" "live-orders" "orders"
     @include from(100rem)
-      width: 98%
-      grid-template-columns: 1fr 440px
-      grid-template-rows: 80px 1fr 400px
+      width: 100%
+      grid-template-columns: 1fr 20rem
+      grid-template-rows: 80px 35rem 20rem
       grid-template-areas: "rates rates" "trading-view place-order" "orders live-orders"
 </style>
