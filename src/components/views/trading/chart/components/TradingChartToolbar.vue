@@ -2,7 +2,7 @@
 export default {
   data: () => ({
     items: ['1D', '5D', '1M', 'YTD', '1Y', '5Y', 'All'],
-    active: 0,
+    range: 0,
     autoScale: false,
     ts: 0,
   }),
@@ -24,6 +24,16 @@ export default {
       return `${h}:${m}:${s}`
     },
   },
+  methods: {
+    toggleAutoScale() {
+      this.autoScale = !this.autoScale
+      this.$emit('auto-scale', this.autoScale)
+    },
+    selectRange(i) {
+      this.range = this.items[i]
+      this.$emit('range', this.range)
+    },
+  },
   created() {
     setTimeout(() => {
       this.ts = +new Date()
@@ -42,13 +52,13 @@ export default {
         :class="[
           'toolbar__range--item',
           'toolbar__button',
-          { active: active == i },
+          { active: range == i },
         ]"
-        v-for="(range, i) in items"
-        @click="active = i"
+        v-for="(r, i) in items"
+        @click="range = i"
         :key="i"
       >
-        {{ range }}
+        {{ r }}
       </div>
       <!-- <div class="toolbar__range--item">
         <svg
@@ -67,7 +77,7 @@ export default {
     </div>
     <div class="toolbar__spacer"></div>
     <div class="toolbar__time">{{ formattedTime }} (UTC)</div>
-    <div class="toolbar__divider"></div>
+    <div :class="['toolbar__divider', { hidden: autoScale }]"></div>
     <div
       :class="['toolbar__button', { active: autoScale }]"
       @click="autoScale = !autoScale"
@@ -81,47 +91,58 @@ export default {
 .toolbar {
   display: flex;
   flex-direction: row;
-  color: $cyan;
-  border-top: 1px #2e2d3a solid;
+  color: $light-blue;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
     'Lucida Sans', Arial, sans-serif;
   user-select: none;
   white-space: nowrap;
   padding: 5px;
+  align-items: center;
 
   &__spacer {
     width: 100%;
   }
 
   &__divider {
-    height: 100%;
-    border-right: 1px solid #ffffff44;
+    height: 80%;
+    margin: 0 0.25rem;
+    border-right: 1px solid $cyan;
+    transition: all 200ms ease-in-out;
+    &.hidden {
+      border-right: 1px solid transparent;
+    }
   }
 
   &__button {
     cursor: pointer;
     padding: 0.5rem;
-    border-radius: 2px;
-    &.active {
-      background-color: #ffffff11;
-    }
+    border-radius: 5px;
+    transition: all 200ms ease-in-out;
     &:hover {
+      transition: none;
       background-color: #ffffff22;
     }
     &:active {
-      background-color: #ffffff44;
+      color: $blue;
+      background-color: #ffffffaa;
+      transition: all 200ms ease-in-out;
+    }
+    &.active {
+      transition: all 200ms ease-in-out;
+      background-color: $cyan;
+      color: white;
     }
   }
 
   &__range {
     display: flex;
+    gap: 2px;
   }
 
   &__time {
-    display: flex;
+    display: grid;
+    align-content: center;
     padding: 5px;
-    border-right: 1px #2e2d3a solid;
-    padding-right: 15px;
   }
 }
 </style>
