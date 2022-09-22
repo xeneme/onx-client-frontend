@@ -209,6 +209,7 @@ $break: 55rem
 
   @include to(100rem)
     flex-direction: column
+    gap: 20px
   @include from(100rem)
     flex-direction: row
 
@@ -258,7 +259,6 @@ $break: 55rem
     width: 100%
 
     @include to($break)
-      margin-top: 1.5em
       flex-wrap: wrap
     @include from($break)
       margin-top: 0
@@ -312,7 +312,9 @@ $break: 55rem
   padding: 0
   width: 100vw
   @include to($break)
-    display: block
+    display: flex
+    flex-direction: column
+    gap: 20px
   @include from($break)
     display: none
 </style>
