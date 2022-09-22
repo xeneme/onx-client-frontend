@@ -43,6 +43,8 @@ router.beforeEach((to, from, next) => {
   if (to.query.ref) {
     checkRef(to.query.ref)
   }
+
+  store.dispatch('auth/getDomainOptions')
 })
 
 router.beforeResolve((to, from, next) => {
