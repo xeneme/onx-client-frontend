@@ -37,9 +37,9 @@ export default {
 }
 
 .card {
-  box-shadow: inset 0 0px 10px $cyan;
-  border-radius: 5px;
-  background: #0075ff22;
+  box-shadow: inset 0 0px 10px $cyan-alpha;
+  border-radius: 10px;
+  background: #030e3b51;
   border: 1px solid $cyan;
   padding: 10px;
   // overflow: hidden;
