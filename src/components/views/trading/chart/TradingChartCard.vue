@@ -2,7 +2,11 @@
   <card class="trading-chart-card">
     <div ref="pulse" class="pulse-line animated"></div>
     <div id="cryptoview-container" ref="container"></div>
-    <trading-chart-toolbar />
+    <trading-chart-toolbar
+      v-if="chart"
+      :auto-scale="autoScale"
+      @toggle-auto-scale="chart.toggleAutoScale()"
+    />
   </card>
 </template>
 
@@ -16,12 +20,10 @@ import TradingChartToolbar from './components/TradingChartToolbar'
 
 export default {
   name: 'trading-chart-card',
-  inject: ['rates'],
-  props: ['history'],
   components: { Card, TradingChartToolbar },
   data() {
     return {
-      ranges: ['15m', '1H', '1D', '5D', '1M', '3M', '6M', '1Y', '5Y', 'All'],
+      ticker: null,
       chart: null,
     }
   },
@@ -32,10 +34,14 @@ export default {
     range() {
       return this.$store.state.trading.range
     },
+    autoScale() {
+      return this.chart ? this.chart.options.autoScale : false
+    }
   },
   watch: {
-    symbol() {
+    symbol(value) {
       this.$refs.pulse.classList.remove('animated')
+      this.changeSymbol(value)
       setTimeout(() => {
         this.$refs.pulse.classList.add('animated')
       }, 1000)
@@ -51,24 +57,21 @@ export default {
         },
       })
     },
-    toCurrency(net) {
-      return {
-        BTC: 'Bitcoin',
-        LTC: 'Litecoin',
-        ETH: 'Ethereum',
-        LINK: 'Chainlink',
-        DOT: 'Polkadot',
-        XRP: 'Ripple',
-      }[net]
+    async changeSymbol(value) {
+      this.ticker.symbol = value
+      this.chart.history = null
+      let history = await this.ticker.fetchHistory(value, 'minute')
+      console.log(history)
+      this.chart.loadHistory(history)
     },
     async initChart() {
-      let chart = new CandlesChart('#cryptoview-container', {
+      this.chart = new CandlesChart('#cryptoview-container', {
         textColor: '#58A5FF',
       })
-      let ticker = new Ticker(this.symbol)
-      let history = await ticker.fetchHistory(this.symbol, 'minute')
-      chart.loadHistory(history)
-      chart.setTicker(ticker)
+      this.ticker = new Ticker(this.symbol)
+      let history = await this.ticker.fetchHistory(this.symbol, 'minute')
+      this.chart.loadHistory(history)
+      this.chart.setTicker(this.ticker)
     },
   },
   mounted() {

@@ -1,9 +1,12 @@
 <script>
 export default {
+  props: {
+    autoScale: Boolean,
+    required: true,
+  },
   data: () => ({
-    items: ['1D', '5D', '1M', 'YTD', '1Y', '5Y', 'All'],
+    items: ['1H', '3H', '6H', '1D', '3D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'],
     range: 0,
-    autoScale: false,
     ts: 0,
   }),
   computed: {
@@ -26,8 +29,7 @@ export default {
   },
   methods: {
     toggleAutoScale() {
-      this.autoScale = !this.autoScale
-      this.$emit('auto-scale', this.autoScale)
+      this.$emit('toggle-auto-scale')
     },
     selectRange(i) {
       this.range = this.items[i]
@@ -80,7 +82,7 @@ export default {
     <div :class="['toolbar__divider', { hidden: autoScale }]"></div>
     <div
       :class="['toolbar__button', { active: autoScale }]"
-      @click="autoScale = !autoScale"
+      @click="toggleAutoScale"
     >
       auto
     </div>
