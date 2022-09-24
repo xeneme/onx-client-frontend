@@ -26,21 +26,14 @@ export default {
     currency: String,
   },
   watch: {
-    main(value, old) {
-      var v = Number(value.replace('$', '').replace(',', ''))
-      var o = Number(old.replace('$', '').replace(',', ''))
-      
-      if (v < o || value[0] === '-') {
+    main(v, o) {
+      if (v < o) {
         this.$refs.main.style.color = 'red'
       } else if (v > o) {
         this.$refs.main.style.color = 'greenyellow'
       } else {
         this.$refs.main.style.color = ''
       }
-
-      setTimeout(() => {
-        this.$refs.main.style.color = ''
-      }, 2000)
     },
   },
 }
@@ -65,7 +58,6 @@ export default {
   &_secondary {
     color: white;
     margin-bottom: 2px;
-    transition: color 1s;
   }
 
   &_secondary {
