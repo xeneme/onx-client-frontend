@@ -88,32 +88,30 @@ export default {
         case 'All':
           return ['day', 2000]
           break
+        default:
+          return ['minute', 1400]
       }
     },
   },
   watch: {
     symbol() {
-      this.$refs.pulse.classList.remove('animated')
-      this.fetchHistory(this.symbol, ...this.rangeParams)
-      setTimeout(() => {
-        this.$refs.pulse.classList.add('animated')
-      }, 1000)
+      this.fetchHistory(this.symbol, ...this.rangeParams, !!this.range)
     },
     range() {
-      this.fetchHistory(this.symbol, ...this.rangeParams)
+      this.fetchHistory(this.symbol, ...this.rangeParams, true)
     },
   },
   methods: {
     setRange(v) {
       this.$store.dispatch('trading/setRange', v)
     },
-    async fetchHistory(symbol, interval, limit) {
+    async fetchHistory(symbol, interval, limit, resetPos) {
       this.ticker.symbol = symbol
       this.chart.loading(true)
       let history = await this.ticker.fetchHistory(symbol, interval, limit)
       this.$store.commit('trading/SET_HISTORY', history)
       this.chart.loadHistory(history)
-      this.chart.resetChartPosition(true)
+      if(resetPos) this.chart.resetChartPosition(true)
       this.chart.draw()
       this.chart.loading(false)
     },
@@ -124,7 +122,7 @@ export default {
       })
       this.ticker = new Ticker(this.symbol, this.api)
       this.chart.setTicker(this.ticker)
-      this.fetchHistory(this.symbol, 'minute', 2000)
+      this.fetchHistory(this.symbol, 'minute', 1400)
     },
   },
   mounted() {
