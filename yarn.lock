@@ -2944,6 +2944,10 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+"cryptoview@git+ssh://git@github.com/psoglav/cryptoview.git":
+  version "1.0.0"
+  resolved "git+ssh://git@github.com/psoglav/cryptoview.git#f4246a6c90856fd87c8becdb9da3831b65a55bc6"
+
 css-color-names@0.0.4, css-color-names@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"

@@ -35,10 +35,10 @@ export default {
   }),
   computed: {
     ratesLoaded() {
-      return !!this.reactiveRates[this.symbol]
+      return !!this.reactiveRates[this.symbol] && this.history
     },
     price() {
-      return this.ratesLoaded ? this.reactiveRates[this.symbol].price : '0.00'
+      return this.ratesLoaded ? this.history[this.history.length - 1].close : '0.00'
     },
     change24() {
       return this.ratesLoaded ? this.reactiveRates[this.symbol].change : '0.00'
@@ -66,6 +66,9 @@ export default {
     symbol() {
       return this.$store.state.trading.symbol
     },
+    history() {
+      return this.$store.state.trading.history
+    },
   },
   methods: {
     updateRates() {
@@ -83,6 +86,7 @@ export default {
 .rates-order {
   grid-area: rates;
   display: flex;
+  z-index: 2;
   // overflow: hidden;
 
   .divider {

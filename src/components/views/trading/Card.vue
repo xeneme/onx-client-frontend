@@ -42,6 +42,7 @@ export default {
   background: #030e3b51;
   border: 1px solid $cyan;
   padding: 10px;
+  backdrop-filter: blur(15px);
   // overflow: hidden;
   position: relative;
 

@@ -31,7 +31,12 @@ export default {
   data: () => ({
     current: 'bitcoin',
     dropdown: false,
-    currencies: ['bitcoin', 'ethereum', 'litecoin', 'ripple'],
+    currencies: [
+      'bitcoin', 
+      'ethereum', 
+      'litecoin', 
+      // 'ripple'
+      ],
   }),
   watch: {
     dropdown(v) {
@@ -50,7 +55,7 @@ export default {
           bitcoin: 'BTC',
           ethereum: 'ETH',
           litecoin: 'LTC',
-          ripple: 'XRP',
+          // ripple: 'XRP',
         }[v],
       )
     },
@@ -93,7 +98,7 @@ export default {
   height: 100%;
   align-items: center;
   position: relative;
-  z-index: 10;
+  z-index: 20;
 
   &__current {
     margin-right: 10px;
@@ -154,7 +159,7 @@ export default {
     &__coin {
       text-align: left;
       color: $cyan;
-      padding: 2px;
+      padding: .5rem .5rem;
       cursor: pointer;
       user-select: none;
 
@@ -162,7 +167,6 @@ export default {
       border-radius: 3px;
       background: $blue;
       border: 1px solid transparent;
-      padding: 5px 10px;
       transition: all 0.25s;
 
       &:hover {

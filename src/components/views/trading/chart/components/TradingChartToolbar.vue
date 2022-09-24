@@ -6,7 +6,7 @@ export default {
   },
   data: () => ({
     items: ['1H', '3H', '6H', '1D', '3D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'],
-    range: 0,
+    range: '1H',
     ts: 0,
   }),
   computed: {
@@ -54,10 +54,10 @@ export default {
         :class="[
           'toolbar__range--item',
           'toolbar__button',
-          { active: range == i },
+          { active: r == range },
         ]"
         v-for="(r, i) in items"
-        @click="range = i"
+        @click="selectRange(i)"
         :key="i"
       >
         {{ r }}
