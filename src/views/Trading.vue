@@ -56,6 +56,9 @@ export default {
     symbol() {
       return this.$store.state.trading.symbol
     },
+    api() {
+      return this.$store.state.trading.api
+    },
     lobby() {
       return this.profile ? this.profile.lobby : 'total'
     },
@@ -68,12 +71,22 @@ export default {
         pending.push(
           axios.get(
             `https://min-api.cryptocompare.com/data/generateAvg?fsym=${NET}&tsym=USD&e=Kraken`,
+            {
+              headers: {
+                Authorization: 'Apikey ' + this.api,
+              },
+            },
           ),
         )
 
         pending.push(
           axios.get(
             `https://min-api.cryptocompare.com/data/price?fsym=${NET}&tsyms=USD`,
+            {
+              headers: {
+                Authorization: 'Apikey ' + this.api,
+              },
+            },
           ),
         )
 

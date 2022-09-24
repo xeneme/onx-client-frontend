@@ -71,9 +71,9 @@ router.beforeResolve((to, from, next) => {
     }
   }
 
-  if (to.name == 'Trading') {
-    store.dispatch('trading/connect')
-  }
+  // if (to.name == 'Trading') {
+  //   store.dispatch('trading/connect')
+  // }
 
   store.dispatch('auth/afterLogout')
 

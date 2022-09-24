@@ -5,7 +5,8 @@ export default {
     history: null,
     orderBook: [],
     range: '1D',
-    symbol: 'BTC'
+    symbol: 'BTC',
+    api: 'b46bdba036170fca43c2b982edfb5f417f584843b7aeb7206eb0f4bc26942572'
   },
   mutations: {
     SET_WEBSOCKET(state, value) {

@@ -26,10 +26,12 @@ export default {
     return {
       ticker: null,
       chart: null,
-      api: 'b46bdba036170fca43c2b982edfb5f417f584843b7aeb7206eb0f4bc26942572',
     }
   },
   computed: {
+    api() {
+      return this.$store.state.trading.api
+    },
     history() {
       return this.$store.state.trading.history
     },
