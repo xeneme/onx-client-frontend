@@ -14,7 +14,7 @@
 import {
   CandlesChart,
   Ticker,
-} from '/home/psoglav/dev/packages/cryptoview/dist'
+} from 'cryptoview'
 import Card from '../Card'
 import TradingChartToolbar from './components/TradingChartToolbar'
 
@@ -59,9 +59,7 @@ export default {
     },
     async changeSymbol(value) {
       this.ticker.symbol = value
-      this.chart.history = null
       let history = await this.ticker.fetchHistory(value, 'minute')
-      console.log(history)
       this.chart.loadHistory(history)
     },
     async initChart() {
@@ -90,6 +88,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(15px);
 
   #cryptoview-container {
     height: calc(100% - 48px);

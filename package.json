@@ -13,6 +13,7 @@
     "animate.css": "^4.1.0",
     "animejs": "^3.2.0",
     "axios": "^0.19.2",
+    "cryptoview": "git+ssh://git@github.com/psoglav/cryptoview.git",
     "highcharts": "^8.2.2",
     "highcharts-vue": "^1.3.5",
     "lodash": "^4.17.19",
