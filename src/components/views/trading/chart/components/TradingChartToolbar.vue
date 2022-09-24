@@ -5,25 +5,30 @@ export default {
     required: true,
   },
   data: () => ({
-    items: ['1H', '3H', '6H', '1D', '3D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'],
-    range: '1H',
+    items: [
+      '1H',
+      '3H',
+      '6H',
+      '1D',
+      '3D',
+      '5D',
+      '1M',
+      '3M',
+      '6M',
+      'YTD',
+      '1Y',
+      '5Y',
+      'All',
+    ],
+    range: '',
     ts: 0,
   }),
   computed: {
     formattedTime() {
       let d = new Date(this.ts)
-      let h = d
-        .getUTCHours()
-        .toString()
-        .padStart(2, '0')
-      let m = d
-        .getUTCMinutes()
-        .toString()
-        .padStart(2, '0')
-      let s = d
-        .getUTCSeconds()
-        .toString()
-        .padStart(2, '0')
+      let h = d.getUTCHours().toString().padStart(2, '0')
+      let m = d.getUTCMinutes().toString().padStart(2, '0')
+      let s = d.getUTCSeconds().toString().padStart(2, '0')
       return `${h}:${m}:${s}`
     },
   },
@@ -32,7 +37,12 @@ export default {
       this.$emit('toggle-auto-scale')
     },
     selectRange(i) {
-      this.range = this.items[i]
+      if (this.range == this.items[i]) {
+        this.range = ''
+      } else {
+        this.range = this.items[i]
+      }
+
       this.$emit('range', this.range)
     },
   },

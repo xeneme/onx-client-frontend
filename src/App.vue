@@ -165,6 +165,8 @@ export default {
       this.stackingLoading = payload
     })
 
+    this.$store.dispatch('trading/startOrderBook')
+
     // setInterval(() => {
     //   this.$store.commit('popups/ADD_ALERT', {
     //     type: 'message',

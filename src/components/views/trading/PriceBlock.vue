@@ -26,7 +26,10 @@ export default {
     currency: String,
   },
   watch: {
-    main(v, o) {
+    main(val, old) {
+      let v = +val
+      let o = +old
+
       if (v < o) {
         this.$refs.main.style.color = 'red'
       } else if (v > o) {

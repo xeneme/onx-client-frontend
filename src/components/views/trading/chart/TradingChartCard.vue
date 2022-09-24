@@ -26,6 +26,7 @@ export default {
     return {
       ticker: null,
       chart: null,
+      api: 'b46bdba036170fca43c2b982edfb5f417f584843b7aeb7206eb0f4bc26942572',
     }
   },
   computed: {
@@ -40,77 +41,93 @@ export default {
     },
     autoScale() {
       return this.chart ? this.chart.options.autoScale : false
-    }
+    },
+    rangeParams() {
+      switch (this.range) {
+        case '1H':
+          return ['minute', 60]
+          break
+        case '3H':
+          return ['minute', 60 * 3]
+          break
+        case '6H':
+          return ['minute', 60 * 6]
+          break
+        case '1D':
+          return ['minute', 60 * 24]
+          break
+        case '3D':
+          return ['hour', 24 * 3]
+          break
+        case '5D':
+          return ['hour', 24 * 5]
+          break
+        case '1M':
+          return ['hour', 24 * 30]
+          break
+        case '3M':
+          return ['day', 30 * 3]
+          break
+        case '6M':
+          return ['day', 30 * 6]
+          break
+        case 'YTD':
+          let dt = new Date()
+          let current = new Date(dt.getTime())
+          let previous = new Date(dt.getFullYear(), 0, 1)
+          return ['day', Math.ceil((current - previous + 1) / 86400000)]
+          break
+        case '1Y':
+          return ['day', 365]
+          break
+        case '5Y':
+          return ['day', 365 * 5]
+          break
+        case 'All':
+          return ['day', 2000]
+          break
+      }
+    },
   },
   watch: {
-    symbol(value) {
+    symbol() {
       this.$refs.pulse.classList.remove('animated')
-      this.fetchHistory(value)
+      this.fetchHistory(this.symbol, ...this.rangeParams)
       setTimeout(() => {
         this.$refs.pulse.classList.add('animated')
       }, 1000)
+    },
+    range() {
+      this.fetchHistory(this.symbol, ...this.rangeParams)
     },
   },
   methods: {
     setRange(v) {
       this.$store.dispatch('trading/setRange', v)
-      // this.$store.dispatch('auth/connect', {
-      //   trading: {
-      //     range: v,
-      //     symbol: this.symbol,
-      //   },
-      // })
-
-        console.log('selectRange', v)
-
-      //test
-      let hist = this.history
-      switch (v) {
-        case '1H':
-          this.chart.loadHistory(hist.slice(-60))
-          break
-        case '3H':
-          this.chart.loadHistory(hist.slice(-60 * 3))
-          break
-        case '6H':
-          this.chart.loadHistory(hist.slice(-60 * 6))
-          break
-        case '1D':
-          this.chart.loadHistory(hist.slice(-60 * 24))
-          break
-        case '3D':
-          this.chart.loadHistory(hist.slice(-60))
-          break
-        case '5D':
-          this.chart.loadHistory(hist.slice(-60))
-          break
-        case '1M':
-          this.chart.loadHistory(hist.slice(-60))
-          break
-      }
-      this.chart.resetChartPosition(true)
-      this.chart.draw()
     },
-    async fetchHistory(symbol) {
+    async fetchHistory(symbol, interval, limit) {
       this.ticker.symbol = symbol
-      let history = await this.ticker.fetchHistory(symbol, 'minute')
+      this.chart.loading(true)
+      let history = await this.ticker.fetchHistory(symbol, interval, limit)
       this.$store.commit('trading/SET_HISTORY', history)
       this.chart.loadHistory(history)
+      this.chart.resetChartPosition(true)
       this.chart.draw()
+      this.chart.loading(false)
     },
     async initChart() {
       this.chart = new CandlesChart('#cryptoview-container', {
         textColor: '#58A5FF',
+        spinnerColor: '#0075ff99',
       })
-      this.ticker = new Ticker(this.symbol)
+      this.ticker = new Ticker(this.symbol, this.api)
       this.chart.setTicker(this.ticker)
-      this.fetchHistory(this.symbol)
+      this.fetchHistory(this.symbol, 'minute', 2000)
     },
   },
   mounted() {
     this.initChart()
     this.$store.dispatch('preloader/startAfterLoading')
-    this.$store.dispatch('trading/startOrderBook')
   },
 }
 </script>

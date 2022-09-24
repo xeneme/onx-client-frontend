@@ -2,7 +2,7 @@
   <card class="rates-order">
     <currency-selector />
     <div class="divider"></div>
-    <price-block :main="price" :secondary="price + '$'" />
+    <price-block :main="price.toString()" :secondary="price + '$'" />
     <price-block :main="change24" secondary="24h Change" flip />
     <price-block class="on-half-width" :main="high" secondary="24h High" flip />
     <price-block class="on-half-width" :main="low" secondary="24h Low" flip />

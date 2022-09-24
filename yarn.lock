@@ -2946,7 +2946,7 @@ crypto-browserify@^3.11.0:
 
 "cryptoview@git+ssh://git@github.com/psoglav/cryptoview.git":
   version "1.0.0"
-  resolved "git+ssh://git@github.com/psoglav/cryptoview.git#f4246a6c90856fd87c8becdb9da3831b65a55bc6"
+  resolved "git+ssh://git@github.com/psoglav/cryptoview.git#bad687ea013ed666b55c67739a99d8315665865e"
 
 css-color-names@0.0.4, css-color-names@^0.0.4:
   version "0.0.4"
