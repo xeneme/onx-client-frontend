@@ -3,12 +3,16 @@ import IconBitcoin from './IconBitcoin'
 import IconLitecoin from './IconLitecoin'
 import IconEthereum from './IconEthereum'
 import IconUsdCoin from './IconUsdCoin'
+import IconTelegram from './IconTelegram'
+import IconInstagram from './IconInstagram'
 export default {
   components: {
     IconBitcoin,
     IconLitecoin,
     IconEthereum,
     IconUsdCoin,
+    IconTelegram,
+    IconInstagram,
   },
   props: {
     size: {

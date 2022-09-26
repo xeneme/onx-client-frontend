@@ -17,7 +17,7 @@ export default {
       state.orderBook = []
     },
     SET_ORDER_BOOK(state, value) {
-      state.orderBook = value
+      // state.orderBook = value
     },
     SET_RANGE(state, value) {
       state.range = value

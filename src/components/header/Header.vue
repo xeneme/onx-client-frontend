@@ -3,7 +3,7 @@
     <div class="background" :class="fixed ? 'fixed' : ''"></div>
     <div class="container">
       <div class="wrap">
-        <Logo theme="light" />
+        <Logo :theme="logo" />
         <Menu />
       </div>
     </div>
@@ -20,6 +20,14 @@ export default {
   data: () => ({
     fixed: true,
   }),
+  computed: {
+    domainOptions() {
+      return this.$store.state.auth.domainOptions
+    },
+    logo() {
+      return this.domainOptions?.logo || 'light'
+    },
+  },
   created() {
     document.body.addEventListener('scroll', this.handleScroll)
   },

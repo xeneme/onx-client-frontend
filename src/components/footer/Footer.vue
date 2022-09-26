@@ -3,7 +3,7 @@
     <div class="container">
       <div class="footer__wrap">
         <div class="footer__logo">
-          <Logo />
+          <Logo theme="dark" />
           <p class="footer__logo-text">
             Safety. Efficiency. Quality.
           </p>

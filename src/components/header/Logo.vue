@@ -1,7 +1,8 @@
 <template>
   <a href="/" class="logo">
     <img src="../../assets/svg/logo/logo--light.svg" alt="exchange" v-if="theme === 'light'" />
-    <img src="../../assets/svg/logo/logo.svg" alt="exchange" v-else />
+    <img src="../../assets/svg/logo/logo.svg" alt="exchange" v-else-if="theme == 'dark'" />
+    <img src="../../assets/svg/logo/unitrade.svg" alt="exchange" v-else-if="theme == 'unitrade'" />
   </a>
 </template>
 
